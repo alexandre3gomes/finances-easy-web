@@ -1,20 +1,28 @@
-<div class="login-page" [@routerTransition]>
-  <div class="row justify-content-md-center">
-    <div class="col-md-4">
-      <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-      <h1>Finances Easy</h1>
-      <div class="form-content">
-        <div class="form-group">
-          <input type="text" [formControl]="username" class="form-control input-underline input-lg" id="username"
-            placeholder="{{ 'Email' | translate }}">
-        </div>
+<style>
+	.blue_bg {
+		background-color: blue;
+	}
+</style>
 
-        <div class="form-group">
-          <input type="password" [formControl]="password" class="form-control input-underline input-lg" id="password"
-            placeholder="{{ 'Password' | translate }}">
-        </div>
-      </div>
-      <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="login()">{{ 'Log in' | translate }}</a>
-    </div>
-  </div>
+<div class="login-page" [@routerTransition]>
+	<div class="row justify-content-md-center">
+		<div class="col-md-4">
+			<img src="assets/images/logo.png" width="150px" class="user-avatar" />
+			<h1>Finances Easy</h1>
+			<div class="form-content">
+				<div class="form-group">
+					<input type="text" [formControl]="username" class="form-control input-underline input-lg" id="username"
+					 placeholder="{{ 'Email' | translate }}" (focus)="hideFailLoginMsg()" (keyup.enter)="login()">
+				</div>
+				<div class="form-group">
+					<input type="password" [formControl]="password" class="form-control input-underline input-lg" id="password"
+					 placeholder="{{ 'Password' | translate }}" (focus)="hideFailLoginMsg()" (keyup.enter)="login()">
+				</div>
+			</div>
+			<a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="login()">{{ 'Log in' | translate }}</a>
+			<div class="alert alert-danger mt-5 animated" *ngIf="loginFail" [ngClass]="{'bounceIn': failedAnim, 'bounceOut': !failedAnim}" (click)="hideFailLoginMsg()">
+				<strong>{{ 'Login failed, try again' | translate }}</strong>
+			</div>
+		</div>
+	</div>
 </div>
