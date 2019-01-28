@@ -89,7 +89,7 @@
 		</div>
 	</li>
 	<li class="nav-item dropdown" ngbDropdown>
-		<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+		<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle *ngIf="user">
 			<i class="fa fa-user"></i> {{ user.name }} <b class="caret"></b>
 		</a>
 		<div class="dropdown-menu-right" ngbDropdownMenu>
