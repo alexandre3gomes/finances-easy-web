@@ -1,4 +1,8 @@
 import { OnInit, Component } from '@angular/core';
+import { Income } from 'src/app/shared/model/income.model';
+import { User } from 'src/app/shared/model/user.model';
+import { USerService } from 'src/app/shared/services/user.service';
+import { IncomeService } from './income.service';
 
 @Component({
 	selector: 'app-income',
@@ -6,16 +10,18 @@ import { OnInit, Component } from '@angular/core';
 })
 export class IncomeComponent implements OnInit {
 
-	show: boolean;
+	income = new Income(undefined, undefined, '', 0);
 
-	constructor() {}
+	constructor(private userServ: USerService, private incService: IncomeService) {}
 
 	ngOnInit() {
-
+		this.userServ.current().subscribe( (us: User) => this.income.user = us);
 	}
 
-	create() {
-		this.show = true;
+	saveChanges() {
+		this.incService.create(this.income).subscribe( inc => {
+			this.income = inc;
+		},
+		error => console.log(error));
 	}
-
 }

@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 	providedIn: 'root'
 })
 export class LoginService {
-	logonEndpoint = environment.api.concat('public/logon');
+
+	private logonEndpoint = environment.api.concat('public/logon');
 
 	constructor(private http: HttpClient) {}
 
@@ -19,5 +20,10 @@ export class LoginService {
 		return this.http.post(this.logonEndpoint.concat('/login'), user, {
 			responseType: 'text'
 		});
+	}
+
+	public logout() {
+		localStorage.removeItem('user');
+		localStorage.removeItem('token');
 	}
 }

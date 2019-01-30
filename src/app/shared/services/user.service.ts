@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class USerService {
 	userEndpoint = environment.api.concat('user');
 	constructor(private http: HttpClient) {}
+
 	public current(): Observable<User> {
 		return this.http.get<User>(this.userEndpoint.concat('/current'));
 	}

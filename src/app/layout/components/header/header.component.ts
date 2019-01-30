@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/shared/model/user.model';
 import { USerService } from 'src/app/shared/services/user.service';
+import { LoginService } from 'src/app/login/login.service';
 
 @Component({
 	selector: 'app-header',
@@ -15,8 +16,9 @@ export class HeaderComponent implements OnInit {
 
 	constructor(
 		private translate: TranslateService,
-		public router: Router,
-		public userService: USerService
+		private router: Router,
+		private userService: USerService,
+		private loginService: LoginService
 	) {
 		this.translate.addLangs(['en', 'fr', 'es', 'pt']);
 		this.translate.setDefaultLang('pt');
@@ -24,8 +26,6 @@ export class HeaderComponent implements OnInit {
 		this.translate.use(
 			browserLang.match(/en|fr|es|pt/) ? browserLang : 'pt'
 		);
-		this.userService = userService;
-
 		this.router.events.subscribe(val => {
 			if (
 				val instanceof NavigationEnd &&
@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	onLoggedout() {
-		localStorage.removeItem('token');
+		this.loginService.logout();
 	}
 
 	changeLang(language: string) {
