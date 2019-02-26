@@ -10,6 +10,13 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from './store/reducers/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AlertEffects } from './store/effects/alert.effects';
+import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -36,6 +43,10 @@ export const createTranslateLoader = (http: HttpClient) => {
 			}
 		}),
 		NgbDropdownModule,
+		StoreModule.forRoot(appReducers),
+		EffectsModule.forRoot([AlertEffects]),
+		StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule
 	],
 	declarations: [AppComponent],

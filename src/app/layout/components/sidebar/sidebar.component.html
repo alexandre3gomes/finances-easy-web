@@ -12,58 +12,6 @@
 			<i class="fa fa-dollar-sign"></i>&nbsp;
 			<span>{{ 'Incomes' | translate }}</span>
 		</a>
-		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
-				<i class="fa fa-plus"></i>&nbsp;
-				<span>{{ 'Examples' | translate }}</span>
-			</a>
-			<li class="nested animated" [ngClass]="{'expand slideInUp': showMenu === 'pages'}">
-				<ul class="submenu">
-					<li>
-						<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-							<span>{{ 'Charts' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-fw fa-table"></i>&nbsp;
-							<span>{{ 'Tables' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-fw fa-edit"></i>&nbsp;
-							<span>{{ 'Forms' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-fw fa-desktop"></i>&nbsp;
-							<span>{{ 'Bootstrap Element' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-fw fa-wrench"></i>&nbsp;
-							<span>{{ 'Bootstrap Grid' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-th-list"></i>&nbsp;
-							<span>{{ 'Component' | translate }}</span>
-						</a>
-					</li>
-					<li>
-						<a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-							<i class="fa fa-file-o"></i>&nbsp;
-							<span>{{ 'Blank Page' | translate }}</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-		</div>
 
 		<div class="header-fields">
 			<a (click)="rltAndLtr()" class="list-group-item">

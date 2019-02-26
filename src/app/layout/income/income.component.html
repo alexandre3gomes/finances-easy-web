@@ -1,5 +1,5 @@
-<div class="modal fade" id="editIncome" tabindex="-1" role="dialog" aria-labelledby="editIncomeLabel" aria-hidden="true" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal animated" id="editIncome" [ngClass]="{'show fadeIn': editMode, 'fadeOut': !editMode}" [ngStyle]="{'display': modalStyle}">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">{{ 'Income' | translate }}</h5>
@@ -20,15 +20,16 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
-				<button type="button" class="btn btn-primary" [disabled]="!frm.valid" (click)="saveChanges()">{{ 'Save changes' | translate }}</button>
+				<button type="button" class="btn btn-secondary" (click)="closeModal()">{{ 'Close' | translate }}</button>
+				<button type="button" class="btn btn-primary" [disabled]="!frm.valid" (click)="saveChanges()">{{ 'Save changes' |
+					translate }}</button>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="row mb-3">
 	<div class="col-xl-12">
-		<button class="btn btn-primary" data-toggle="modal" data-target="#editIncome">{{'Create' | translate}}</button>
+		<button class="btn btn-primary" (click)="openModal()">{{'Create' | translate}}</button>
 	</div>
 </div>
 <div class="card mb-3">
