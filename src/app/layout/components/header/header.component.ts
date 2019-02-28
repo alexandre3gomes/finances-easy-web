@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/shared/model/user.model';
-import { USerService } from 'src/app/shared/services/user.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { LoginService } from 'src/app/login/login.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 	constructor(
 		private translate: TranslateService,
 		private router: Router,
-		private userService: USerService,
+		private userService: UserService,
 		private loginService: LoginService
 	) {
 		this.translate.addLangs(['en', 'fr', 'es', 'pt']);
@@ -41,13 +41,13 @@ export class HeaderComponent implements OnInit {
 		this.pushRightClass = 'push-right';
 		this.userService.current().subscribe(
 			(data: User) => {
-			  this.user = data;
+				this.user = data;
 			},
 			error => {
 				localStorage.removeItem('token');
 				this.router.navigate(['/login']);
 			}
-		  );
+		);
 	}
 
 	isToggled(): boolean {

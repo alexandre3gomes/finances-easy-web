@@ -10,11 +10,11 @@ import { msgAlert, visibleAlert, errorAlert } from 'src/app/store/selectors/aler
 	styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent implements OnInit {
-	error = this.store.pipe(select(errorAlert));
-	msg = this.store.pipe(select(msgAlert));
-	visible = this.store.pipe(select(visibleAlert));
+	error = this.store.select(errorAlert);
+	msg = this.store.select(msgAlert);
+	visible = this.store.select(visibleAlert);
 
-	constructor(private store: Store<AppState>) {}
+	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
 		this.store.dispatch(new GetAlert());

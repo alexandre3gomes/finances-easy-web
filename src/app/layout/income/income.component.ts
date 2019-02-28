@@ -1,31 +1,29 @@
-import { OnInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Income } from 'src/app/shared/model/income.model';
 import { User } from 'src/app/shared/model/user.model';
-import { USerService } from 'src/app/shared/services/user.service';
-import { IncomeService } from './income.service';
-import { Store } from '@ngrx/store';
+import { UserService } from 'src/app/shared/services/user.service';
+import { ShowAlertError, ShowAlertSuccess } from 'src/app/store/actions/alert.actions';
 import { AppState } from 'src/app/store/state/app.state';
-import { ShowAlertSuccess, ShowAlertError } from 'src/app/store/actions/alert.actions';
+import { IncomeService } from './income.service';
 
 @Component({
 	selector: 'app-income',
 	templateUrl: './income.component.html'
 })
 export class IncomeComponent implements OnInit {
-	income = new Income(undefined, undefined, '', 0);
+	income = this.getNewIncome();
 	editMode = false;
 	modalStyle = 'none';
 
 	constructor(
-		private userServ: USerService,
+		private userServ: UserService,
 		private incService: IncomeService,
-		private alertState: Store<AppState>
-	) {}
+		private store: Store<AppState>
+	) { }
 
 	ngOnInit() {
-		this.userServ
-			.current()
-			.subscribe((us: User) => (this.income.user = us));
+		this.userServ.current().subscribe((us: User) => (this.income.user = us));
 	}
 
 	openModal() {
@@ -42,13 +40,17 @@ export class IncomeComponent implements OnInit {
 		this.incService.create(this.income).subscribe(
 			inc => {
 				this.income = inc;
-				this.alertState.dispatch(new ShowAlertSuccess('Saved'));
+				this.store.dispatch(new ShowAlertSuccess('Saved'));
+				this.closeModal();
+				this.income = this.getNewIncome();
 			},
 			error => {
-				console.log(error);
-				this.alertState.dispatch(new ShowAlertError('Error'));
+				this.store.dispatch(new ShowAlertError('Error'));
 			}
 		);
-		this.closeModal();
+	}
+
+	getNewIncome() {
+		return new Income(undefined, undefined, '', 0);
 	}
 }

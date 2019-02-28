@@ -7,9 +7,9 @@ import { environment } from 'src/environments/environment';
 @Injectable({
 	providedIn: 'root'
 })
-export class USerService {
+export class UserService {
 	userEndpoint = environment.api.concat('user');
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) { }
 
 	public current(): Observable<User> {
 		return this.http.get<User>(this.userEndpoint.concat('/current'));
