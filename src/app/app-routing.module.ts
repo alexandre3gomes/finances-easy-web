@@ -6,10 +6,15 @@ import { AuthGuard } from './shared';
 const routes: Routes = [
 	{
 		path: '',
+		redirectTo: 'login',
+		pathMatch: 'full'
+	},
+	{ path: 'login', loadChildren: './auth/auth.module#AuthModule' },
+	{
+		path: '',
 		loadChildren: './layout/layout.module#LayoutModule',
 		canActivate: [AuthGuard]
 	},
-	{ path: 'login', loadChildren: './auth/auth.module#AuthModule' },
 	{
 		path: 'error',
 		loadChildren: './server-error/server-error.module#ServerErrorModule'

@@ -46,7 +46,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 		NgbDropdownModule,
 		StoreModule.forRoot(appReducers),
 		EffectsModule.forRoot([AuthEffects]),
-		StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule
 	],
