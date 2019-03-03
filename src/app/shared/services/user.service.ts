@@ -1,17 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../model/user.model';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
+import { User } from '../model/user.model';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class UserService {
-	userEndpoint = environment.api.concat('user');
+
+	public loggedUser = new Subject<User>();
+	private userEndpoint = environment.api.concat('user');
+
 	constructor(private http: HttpClient) { }
 
-	public current(): Observable<User> {
-		return this.http.get<User>(this.userEndpoint.concat('/current'));
+	public loadCurrentUser() {
+		this.http.get<User>(this.userEndpoint.concat('/current')).subscribe((user: User) => {
+			this.loggedUser.next(user);
+		});
 	}
 }

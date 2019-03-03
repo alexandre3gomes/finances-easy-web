@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from 'src/app/shared/model/user.model';
-import { UserService } from 'src/app/shared/services/user.service';
-import { LoginService } from 'src/app/login/login.service';
+
+import { Logoff } from '../../../auth/store/auth.actions';
+import { User } from '../../../shared/model/user.model';
+import { UserService } from '../../../shared/services/user.service';
+import { AppState } from '../../../store/app.reducers';
 
 @Component({
 	selector: 'app-header',
@@ -18,7 +21,7 @@ export class HeaderComponent implements OnInit {
 		private translate: TranslateService,
 		private router: Router,
 		private userService: UserService,
-		private loginService: LoginService
+		private store: Store<AppState>
 	) {
 		this.translate.addLangs(['en', 'fr', 'es', 'pt']);
 		this.translate.setDefaultLang('pt');
@@ -39,7 +42,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.pushRightClass = 'push-right';
-		this.userService.current().subscribe(
+		this.userService.loggedUser.subscribe(
 			(data: User) => {
 				this.user = data;
 			},
@@ -66,7 +69,8 @@ export class HeaderComponent implements OnInit {
 	}
 
 	onLoggedout() {
-		this.loginService.logout();
+		this.store.dispatch(new Logoff());
+		this.userService.loggedUser.next(null);
 	}
 
 	changeLang(language: string) {

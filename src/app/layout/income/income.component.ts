@@ -3,8 +3,9 @@ import { Store } from '@ngrx/store';
 import { Income } from 'src/app/shared/model/income.model';
 import { User } from 'src/app/shared/model/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
-import { ShowAlertError, ShowAlertSuccess } from 'src/app/store/actions/alert.actions';
-import { AppState } from 'src/app/store/state/app.state';
+
+import { AppState } from '../../store/app.reducers';
+import { ShowAlertError, ShowAlertSuccess } from '../store/alert.actions';
 import { IncomeService } from './income.service';
 
 @Component({
@@ -23,7 +24,7 @@ export class IncomeComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.userServ.current().subscribe((us: User) => (this.income.user = us));
+		this.userServ.loggedUser.subscribe((us: User) => (this.income.user = us));
 	}
 
 	openModal() {

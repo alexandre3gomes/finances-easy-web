@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { AppState } from 'src/app/store/state/app.state';
-import { GetAlert, HideAlert } from 'src/app/store/actions/alert.actions';
-import { msgAlert, visibleAlert, errorAlert } from 'src/app/store/selectors/alert.selectors';
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../../../store/app.reducers';
+import { GetAlert, HideAlert } from '../../store/alert.actions';
+import { errorAlert, msgAlert, visibleAlert } from '../../store/alert.selectors';
 
 @Component({
 	selector: 'app-alert',
