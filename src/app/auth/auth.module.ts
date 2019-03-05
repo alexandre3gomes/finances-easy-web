@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { AlertModule } from '../shared/modules/alert/alert.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 
@@ -11,7 +12,8 @@ import { AuthComponent } from './auth.component';
 		CommonModule,
 		TranslateModule,
 		AuthRoutingModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		AlertModule
 	],
 	declarations: [AuthComponent]
 })

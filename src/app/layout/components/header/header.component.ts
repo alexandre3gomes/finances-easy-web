@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+import { authLoggedUser } from 'src/app/auth/store/auth.selectors';
 
 import { Logoff } from '../../../auth/store/auth.actions';
 import { User } from '../../../shared/model/user.model';
-import { UserService } from '../../../shared/services/user.service';
 import { AppState } from '../../../store/app.reducers';
 
 @Component({
@@ -15,12 +16,11 @@ import { AppState } from '../../../store/app.reducers';
 })
 export class HeaderComponent implements OnInit {
 	public pushRightClass: string;
-	public user: User;
+	public userLogged: Observable<User>;
 
 	constructor(
 		private translate: TranslateService,
 		private router: Router,
-		private userService: UserService,
 		private store: Store<AppState>
 	) {
 		this.translate.addLangs(['en', 'fr', 'es', 'pt']);
@@ -42,15 +42,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.pushRightClass = 'push-right';
-		this.userService.loggedUser.subscribe(
-			(data: User) => {
-				this.user = data;
-			},
-			error => {
-				localStorage.removeItem('token');
-				this.router.navigate(['/login']);
-			}
-		);
+		this.userLogged = this.store.select(authLoggedUser);
 	}
 
 	isToggled(): boolean {
@@ -70,7 +62,6 @@ export class HeaderComponent implements OnInit {
 
 	onLoggedout() {
 		this.store.dispatch(new Logoff());
-		this.userService.loggedUser.next(null);
 	}
 
 	changeLang(language: string) {

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { GetAlert, HideAlert } from 'src/app/store/alert.actions';
+import { errorAlert, msgAlert, visibleAlert } from 'src/app/store/alert.selectors';
 
 import { AppState } from '../../../store/app.reducers';
-import { GetAlert, HideAlert } from '../../store/alert.actions';
-import { errorAlert, msgAlert, visibleAlert } from '../../store/alert.selectors';
+import { delayWhen } from 'rxjs/operators';
+import { interval, EMPTY } from 'rxjs';
 
 @Component({
 	selector: 'app-alert',
@@ -19,6 +21,11 @@ export class AlertComponent implements OnInit {
 
 	ngOnInit() {
 		this.store.dispatch(new GetAlert());
+		this.visible.subscribe((data) => {
+			if (data) {
+				setTimeout(() => this.store.dispatch(new HideAlert()), 3000);
+			}
+		});
 	}
 
 	hideAlert() {

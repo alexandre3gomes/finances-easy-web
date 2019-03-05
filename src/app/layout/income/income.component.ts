@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { authLoggedUser } from 'src/app/auth/store/auth.selectors';
 import { Income } from 'src/app/shared/model/income.model';
 import { User } from 'src/app/shared/model/user.model';
-import { UserService } from 'src/app/shared/services/user.service';
+import { ShowAlertError, ShowAlertSuccess } from '../../store/alert.actions';
 
 import { AppState } from '../../store/app.reducers';
-import { ShowAlertError, ShowAlertSuccess } from '../store/alert.actions';
 import { IncomeService } from './income.service';
 
 @Component({
@@ -18,13 +18,14 @@ export class IncomeComponent implements OnInit {
 	modalStyle = 'none';
 
 	constructor(
-		private userServ: UserService,
 		private incService: IncomeService,
 		private store: Store<AppState>
 	) { }
 
 	ngOnInit() {
-		this.userServ.loggedUser.subscribe((us: User) => (this.income.user = us));
+		this.store.select(authLoggedUser).subscribe((user: User) => {
+			this.income.user = user;
+		});
 	}
 
 	openModal() {

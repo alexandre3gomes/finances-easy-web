@@ -2,7 +2,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
 
 import { authReducers, AuthState, initialAuthState } from '../auth/store/auth.reducers';
-import { alertReducers, AlertState, initialAlertState } from '../layout/store/alert.reducers';
+import { alertReducers, AlertState, initialAlertState } from './alert.reducers';
 
 export interface AppState {
 	router?: RouterReducerState;

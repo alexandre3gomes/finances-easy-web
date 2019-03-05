@@ -1,18 +1,22 @@
+import { User } from 'src/app/shared/model/user.model';
+
 import { AuthActions, AuthActionsEnum } from './auth.actions';
 
 export interface AuthState {
 	token: string;
 	authenticated: boolean;
+	loggedUser: User;
 }
 
 export const initialAuthState: AuthState = {
 	token: null,
-	authenticated: false
+	authenticated: false,
+	loggedUser: null
 };
 
 export const authReducers = (state = initialAuthState, action: AuthActions): AuthState => {
 	switch (action.type) {
-		case (AuthActionsEnum.LOGON): {
+		case (AuthActionsEnum.SET_TOKEN): {
 			return {
 				...state,
 				authenticated: true,
@@ -23,11 +27,17 @@ export const authReducers = (state = initialAuthState, action: AuthActions): Aut
 			return {
 				...state,
 				authenticated: false,
-				token: initialAuthState.token
-			}
+				token: null
+			};
+		}
+		case (AuthActionsEnum.SET_LOGGED_USER): {
+			return {
+				...state,
+				loggedUser: action.payload
+			};
 		}
 		default: {
 			return state;
 		}
 	}
-}
+};

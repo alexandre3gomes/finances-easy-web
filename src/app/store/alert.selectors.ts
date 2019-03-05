@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
-import { AppState } from '../../store/app.reducers';
 import { AlertState } from './alert.reducers';
+import { AppState } from './app.reducers';
 
 const alert = (state: AppState) => state.alert;
 
