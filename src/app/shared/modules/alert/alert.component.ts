@@ -1,16 +1,14 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetAlert, HideAlert } from 'src/app/store/alert.actions';
 import { errorAlert, msgAlert, visibleAlert } from 'src/app/store/alert.selectors';
 
 import { AppState } from '../../../store/app.reducers';
-import { delayWhen } from 'rxjs/operators';
-import { interval, EMPTY } from 'rxjs';
+
 
 @Component({
 	selector: 'app-alert',
-	templateUrl: './alert.component.html',
-	styleUrls: ['./alert.component.scss']
+	templateUrl: './alert.component.html'
 })
 export class AlertComponent implements OnInit {
 	error = this.store.select(errorAlert);

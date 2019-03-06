@@ -40,7 +40,7 @@ export class AuthEffects {
 					return of(new ShowAlertError('Login failed, try again'));
 				})
 			);
-		}),
+		})
 	);
 
 	@Effect()

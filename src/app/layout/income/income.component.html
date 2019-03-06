@@ -1,4 +1,4 @@
-<div class="modal animated" id="editIncome" [ngClass]="{'show fadeIn': editMode, 'fadeOut': !editMode}" [ngStyle]="{'display': modalStyle}">
+<div class="modal" id="editIncome" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -8,76 +8,56 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form #frm="ngForm">
-					<div class="form-group mb-2">
+				<form [formGroup]="incomeForm" (ngSubmit)="saveChanges()">
+					<div class=" form-group mb-2">
 						<label for="name">{{ 'Name' | translate }}</label>
-						<input id="name" name="name" type="text" class="form-control" [(ngModel)]="income.name">
+						<input id="name" name="name" type="text" class="form-control" formControlName="name" (keyup.enter)="saveChanges()">
 					</div>
 					<div class="form-group mb-5">
 						<label for="value">{{ 'Value' | translate }}</label>
-						<input id="value" name="value" type="number" class="form-control" placeholder="€" [(ngModel)]="income.value">
+						<input id="value" name="value" type="number" class="form-control" placeholder="€" formControlName="value"
+						 (keyup.enter)="saveChanges()">
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" (click)="closeModal()">{{ 'Close' | translate }}</button>
-				<button type="button" class="btn btn-primary" [disabled]="!frm.valid" (click)="saveChanges()">{{ 'Save changes' |
-					translate }}</button>
+				<button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="incomeForm.invalid">
+					{{ 'Save changes' | translate }}
+				</button>
 			</div>
 		</div>
 	</div>
 </div>
+<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
 		<button class="btn btn-primary" (click)="openModal()">{{'Create' | translate}}</button>
 	</div>
 </div>
 <div class="card mb-3">
-	<div class="card-header">Striped Rows</div>
+	<div class="card-header">{{ 'Incomes' | translate }}</div>
 	<div class="card-body table-responsive">
 		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
-					<th>Descrição</th>
-					<th>Data</th>
-					<th>Valor</th>
+					<th>{{'Name' | translate }}</th>
+					<th>{{'Value' | translate }}</th>
+					<th>{{'Created on' | translate }}</th>
+					<th>{{'Created by' | translate }}</th>
+					<th>{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>/index.html</td>
-					<td>1265</td>
-					<td>32.3%</td>
-				</tr>
-				<tr>
-					<td>/about.html</td>
-					<td>261</td>
-					<td>33.3%</td>
-				</tr>
-				<tr>
-					<td>/sales.html</td>
-					<td>665</td>
-					<td>21.3%</td>
-				</tr>
-				<tr>
-					<td>/blog.html</td>
-					<td>9516</td>
-					<td>89.3%</td>
-				</tr>
-				<tr>
-					<td>/404.html</td>
-					<td>23</td>
-					<td>34.3%</td>
-				</tr>
-				<tr>
-					<td>/services.html</td>
-					<td>421</td>
-					<td>60.3%</td>
-				</tr>
-				<tr>
-					<td>/blog/post.html</td>
-					<td>1233</td>
-					<td>93.2%</td>
+				<tr *ngFor="let inc of (incomeState | async).incomes">
+					<td>{{ inc.name }}</td>
+					<td>{{ inc.value }}</td>
+					<td>{{ inc.date | date:'short' }}</td>
+					<td>{{ inc.user.name }}</td>
+					<td>
+						<button class="btn btn-info mr-2" (click)="editIncome(inc.id)"><i class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteIncome(inc.id)"><i class="fas fa-trash-alt"></i></button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

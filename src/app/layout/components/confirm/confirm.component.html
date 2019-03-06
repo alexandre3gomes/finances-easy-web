@@ -1,0 +1,15 @@
+<div class="modal" [ngStyle]="{'display': visible ? 'block' : 'none'}">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content mx-auto">
+			<div class="modal-body">
+				{{ msg | translate }}
+			</div>
+			<div class="modal-footer">
+				<div class="mx-auto">
+					<button class="btn btn-primary mr-5" (click)="confirm()">{{ 'Yes' | translate}}</button>
+					<button class="btn btn-danger" (click)="cancel()">{{ 'No' | translate }}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

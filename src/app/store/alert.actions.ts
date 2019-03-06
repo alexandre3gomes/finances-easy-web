@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
 export enum AlertActionsEnum {
-	GET_ALERT = '[Alert] getAlert',
-	SHOW_ALERT_SUCESS = '[Alert] showAlertSucess',
-	SHOW_ALERT_ERROR = '[Alert] showAlertError',
-	HIDE_ALERT = '[Alert] hideAlert'
+	GET_ALERT = '[Alert] GetAlert',
+	SHOW_ALERT_SUCESS = '[Alert] ShowAlertSucess',
+	SHOW_ALERT_ERROR = '[Alert] ShowAlertError',
+	HIDE_ALERT = '[Alert] HideAlert'
 }
 
 export class GetAlert implements Action {

@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './auth/store/auth.effects';
+import { IncomeEffects } from './layout/income/store/income.effects';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers } from './store/app.reducers';
@@ -45,7 +46,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 		}),
 		NgbDropdownModule,
 		StoreModule.forRoot(appReducers),
-		EffectsModule.forRoot([AuthEffects]),
+		EffectsModule.forRoot([AuthEffects, IncomeEffects]),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule

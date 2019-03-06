@@ -1,12 +1,13 @@
 import { Action } from '@ngrx/store';
-import { User } from 'src/app/shared/model/user.model';
+
+import { User } from '../../shared/model/user.model';
 
 export enum AuthActionsEnum {
-	LOGON = '[Auth] logon',
-	LOGOFF = '[Auth] logoff',
-	SET_TOKEN = '[Auth] setToken',
-	LOAD_CURRENT_USER = '[Auth] loadCurrentUser',
-	SET_LOGGED_USER = '[Auth] setLoggedUser'
+	LOGON = '[Auth] Logon',
+	LOGOFF = '[Auth] Logoff',
+	SET_TOKEN = '[Auth] SetToken',
+	LOAD_CURRENT_USER = '[Auth] LoadCurrentUser',
+	SET_LOGGED_USER = '[Auth] SetLoggedUser'
 }
 
 export class Logon implements Action {

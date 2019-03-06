@@ -32,7 +32,6 @@
 		"@ngrx/store-devtools": "^7.2.0",
 		"@ngx-translate/core": "11.0.0",
 		"@ngx-translate/http-loader": "4.0.0",
-		"animate.css": "^3.7.0",
 		"chart.js": "2.7.3",
 		"core-js": "2.5.7",
 		"font-awesome": "4.7.0",
