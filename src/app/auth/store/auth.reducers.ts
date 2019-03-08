@@ -1,6 +1,6 @@
 import { User } from 'src/app/shared/model/user.model';
-
 import { AuthActions, AuthActionsEnum } from './auth.actions';
+
 
 export interface AuthState {
 	token: string;
@@ -10,11 +10,11 @@ export interface AuthState {
 
 export const initialAuthState: AuthState = {
 	token: null,
-	authenticated: false,
-	loggedUser: null
+	authenticated: true,
+	loggedUser: new User(-11, '', '', '', '')
 };
 
-export const authReducers = (state = initialAuthState, action: AuthActions): AuthState => {
+export function authReducers (state = initialAuthState, action: AuthActions): AuthState {
 	switch (action.type) {
 		case (AuthActionsEnum.SET_TOKEN): {
 			return {
@@ -40,4 +40,4 @@ export const authReducers = (state = initialAuthState, action: AuthActions): Aut
 			return state;
 		}
 	}
-};
+}

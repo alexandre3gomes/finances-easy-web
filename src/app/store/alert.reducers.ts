@@ -12,7 +12,7 @@ export const initialAlertState: AlertState = {
 	error: false
 };
 
-export const alertReducers = (state = initialAlertState, action: AlertActions): AlertState => {
+export function alertReducers (state = initialAlertState, action: AlertActions): AlertState {
 	switch (action.type) {
 		case AlertActionsEnum.GET_ALERT: {
 			return {
@@ -46,4 +46,4 @@ export const alertReducers = (state = initialAlertState, action: AlertActions): 
 		default:
 			return state;
 	}
-};
+}

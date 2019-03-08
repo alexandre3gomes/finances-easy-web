@@ -1,54 +1,82 @@
+<div class="modal" id="editExpense" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{{ 'Expense' | translate }}</h5>
+				<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="expenseForm" (ngSubmit)="saveChanges()">
+					<div class=" form-group mb-2">
+						<label for="name">{{ 'Name' | translate }}</label>
+						<input id="name" name="name" type="text" class="form-control"
+						 formControlName="name" (keyup.enter)="saveChanges()">
+					</div>
+					<div class="form-group mb-2">
+						<label for="value">{{ 'Value' | translate }}</label>
+						<input id="value" name="value" type="number" class="form-control"
+						 placeholder="€" formControlName="value" (keyup.enter)="saveChanges()">
+					</div>
+					<div class="form-group mb-2">
+						<label for="category">{{ 'Category' | translate }}</label>
+						<select id="category" name="category" class="form-control"
+						 formControlName="category" (keyup.enter)="saveChanges()">
+							<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+						</select>
+					</div>
+					<div class=" form-group mb-5">
+						<label for="expireAt">{{ 'Created on' | translate }}</label>
+						<input id="expireAt" name="expireAt" type="datetime-local" class="form-control"
+						 formControlName="expireAt" (keyup.enter)="saveChanges()">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" (click)="closeModal()">{{
+					'Close' | translate }}</button>
+				<button type="button" class="btn btn-primary" (click)="saveChanges()"
+				 [disabled]="expenseForm.invalid">
+					{{ 'Save changes' | translate }}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
-		<button class="btn btn-primary">{{'Create' | translate}}</button>
+		<button class="btn btn-primary" (click)="openModal()">
+			{{ 'Create' | translate }}
+		</button>
 	</div>
 </div>
 <div class="card mb-3">
-	<div class="card-header">Striped Rows</div>
+	<div class="card-header">{{ 'Expenses' | translate }}</div>
 	<div class="card-body table-responsive">
 		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
-					<th>Descrição</th>
-					<th>Data</th>
-					<th>Valor</th>
+					<th>{{'Name' | translate }}</th>
+					<th>{{'Value' | translate }}</th>
+					<th>{{'Category' | translate }}</th>
+					<th>{{'Created on' | translate }}</th>
+					<th>{{'Created by' | translate }}</th>
+					<th>{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>/index.html</td>
-					<td>1265</td>
-					<td>32.3%</td>
-				</tr>
-				<tr>
-					<td>/about.html</td>
-					<td>261</td>
-					<td>33.3%</td>
-				</tr>
-				<tr>
-					<td>/sales.html</td>
-					<td>665</td>
-					<td>21.3%</td>
-				</tr>
-				<tr>
-					<td>/blog.html</td>
-					<td>9516</td>
-					<td>89.3%</td>
-				</tr>
-				<tr>
-					<td>/404.html</td>
-					<td>23</td>
-					<td>34.3%</td>
-				</tr>
-				<tr>
-					<td>/services.html</td>
-					<td>421</td>
-					<td>60.3%</td>
-				</tr>
-				<tr>
-					<td>/blog/post.html</td>
-					<td>1233</td>
-					<td>93.2%</td>
+				<tr *ngFor="let exp of (expenseState | async).expenses">
+					<td>{{ exp.name }}</td>
+					<td>{{ exp.value }}</td>
+					<td>{{ exp.category.name }}</td>
+					<td>{{ exp.expireAt | date:'short' }}</td>
+					<td>{{ exp.user.name }}</td>
+					<td>
+						<button class="btn btn-info mr-2" (click)="editExpense(exp.id)"><i class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteExpense(exp.id)"><i class="fas fa-trash-alt"></i></button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

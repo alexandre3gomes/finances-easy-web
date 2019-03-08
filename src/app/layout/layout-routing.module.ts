@@ -20,6 +20,10 @@ const routes: Routes = [
 			{
 				path: 'income',
 				loadChildren: './income/income.module#IncomeModule'
+			},
+			{
+				path: 'category',
+				loadChildren: './category/category.module#CategoryModule'
 			}
 		]
 	}

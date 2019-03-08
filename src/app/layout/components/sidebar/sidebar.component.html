@@ -5,12 +5,16 @@
 			<span>{{ 'Dashboard' | translate }}</span>
 		</a>
 		<a [routerLink]="['/expense']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-dollar-sign"></i>&nbsp;
+			<i class="fas fa-money-bill-wave"></i>&nbsp;
 			<span>{{ 'Expenses' | translate }}</span>
 		</a>
 		<a [routerLink]="['/income']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-dollar-sign"></i>&nbsp;
+			<i class="fas fa-euro-sign"></i>&nbsp;&nbsp;&nbsp;
 			<span>{{ 'Incomes' | translate }}</span>
+		</a>
+		<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="far fa-copyright"></i>&nbsp;&nbsp;
+			<span>{{ 'Categories' | translate }}</span>
 		</a>
 
 		<div class="header-fields">

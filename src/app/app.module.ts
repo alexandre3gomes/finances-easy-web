@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,14 +11,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'src/environments/environment';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './auth/store/auth.effects';
+import { CategoryEffects } from './layout/category/store/category.effects';
+import { ExpenseEffects } from './layout/expense/store/expense.effects';
 import { IncomeEffects } from './layout/income/store/income.effects';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers } from './store/app.reducers';
+
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -41,17 +43,17 @@ export const createTranslateLoader = (http: HttpClient) => {
 			loader: {
 				provide: TranslateLoader,
 				useFactory: createTranslateLoader,
-				deps: [HttpClient]
+				deps: [ HttpClient ]
 			}
 		}),
 		NgbDropdownModule,
 		StoreModule.forRoot(appReducers),
-		EffectsModule.forRoot([AuthEffects, IncomeEffects]),
+		EffectsModule.forRoot([ AuthEffects, IncomeEffects, CategoryEffects, ExpenseEffects ]),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule
 	],
-	declarations: [AppComponent],
+	declarations: [ AppComponent ],
 	providers: [
 		AuthGuard,
 		{
@@ -60,6 +62,6 @@ export const createTranslateLoader = (http: HttpClient) => {
 			multi: true
 		}
 	],
-	bootstrap: [AppComponent]
+	bootstrap: [ AppComponent ]
 })
 export class AppModule { }
