@@ -11,7 +11,7 @@ export interface AuthState {
 export const initialAuthState: AuthState = {
 	token: null,
 	authenticated: true,
-	loggedUser: new User(-11, '', '', '', '')
+	loggedUser: new User(-1, '', '', '', '')
 };
 
 export function authReducers (state = initialAuthState, action: AuthActions): AuthState {

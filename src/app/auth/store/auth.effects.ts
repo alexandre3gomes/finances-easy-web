@@ -6,10 +6,10 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from 'src/app/shared/model/user.model';
 import { environment } from 'src/environments/environment';
-
+import { ShowAlertError } from '../../store/alert.actions';
 import * as AuthActions from './auth.actions';
 import { AuthActionsEnum } from './auth.actions';
-import { ShowAlertError } from '../../store/alert.actions';
+
 
 @Injectable()
 export class AuthEffects {
@@ -30,7 +30,6 @@ export class AuthEffects {
 				responseType: 'text'
 			}).pipe(
 				map((token: string) => {
-					this.router.navigate(['/dashboard']);
 					return {
 						type: AuthActionsEnum.SET_TOKEN,
 						payload: token
@@ -68,7 +67,15 @@ export class AuthEffects {
 	authLogout = this.actions.pipe(
 		ofType(AuthActionsEnum.LOGOFF),
 		tap(() => {
-			this.router.navigate(['/login']);
+			this.router.navigate([ '/login' ]);
+		})
+	);
+
+	@Effect({ dispatch: false })
+	authSetToken = this.actions.pipe(
+		ofType(AuthActionsEnum.SET_TOKEN),
+		tap(() => {
+			this.router.navigate([ '/dashboard' ]);
 		})
 	);
 }
