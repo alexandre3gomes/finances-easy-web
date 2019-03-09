@@ -31,9 +31,10 @@ export class AuthEffects {
 			}).pipe(
 				take(1),
 				map((token: string) => {
+					localStorage.setItem('token', token);
 					return {
-						type: AuthActionsEnum.SET_TOKEN,
-						payload: token
+						type: AuthActionsEnum.SET_AUTHENTICATED,
+						payload: token !== null
 					};
 				}),
 				catchError(() => {
@@ -56,7 +57,7 @@ export class AuthEffects {
 					};
 				}),
 				catchError(() => {
-					return of(new AuthActions.Logout());
+					return of(new ShowAlertError('Login failed, try again'));
 				})
 			);
 		})
@@ -65,14 +66,22 @@ export class AuthEffects {
 	@Effect({ dispatch: false })
 	authLogout = this.actions.pipe(
 		ofType(AuthActionsEnum.LOGOUT),
-		tap(() => {
-			this.router.navigate([ '/login' ]);
+		switchMap(() => {
+			return this.http.get<void>(this.userEndpoint.concat('/logout')).pipe(
+				tap(() => {
+					localStorage.removeItem('token');
+					this.router.navigate([ '/login' ]);
+				}),
+				catchError((err) => {
+					return of(console.log(err));
+				})
+			);
 		})
 	);
 
 	@Effect({ dispatch: false })
 	authSetToken = this.actions.pipe(
-		ofType(AuthActionsEnum.SET_TOKEN),
+		ofType(AuthActionsEnum.SET_AUTHENTICATED),
 		tap(() => {
 			this.router.navigate([ '/dashboard' ]);
 		})

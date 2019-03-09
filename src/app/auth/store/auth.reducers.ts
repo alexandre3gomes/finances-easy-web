@@ -3,31 +3,27 @@ import { AuthActions, AuthActionsEnum } from './auth.actions';
 
 
 export interface AuthState {
-	token: string;
 	authenticated: boolean;
 	loggedUser: User;
 }
 
 export const initialAuthState: AuthState = {
-	token: null,
 	authenticated: true,
 	loggedUser: new User(-1, '', '', '', '')
 };
 
 export function authReducers (state = initialAuthState, action: AuthActions): AuthState {
 	switch (action.type) {
-		case (AuthActionsEnum.SET_TOKEN): {
+		case (AuthActionsEnum.SET_AUTHENTICATED): {
 			return {
 				...state,
-				authenticated: true,
-				token: action.payload
+				authenticated: action.payload,
 			};
 		}
 		case (AuthActionsEnum.LOGOUT): {
 			return {
 				...state,
-				authenticated: false,
-				token: null
+				authenticated: false
 			};
 		}
 		case (AuthActionsEnum.SET_LOGGED_USER): {
