@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
@@ -10,7 +10,7 @@ import { CategoryState } from './store/category.reducers';
 	selector: 'app-category',
 	templateUrl: './category.component.html'
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
 
 	categoryState = this.store.select('category');
 	editMode = false;
@@ -26,13 +26,19 @@ export class CategoryComponent implements OnInit {
 		this.store.dispatch(new ListCategories());
 	}
 
+	ngOnDestroy () {
+		this.resetModal();
+	}
+
 	openModal () {
 		this.modalVisible = true;
 	}
 
-	closeModal () {
+	resetModal () {
 		this.modalVisible = false;
 		this.editMode = false;
+		this.showConfirm = false;
+		this.currentId = -1;
 		this.initForm();
 	}
 
@@ -46,7 +52,7 @@ export class CategoryComponent implements OnInit {
 		} else {
 			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value)));
 		}
-		this.closeModal();
+		this.resetModal();
 	}
 
 	initForm () {
@@ -77,8 +83,7 @@ export class CategoryComponent implements OnInit {
 		if (confirm) {
 			this.store.dispatch(new DeleteCategory(this.currentId));
 		}
-		this.showConfirm = false;
-		this.currentId = -1;
+		this.resetModal();
 	}
 
 }

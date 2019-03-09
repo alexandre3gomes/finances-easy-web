@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Logoff } from 'src/app/auth/store/auth.actions';
+import { Logout } from 'src/app/auth/store/auth.actions';
 import { authLoggedUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/shared/model/user.model';
 import { AppState } from 'src/app/store/app.reducers';
@@ -11,7 +11,7 @@ import { AppState } from 'src/app/store/app.reducers';
 @Component({
 	selector: 'app-sidebar',
 	templateUrl: './sidebar.component.html',
-	styleUrls: ['./sidebar.component.scss']
+	styleUrls: [ './sidebar.component.scss' ]
 })
 export class SidebarComponent implements OnInit {
 	isActive: boolean;
@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
 	@Output() collapsedEvent = new EventEmitter<boolean>();
 
 	constructor(private translate: TranslateService, public router: Router, private store: Store<AppState>) {
-		this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de']);
+		this.translate.addLangs([ 'en', 'fr', 'ur', 'es', 'it', 'fa', 'de' ]);
 		this.translate.setDefaultLang('en');
 		const browserLang = this.translate.getBrowserLang();
 		this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de/) ? browserLang : 'en');
@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() {
+	ngOnInit () {
 		this.isActive = false;
 		this.collapsed = false;
 		this.showMenu = '';
@@ -48,11 +48,11 @@ export class SidebarComponent implements OnInit {
 	}
 
 
-	eventCalled() {
+	eventCalled () {
 		this.isActive = !this.isActive;
 	}
 
-	addExpandClass(element: any) {
+	addExpandClass (element: any) {
 		if (element === this.showMenu) {
 			this.showMenu = '0';
 		} else {
@@ -60,31 +60,31 @@ export class SidebarComponent implements OnInit {
 		}
 	}
 
-	toggleCollapsed() {
+	toggleCollapsed () {
 		this.collapsed = !this.collapsed;
 		this.collapsedEvent.emit(this.collapsed);
 	}
 
-	isToggled(): boolean {
+	isToggled (): boolean {
 		const dom: Element = document.querySelector('body');
 		return dom.classList.contains(this.pushRightClass);
 	}
 
-	toggleSidebar() {
+	toggleSidebar () {
 		const dom: any = document.querySelector('body');
 		dom.classList.toggle(this.pushRightClass);
 	}
 
-	rltAndLtr() {
+	rltAndLtr () {
 		const dom: any = document.querySelector('body');
 		dom.classList.toggle('rtl');
 	}
 
-	changeLang(language: string) {
+	changeLang (language: string) {
 		this.translate.use(language);
 	}
 
-	onLoggedout() {
-		this.store.dispatch(new Logoff());
+	onLoggedout () {
+		this.store.dispatch(new Logout());
 	}
 }

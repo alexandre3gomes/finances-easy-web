@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-
 import { User } from '../../shared/model/user.model';
+
 
 export enum AuthActionsEnum {
 	LOGON = '[Auth] Logon',
-	LOGOFF = '[Auth] Logoff',
+	LOGOUT = '[Auth] Logout',
 	SET_TOKEN = '[Auth] SetToken',
 	LOAD_CURRENT_USER = '[Auth] LoadCurrentUser',
 	SET_LOGGED_USER = '[Auth] SetLoggedUser'
@@ -15,8 +15,8 @@ export class Logon implements Action {
 	constructor(public payload: User) { }
 }
 
-export class Logoff implements Action {
-	public readonly type = AuthActionsEnum.LOGOFF;
+export class Logout implements Action {
+	public readonly type = AuthActionsEnum.LOGOUT;
 }
 
 export class SetToken implements Action {
@@ -33,4 +33,4 @@ export class SetLoggedUser implements Action {
 	constructor(public payload: User) { }
 }
 
-export type AuthActions = Logon | Logoff | SetToken | LoadCurrentUser | SetLoggedUser;
+export type AuthActions = Logon | Logout | SetToken | LoadCurrentUser | SetLoggedUser;

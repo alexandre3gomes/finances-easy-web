@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { authLoggedUser } from '../../auth/store/auth.selectors';
@@ -16,7 +16,7 @@ import { IncomeState } from './store/income.reducers';
 	selector: 'app-income',
 	templateUrl: './income.component.html'
 })
-export class IncomeComponent implements OnInit {
+export class IncomeComponent implements OnInit, OnDestroy {
 	incomeState = this.store.select('income');
 	editMode = false;
 	modalVisible = false;
@@ -32,13 +32,19 @@ export class IncomeComponent implements OnInit {
 		this.store.dispatch(new ListIncomes());
 	}
 
+	ngOnDestroy () {
+		this.resetModal();
+	}
+
 	openModal () {
 		this.modalVisible = true;
 	}
 
-	closeModal () {
+	resetModal () {
 		this.modalVisible = false;
 		this.editMode = false;
+		this.showConfirm = false;
+		this.currentId = -1;
 		this.initForm();
 	}
 
@@ -61,7 +67,7 @@ export class IncomeComponent implements OnInit {
 						this.incomeForm.get('createdDate').value)));
 			});
 		}
-		this.closeModal();
+		this.resetModal();
 	}
 
 	initForm () {
@@ -99,8 +105,7 @@ export class IncomeComponent implements OnInit {
 		if (confirm) {
 			this.store.dispatch(new DeleteIncome(this.currentId));
 		}
-		this.showConfirm = false;
-		this.currentId = -1;
+		this.resetModal();
 	}
 
 }

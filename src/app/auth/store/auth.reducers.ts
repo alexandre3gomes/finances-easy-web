@@ -23,7 +23,7 @@ export function authReducers (state = initialAuthState, action: AuthActions): Au
 				token: action.payload
 			};
 		}
-		case (AuthActionsEnum.LOGOFF): {
+		case (AuthActionsEnum.LOGOUT): {
 			return {
 				...state,
 				authenticated: false,

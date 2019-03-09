@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { authLoggedUser } from '../../auth/store/auth.selectors';
@@ -16,7 +16,7 @@ import { ExpenseState } from './store/expense.reducers';
 	selector: 'app-expense',
 	templateUrl: './expense.component.html'
 })
-export class ExpenseComponent implements OnInit {
+export class ExpenseComponent implements OnInit, OnDestroy {
 	expenseState = this.store.select('expense');
 	editMode = false;
 	modalVisible = false;
@@ -36,6 +36,10 @@ export class ExpenseComponent implements OnInit {
 		});
 	}
 
+	ngOnDestroy () {
+		this.resetModal();
+	}
+
 	openModal () {
 		this.modalVisible = true;
 		this.store.select('category').subscribe((categoryState: CategoryState) => {
@@ -46,9 +50,11 @@ export class ExpenseComponent implements OnInit {
 		});
 	}
 
-	closeModal () {
+	resetModal () {
 		this.modalVisible = false;
 		this.editMode = false;
+		this.showConfirm = false;
+		this.currentId = -1;
 		this.initForm();
 	}
 
@@ -73,7 +79,7 @@ export class ExpenseComponent implements OnInit {
 						this.expenseForm.get('expireAt').value)));
 			});
 		}
-		this.closeModal();
+		this.resetModal();
 	}
 
 	initForm () {
@@ -114,8 +120,7 @@ export class ExpenseComponent implements OnInit {
 		if (confirm) {
 			this.store.dispatch(new DeleteExpense(this.currentId));
 		}
-		this.showConfirm = false;
-		this.currentId = -1;
+		this.resetModal();
 	}
 
 }

@@ -29,6 +29,7 @@ export class AuthEffects {
 			return this.http.post(this.logonEndpoint.concat('/login'), user, {
 				responseType: 'text'
 			}).pipe(
+				take(1),
 				map((token: string) => {
 					return {
 						type: AuthActionsEnum.SET_TOKEN,
@@ -55,9 +56,7 @@ export class AuthEffects {
 					};
 				}),
 				catchError(() => {
-					return of({
-						type: AuthActionsEnum.LOGOFF
-					});
+					return of(new AuthActions.Logout());
 				})
 			);
 		})
@@ -65,7 +64,7 @@ export class AuthEffects {
 
 	@Effect({ dispatch: false })
 	authLogout = this.actions.pipe(
-		ofType(AuthActionsEnum.LOGOFF),
+		ofType(AuthActionsEnum.LOGOUT),
 		tap(() => {
 			this.router.navigate([ '/login' ]);
 		})
