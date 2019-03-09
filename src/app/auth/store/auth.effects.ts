@@ -26,34 +26,13 @@ export class AuthEffects {
 			return action.payload;
 		}),
 		switchMap((user: User) => {
-			return this.http.post(this.logonEndpoint.concat('/login'), user, {
-				responseType: 'text'
-			}).pipe(
+			return this.http.post<User>(this.logonEndpoint.concat('/login'), user).pipe(
 				take(1),
-				map((token: string) => {
-					localStorage.setItem('token', token);
+				map((us: User) => {
+					localStorage.setItem('token', us.token);
 					return {
 						type: AuthActionsEnum.SET_AUTHENTICATED,
-						payload: token !== null
-					};
-				}),
-				catchError(() => {
-					return of(new ShowAlertError('Login failed, try again'));
-				})
-			);
-		})
-	);
-
-	@Effect()
-	setLoggedUser = this.actions.pipe(
-		ofType(AuthActionsEnum.LOAD_CURRENT_USER),
-		take(1),
-		switchMap(() => {
-			return this.http.get<User>(this.userEndpoint.concat('/current')).pipe(
-				map((user: User) => {
-					return {
-						type: AuthActionsEnum.SET_LOGGED_USER,
-						payload: user
+						payload: us
 					};
 				}),
 				catchError(() => {

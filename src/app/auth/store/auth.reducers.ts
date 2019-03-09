@@ -17,19 +17,14 @@ export function authReducers (state = initialAuthState, action: AuthActions): Au
 		case (AuthActionsEnum.SET_AUTHENTICATED): {
 			return {
 				...state,
-				authenticated: action.payload,
+				loggedUser: action.payload,
+				authenticated: true
 			};
 		}
 		case (AuthActionsEnum.LOGOUT): {
 			return {
 				...state,
 				authenticated: false
-			};
-		}
-		case (AuthActionsEnum.SET_LOGGED_USER): {
-			return {
-				...state,
-				loggedUser: action.payload
 			};
 		}
 		default: {
