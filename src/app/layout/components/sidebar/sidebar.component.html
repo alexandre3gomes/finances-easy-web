@@ -1,29 +1,47 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
 	<div class="list-group">
 		<a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-fw fa-dashboard"></i>&nbsp;
-			<span>{{ 'Dashboard' | translate }}</span>
+			<div class="row">
+				<div class="col-lg-2"><i class="fa fa-fw fa-dashboard"></i></div>
+				<div class="col-lg-10"><span>{{ 'Dashboard' | translate }}</span></div>
+			</div>
 		</a>
-		<a [routerLink]="['/expense']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fas fa-money-bill-wave"></i>&nbsp;
-			<span>{{ 'Expenses' | translate }}</span>
+		<a [routerLink]="['/expense']" [routerLinkActive]="['router-link-active']"
+		 class="list-group-item">
+			<div class="row">
+				<div class="col-lg-2"><i class="fas fa-money-bill-wave"></i></div>
+				<div class="col-lg-10"><span>{{ 'Expenses' | translate }}</span></div>
+			</div>
 		</a>
-		<a [routerLink]="['/income']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fas fa-euro-sign"></i>&nbsp;&nbsp;&nbsp;
-			<span>{{ 'Incomes' | translate }}</span>
+		<a [routerLink]="['/income']" [routerLinkActive]="['router-link-active']"
+		 class="list-group-item">
+			<div class="row">
+				<div class="col-lg-2"><i class="fas fa-euro-sign"></i></div>
+				<div class="col-lg-10"><span>{{ 'Incomes' | translate }}</span></div>
+			</div>
 		</a>
-		<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="far fa-copyright"></i>&nbsp;&nbsp;
-			<span>{{ 'Categories' | translate }}</span>
+		<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']"
+		 class="list-group-item">
+			<div class="row">
+				<div class="col-lg-2"><i class="far fa-copyright"></i></div>
+				<div class="col-lg-10"><span>{{ 'Categories' | translate }}</span></div>
+			</div>
+		</a>
+		<a [routerLink]="['/budget']" [routerLinkActive]="['router-link-active']"
+		 class="list-group-item">
+			<div class="row">
+				<div class="col-lg-2"><i class="far fa-calendar-alt"></i></div>
+				<div class="col-lg-10"><span>{{ 'Budget' | translate }}</span></div>
+			</div>
 		</a>
 
 		<div class="header-fields">
 			<a (click)="rltAndLtr()" class="list-group-item">
-				<span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
+				<span><i class="fa fa-arrows-h"></i> RTL/LTR</span>
 			</a>
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('languages')">
-					<span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
+					<span><i class="fa fa-language"></i> {{ 'Language' | translate }} <b class="caret"></b></span>
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'languages'">
 					<ul class="submenu">
@@ -82,7 +100,7 @@
 		</div>
 	</div>
 	<div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-		<i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+		<i class="fa fa-fw fa-angle-double-left"></i>
 		<span>{{ 'Collapse Sidebar' | translate }}</span>
 	</div>
 </nav>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { LayoutComponent } from './layout.component';
+
 
 const routes: Routes = [
 	{
@@ -24,13 +24,17 @@ const routes: Routes = [
 			{
 				path: 'category',
 				loadChildren: './category/category.module#CategoryModule'
+			},
+			{
+				path: 'budget',
+				loadChildren: './budget/budget.module#BudgetModule'
 			}
 		]
 	}
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule]
+	imports: [ RouterModule.forChild(routes) ],
+	exports: [ RouterModule ]
 })
 export class LayoutRoutingModule { }
