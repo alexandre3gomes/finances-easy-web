@@ -14,7 +14,8 @@ import { ExpenseState } from './store/expense.reducers';
 
 @Component({
 	selector: 'app-expense',
-	templateUrl: './expense.component.html'
+	templateUrl: './expense.component.html',
+	styleUrls: [ './expense.component.scss' ]
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 	expenseState = this.store.select('expense');
