@@ -1,49 +1,5 @@
-<div class="modal" id="editExpense" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content modal-overflow-sm">
-			<div class="modal-header">
-				<h5 class="modal-title">{{ 'Expense' | translate }}</h5>
-				<button type="button" class="close" aria-label="Close" (click)="resetModal()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form [formGroup]="expenseForm" (ngSubmit)="saveChanges()">
-					<div class=" form-group mb-2">
-						<label for="name">{{ 'Name' | translate }}</label>
-						<input id="name" name="name" type="text" class="form-control"
-						 formControlName="name" (keyup.enter)="saveChanges()">
-					</div>
-					<div class="form-group mb-2">
-						<label for="value">{{ 'Value' | translate }}</label>
-						<input id="value" name="value" type="number" class="form-control"
-						 placeholder="€" formControlName="value" (keyup.enter)="saveChanges()">
-					</div>
-					<div class="form-group mb-2">
-						<label for="category">{{ 'Category' | translate }}</label>
-						<select id="category" name="category" class="form-control"
-						 formControlName="category" (keyup.enter)="saveChanges()">
-							<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-						</select>
-					</div>
-					<div class=" form-group mb-5">
-						<label for="expireAt">{{ 'Created on' | translate }}</label>
-						<input id="expireAt" name="expireAt" type="datetime-local" class="form-control"
-						 formControlName="expireAt" (keyup.enter)="saveChanges()">
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" (click)="resetModal()">{{
-					'Close' | translate }}</button>
-				<button type="button" class="btn btn-primary" (click)="saveChanges()"
-				 [disabled]="expenseForm.invalid">
-					{{ 'Save changes' | translate }}
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
+<app-edit-expense *ngIf="editModal" [categories]="categories" [currentId]="currentId"
+ (closed)="closedEditModal()" [state]="state"></app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
@@ -67,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let exp of (expenseState | async).expenses">
+				<tr *ngFor="let exp of (state | async).expenses">
 					<td>{{ exp.name }}</td>
 					<td>{{ exp.value }}</td>
 					<td>{{ exp.category.name }}</td>
@@ -80,5 +36,12 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="row">
+			<div class="mx-auto stick-bottom">
+				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+					{{ 'Show More' | translate }}
+				</button>
+			</div>
+		</div>
 	</div>
 </div>

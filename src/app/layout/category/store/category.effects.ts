@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, pipe } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as CategoryActions from './category.actions';
+
 
 
 @Injectable()
@@ -83,15 +85,18 @@ export class CategoryEffects {
 	);
 
 	@Effect()
-	listCategorys = this.actions.pipe(
+	listCategories = this.actions.pipe(
 		ofType(CategoryActions.CategoryActionsEnum.LIST_CATEGORIES),
-		switchMap(() => {
-			return this.http.get(this.categoryEndPoint.concat('/list'));
+		switchMap((action: CategoryActions.ListCategories) => {
+			return this.http.get(this.categoryEndPoint.concat('/list'), {
+				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
+					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
+			});
 		}),
-		map((categorys: Category[]) => {
+		map((page: any) => {
 			return {
-				type: CategoryActions.CategoryActionsEnum.SET_CATEGORIES,
-				payload: categorys
+				type: CategoryActions.CategoryActionsEnum.ADD_CATEGORIES,
+				payload: page
 			};
 		})
 	);

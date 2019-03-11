@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
-import { Category } from '../../shared/model/category.model';
-import { CreateCategory, DeleteCategory, ListCategories, UpdateCategory } from './store/category.actions';
+import { Default } from '../../shared/enum/default.enum';
+import { Page } from '../../shared/model/pagination/page.model';
+import { Pagination } from '../../shared/model/pagination/pagination.model';
+import { DeleteCategory, ListCategories, ResetCategories } from './store/category.actions';
 import { CategoryState } from './store/category.reducers';
+
 
 @Component({
 	selector: 'app-category',
@@ -12,65 +14,40 @@ import { CategoryState } from './store/category.reducers';
 })
 export class CategoryComponent implements OnInit, OnDestroy {
 
-	categoryState = this.store.select('category');
-	editMode = false;
-	modalVisible = false;
-	categoryForm: FormGroup;
+	state = this.store.select('category');
 	currentId: number;
 	showConfirm = false;
+	editModal = false;
+	currentPage = 0;
+	pageOptions: Page;
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
-		this.initForm();
-		this.store.dispatch(new ListCategories());
+		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		this.state.subscribe((categoryState: CategoryState) => {
+			this.pageOptions = categoryState.page;
+		});
 	}
 
 	ngOnDestroy () {
-		this.resetModal();
+		this.resetData();
 	}
 
 	openModal () {
-		this.modalVisible = true;
+		this.editModal = true;
 	}
 
-	resetModal () {
-		this.modalVisible = false;
-		this.editMode = false;
+	resetData () {
+		this.store.dispatch(new ResetCategories());
 		this.showConfirm = false;
+		this.editModal = false;
 		this.currentId = -1;
-		this.initForm();
-	}
-
-	saveChanges () {
-		if (this.editMode) {
-			this.store.select('category').subscribe((categoryState: CategoryState) => {
-				const editedCategory = categoryState.categories.find((inc: Category) => inc.id === this.currentId);
-				editedCategory.name = this.categoryForm.get('name').value;
-				this.store.dispatch(new UpdateCategory(editedCategory));
-			});
-		} else {
-			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value)));
-		}
-		this.resetModal();
-	}
-
-	initForm () {
-		let name = '';
-		if (this.editMode) {
-			this.categoryState.subscribe((categoryState: CategoryState) => {
-				name = categoryState.categories.find((inc: Category) => inc.id === this.currentId).name;
-			});
-		}
-		this.categoryForm = new FormGroup({
-			'name': new FormControl(name, Validators.required)
-		});
+		this.currentPage = 0;
 	}
 
 	editCategory (id: number) {
 		this.currentId = id;
-		this.editMode = true;
-		this.initForm();
 		this.openModal();
 	}
 
@@ -83,7 +60,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteCategory(this.currentId));
 		}
-		this.resetModal();
+		this.closedEditModal();
 	}
 
+	closedEditModal () {
+		this.resetData();
+		setTimeout(() => {
+			this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		}, 100);
+	}
+
+	showMore () {
+		this.currentPage++;
+		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+	}
 }

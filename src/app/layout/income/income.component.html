@@ -1,47 +1,11 @@
-<div class="modal" id="editIncome" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">{{ 'Income' | translate }}</h5>
-				<button type="button" class="close" aria-label="Close" (click)="resetModal()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form [formGroup]="incomeForm" (ngSubmit)="saveChanges()">
-					<div class=" form-group mb-2">
-						<label for="name">{{ 'Name' | translate }}</label>
-						<input id="name" name="name" type="text" class="form-control"
-						 formControlName="name" (keyup.enter)="saveChanges()">
-					</div>
-					<div class="form-group mb-2">
-						<label for="value">{{ 'Value' | translate }}</label>
-						<input id="value" name="value" type="number" class="form-control"
-						 placeholder="€" formControlName="value" (keyup.enter)="saveChanges()">
-					</div>
-					<div class=" form-group mb-5">
-						<label for="createdDate">{{ 'Created on' | translate }}</label>
-						<input id="createdDate" name="createdDate" type="datetime-local" class="form-control"
-						 formControlName="createdDate" (keyup.enter)="saveChanges()">
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" (click)="resetModal()">{{
-					'Close' | translate }}</button>
-				<button type="button" class="btn btn-primary" (click)="saveChanges()"
-				 [disabled]="incomeForm.invalid">
-					{{ 'Save changes' | translate }}
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
+<app-edit-income *ngIf="editModal" [state]="state" [currentId]="currentId"
+ (closed)="closedEditModal()"></app-edit-income>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
-		<button class="btn btn-primary" (click)="openModal()">{{'Create' |
-			translate}}</button>
+		<button class="btn btn-primary" (click)="openModal()">
+			{{'Create' | translate }}
+		</button>
 	</div>
 </div>
 <div class="card mb-3">
@@ -58,7 +22,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let inc of (incomeState | async).incomes">
+				<tr *ngFor="let inc of (state | async).incomes">
 					<td>{{ inc.name }}</td>
 					<td>{{ inc.value }}</td>
 					<td>{{ inc.date | date:'short' }}</td>
@@ -70,5 +34,12 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="row">
+			<div class="mx-auto stick-bottom">
+				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+					{{ 'Show More' | translate }}
+				</button>
+			</div>
+		</div>
 	</div>
 </div>

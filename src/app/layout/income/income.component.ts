@@ -1,15 +1,12 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { authLoggedUser } from '../../auth/store/auth.selectors';
-import { Income } from '../../shared/model/income.model';
-import { User } from '../../shared/model/user.model';
+import { Default } from '../../shared/enum/default.enum';
+import { Page } from '../../shared/model/pagination/page.model';
+import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
-import { CreateIncome, DeleteIncome, ListIncomes, UpdateIncome } from './store/income.actions';
+import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions';
 import { IncomeState } from './store/income.reducers';
-
-
 
 
 @Component({
@@ -17,82 +14,33 @@ import { IncomeState } from './store/income.reducers';
 	templateUrl: './income.component.html'
 })
 export class IncomeComponent implements OnInit, OnDestroy {
-	incomeState = this.store.select('income');
-	editMode = false;
-	modalVisible = false;
+	state = this.store.select('income');
+	editModal = false;
 	incomeForm: FormGroup;
 	currentId: number;
 	showConfirm = false;
-	DATE_FORMAT = 'yyyy-MM-ddThh:mm';
+	currentPage = 0;
+	pageOptions: Page;
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
-		this.initForm();
-		this.store.dispatch(new ListIncomes());
+		this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		this.state.subscribe((incomeState: IncomeState) => {
+			this.pageOptions = incomeState.page;
+		});
 	}
 
 	ngOnDestroy () {
-		this.resetModal();
+		this.resetData();
 	}
 
 	openModal () {
-		this.modalVisible = true;
-	}
-
-	resetModal () {
-		this.modalVisible = false;
-		this.editMode = false;
-		this.showConfirm = false;
-		this.currentId = -1;
-		this.initForm();
-	}
-
-	saveChanges () {
-		if (this.editMode) {
-			this.store.select('income').subscribe((incomeState: IncomeState) => {
-				const editedIncome = incomeState.incomes.find((inc: Income) => inc.id === this.currentId);
-				editedIncome.name = this.incomeForm.get('name').value;
-				editedIncome.value = this.incomeForm.get('value').value;
-				editedIncome.date = this.incomeForm.get('createdDate').value;
-				this.store.dispatch(new UpdateIncome(editedIncome));
-			});
-		} else {
-			this.store.select(authLoggedUser).subscribe((user: User) => {
-				this.store.dispatch(
-					new CreateIncome(new Income(-1,
-						user,
-						this.incomeForm.get('name').value,
-						this.incomeForm.get('value').value,
-						this.incomeForm.get('createdDate').value)));
-			});
-		}
-		this.resetModal();
-	}
-
-	initForm () {
-		let name = '';
-		let value = 0;
-		const dp = new DatePipe('en-en');
-		let createdDate = dp.transform(new Date(), this.DATE_FORMAT);
-		if (this.editMode) {
-			this.incomeState.subscribe((incomeState: IncomeState) => {
-				name = incomeState.incomes.find((inc: Income) => inc.id === this.currentId).name;
-				value = incomeState.incomes.find((inc: Income) => inc.id === this.currentId).value;
-				createdDate = dp.transform(incomeState.incomes.find((inc: Income) => inc.id === this.currentId).date, this.DATE_FORMAT);
-			});
-		}
-		this.incomeForm = new FormGroup({
-			'name': new FormControl(name, Validators.required),
-			'value': new FormControl(value, Validators.min(1)),
-			'createdDate': new FormControl(createdDate, Validators.required)
-		});
+		this.editModal = true;
 	}
 
 	editIncome (id: number) {
 		this.currentId = id;
-		this.editMode = true;
-		this.initForm();
 		this.openModal();
 	}
 
@@ -105,7 +53,27 @@ export class IncomeComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteIncome(this.currentId));
 		}
-		this.resetModal();
+		this.closedEditModal();
+	}
+
+	resetData () {
+		this.store.dispatch(new ResetIncomes());
+		this.showConfirm = false;
+		this.editModal = false;
+		this.currentId = -1;
+		this.currentPage = 0;
+	}
+
+	closedEditModal () {
+		this.resetData();
+		setTimeout(() => {
+			this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		}, 100);
+	}
+
+	showMore () {
+		this.currentPage++;
+		this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 	}
 
 }

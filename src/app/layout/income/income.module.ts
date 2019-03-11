@@ -5,11 +5,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModule } from '../../shared/modules/confirm/confirm.module';
 import { IncomeComponent } from './income.component';
 import { IncomeRoutingModule } from './income.routing.module';
+import { EditIncomeComponent } from './edit-income/edit-income.component';
 
 
 
 @NgModule({
-	declarations: [ IncomeComponent ],
+	declarations: [ IncomeComponent, EditIncomeComponent ],
 	imports: [ CommonModule, IncomeRoutingModule, TranslateModule, ReactiveFormsModule, ConfirmModule ]
 })
 export class IncomeModule { }

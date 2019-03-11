@@ -1,34 +1,31 @@
 import { Income } from '../../../shared/model/income.model';
+import { Page } from '../../../shared/model/pagination/page.model';
 import { IncomeActions, IncomeActionsEnum } from './income.actions';
 
 export interface IncomeState {
 	incomes: Income[];
+	page: Page;
 }
 
 export const initialIncomeState: IncomeState = {
-	incomes: []
+	incomes: [],
+	page: null
 };
 
 export function incomeReducers (state = initialIncomeState, action: IncomeActions): IncomeState {
 	switch (action.type) {
-		case (IncomeActionsEnum.CREATE_INCOME): {
+		case (IncomeActionsEnum.RESET_INCOMES): {
 			return {
 				...state,
-				incomes: [ ...state.incomes, action.payload ]
+				incomes: initialIncomeState.incomes,
+				page: initialIncomeState.page
 			};
 		}
-		case (IncomeActionsEnum.SET_INCOMES): {
+		case (IncomeActionsEnum.ADD_INCOMES): {
 			return {
 				...state,
-				incomes: action.payload
-			};
-		}
-		case (IncomeActionsEnum.DELETE_INCOME): {
-			const oldIncomes = [ ...state.incomes ];
-			oldIncomes.splice(oldIncomes.indexOf(oldIncomes.find((inc) => inc.id === action.payload)), 1);
-			return {
-				...state,
-				incomes: oldIncomes
+				incomes: [ ...state.incomes, ...action.payload.content ],
+				page: action.payload
 			};
 		}
 		default: {

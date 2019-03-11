@@ -1,34 +1,31 @@
 import { Category } from '../../../shared/model/category.model';
+import { Page } from '../../../shared/model/pagination/page.model';
 import { CategoryActions, CategoryActionsEnum } from './category.actions';
 
 export interface CategoryState {
 	categories: Category[];
+	page: Page;
 }
 
 export const initialCategoryState: CategoryState = {
-	categories: []
+	categories: [],
+	page: null
 };
 
 export function categoryReducers (state = initialCategoryState, action: CategoryActions): CategoryState {
 	switch (action.type) {
-		case (CategoryActionsEnum.CREATE_CATEGORY): {
+		case (CategoryActionsEnum.RESET_CATEGORIES): {
 			return {
 				...state,
-				categories: [ ...state.categories, action.payload ]
+				categories: initialCategoryState.categories,
+				page: initialCategoryState.page
 			};
 		}
-		case (CategoryActionsEnum.SET_CATEGORIES): {
+		case (CategoryActionsEnum.ADD_CATEGORIES): {
 			return {
 				...state,
-				categories: action.payload
-			};
-		}
-		case (CategoryActionsEnum.DELETE_CATEGORY): {
-			const oldCategorys = [ ...state.categories ];
-			oldCategorys.splice(oldCategorys.indexOf(oldCategorys.find((inc) => inc.id === action.payload)), 1);
-			return {
-				...state,
-				categories: oldCategorys
+				categories: [ ...state.categories, ...action.payload.content ],
+				page: action.payload
 			};
 		}
 		default: {

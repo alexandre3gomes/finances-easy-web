@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
-
 import { Income } from '../../../shared/model/income.model';
+import { Page } from '../../../shared/model/pagination/page.model';
+import { Pagination } from '../../../shared/model/pagination/pagination.model';
+
+
 
 
 export enum IncomeActionsEnum {
@@ -8,7 +11,8 @@ export enum IncomeActionsEnum {
 	UPDATE_INCOME = '[Income] EditIncome',
 	DELETE_INCOME = '[Income] DeleteIncome',
 	LIST_INCOMES = '[Income] ListIncomes',
-	SET_INCOMES = '[Income] SetIncomes'
+	RESET_INCOMES = '[Income] ResetIncomes',
+	ADD_INCOMES = '[Income] AddIncomes'
 }
 
 export class CreateIncome implements Action {
@@ -28,12 +32,21 @@ export class DeleteIncome implements Action {
 
 export class ListIncomes implements Action {
 	public readonly type = IncomeActionsEnum.LIST_INCOMES;
+	constructor(public payload: Pagination) { }
 }
 
-export class SetIncomes implements Action {
-	public readonly type = IncomeActionsEnum.SET_INCOMES;
-	constructor(public payload: Income[]) { }
+export class AddIncomes implements Action {
+	public readonly type = IncomeActionsEnum.ADD_INCOMES;
+	constructor(public payload: Page) { }
 }
 
+export class ResetIncomes implements Action {
+	public readonly type = IncomeActionsEnum.RESET_INCOMES;
+}
 
-export type IncomeActions = CreateIncome | UpdateIncome | DeleteIncome | ListIncomes | SetIncomes;
+export type IncomeActions = CreateIncome |
+	UpdateIncome |
+	DeleteIncome |
+	ListIncomes |
+	ResetIncomes |
+	AddIncomes;

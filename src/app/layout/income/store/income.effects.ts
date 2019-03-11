@@ -1,13 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, pipe } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
 import { environment } from '../../../../environments/environment';
+import { Default } from '../../../shared/enum/default.enum';
 import { Income } from '../../../shared/model/income.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as IncomeActions from './income.actions';
+
+
 
 @Injectable()
 export class IncomeEffects {
@@ -30,7 +32,7 @@ export class IncomeEffects {
 				return {
 					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
 					payload: 'Income saved'
-				}
+				};
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on save income'));
@@ -52,7 +54,7 @@ export class IncomeEffects {
 				return {
 					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
 					payload: 'Income edited'
-				}
+				};
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on edit income'));
@@ -74,7 +76,7 @@ export class IncomeEffects {
 				return {
 					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
 					payload: 'Income deleted'
-				}
+				};
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on delete income'));
@@ -85,14 +87,17 @@ export class IncomeEffects {
 	@Effect()
 	listIncomes = this.actions.pipe(
 		ofType(IncomeActions.IncomeActionsEnum.LIST_INCOMES),
-		switchMap(() => {
-			return this.http.get(this.incomeEndPoint.concat('/list'));
+		switchMap((action: IncomeActions.ListIncomes) => {
+			return this.http.get(this.incomeEndPoint.concat('/list'), {
+				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
+					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
+			});
 		}),
-		map((incomes: Income[]) => {
+		map((page: any) => {
 			return {
-				type: IncomeActions.IncomeActionsEnum.SET_INCOMES,
-				payload: incomes
-			}
+				type: IncomeActions.IncomeActionsEnum.ADD_INCOMES,
+				payload: page
+			};
 		})
 	);
 

@@ -1,37 +1,11 @@
-<div class="modal" id="editCategory" [ngStyle]="{'display': modalVisible ? 'block' : 'none'}">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">{{ 'Category' | translate }}</h5>
-				<button type="button" class="close" aria-label="Close" (click)="resetModal()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form [formGroup]="categoryForm" (ngSubmit)="saveChanges()">
-					<div class=" form-group mb-2">
-						<label for="name">{{ 'Name' | translate }}</label>
-						<input id="name" name="name" type="text" class="form-control"
-						 formControlName="name" (keyup.enter)="saveChanges()">
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" (click)="resetModal()">{{
-					'Close' | translate }}</button>
-				<button type="button" class="btn btn-primary" (click)="saveChanges()"
-				 [disabled]="categoryForm.invalid">
-					{{ 'Save changes' | translate }}
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
+<app-edit-category *ngIf="editModal" [state]="state" [currentId]="currentId"
+ (closed)="closedEditModal()"></app-edit-category>
 <div class="row mb-4">
 	<div class="col-xl-12">
-		<button class="btn btn-primary" (click)="openModal()">{{'Create' |
-			translate}}</button>
+		<button class="btn btn-primary" (click)="openModal()">
+			{{'Create' | translate}}
+		</button>
 	</div>
 </div>
 <div class="card mb-4">
@@ -45,7 +19,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let cat of (categoryState | async).categories">
+				<tr *ngFor="let cat of (state | async).categories">
 					<td>{{ cat.name }}</td>
 					<td>
 						<button class="btn btn-info mr-2" (click)="editCategory(cat.id)"><i class="fas fa-pencil-alt"></i></button>
@@ -54,5 +28,12 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="row">
+			<div class="mx-auto stick-bottom">
+				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+					{{ 'Show More' | translate }}
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
