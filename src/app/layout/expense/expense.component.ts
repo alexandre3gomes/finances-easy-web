@@ -5,7 +5,7 @@ import { Category } from '../../shared/model/category.model';
 import { Page } from '../../shared/model/pagination/page.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
-import { ListCategories } from '../category/store/category.actions';
+import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { CategoryState } from '../category/store/category.reducers';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
 import { ExpenseState } from './store/expense.reducers';
@@ -51,6 +51,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
 	resetData () {
 		this.store.dispatch(new ResetExpenses());
+		this.store.dispatch(new ResetCategories());
 		this.showConfirm = false;
 		this.editModal = false;
 		this.currentId = -1;
