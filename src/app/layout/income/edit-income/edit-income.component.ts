@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { Income } from '../../../shared/model/income.model';
 import { User } from '../../../shared/model/user.model';
@@ -20,7 +21,7 @@ export class EditIncomeComponent implements OnInit {
 	@Input() state;
 	modalVisible = false;
 	incomeForm: FormGroup;
-	DATE_FORMAT = 'dd-MM-yyyyThh:mm';
+	DATE_FORMAT = 'yyyy-MM-ddThh:mm';
 	@Input() currentId: number;
 	@Output() closed = new EventEmitter<boolean>();
 
@@ -57,7 +58,7 @@ export class EditIncomeComponent implements OnInit {
 	initForm () {
 		let name = '';
 		let value = 0;
-		const dp = new DatePipe('pt');
+		const dp = new DatePipe('en-en');
 		let createdDate = dp.transform(new Date(), this.DATE_FORMAT);
 		if (this.currentId > 0) {
 			this.state.subscribe((incomeState: IncomeState) => {
