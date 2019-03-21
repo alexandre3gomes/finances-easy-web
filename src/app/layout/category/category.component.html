@@ -1,6 +1,6 @@
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
-<app-edit-category *ngIf="editModal" [state]="state" [currentId]="currentId"
- (closed)="closedEditModal()"></app-edit-category>
+<app-edit-category *ngIf="editModal" [state]="state" [currentId]="currentId" (closed)="closedEditModal($event)">
+</app-edit-category>
 <div class="row mb-4">
 	<div class="col-xl-12">
 		<button class="btn btn-primary" (click)="openModal()">
@@ -22,15 +22,18 @@
 				<tr *ngFor="let cat of (state | async).categories">
 					<td>{{ cat.name }}</td>
 					<td>
-						<button class="btn btn-info mr-2" (click)="editCategory(cat.id)"><i class="fas fa-pencil-alt"></i></button>
-						<button class="btn btn-danger" (click)="deleteCategory(cat.id)"><i class="fas fa-trash-alt"></i></button>
+						<button class="btn btn-info mr-2" (click)="editCategory(cat.id)"><i
+								class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteCategory(cat.id)"><i
+								class="fas fa-trash-alt"></i></button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="row">
 			<div class="mx-auto stick-bottom">
-				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+				<button class="btn btn-success" (click)="showMore()"
+					[disabled]="pageOptions ? pageOptions.last : false">
 					{{ 'Show More' | translate }}
 				</button>
 			</div>

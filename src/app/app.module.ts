@@ -10,10 +10,12 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './auth/store/auth.effects';
+import { BudgetEffects } from './layout/budget/store/budget.effects';
 import { CategoryEffects } from './layout/category/store/category.effects';
 import { ExpenseEffects } from './layout/expense/store/expense.effects';
 import { IncomeEffects } from './layout/income/store/income.effects';
@@ -42,8 +44,9 @@ export const createTranslateLoader = (http: HttpClient) => {
 			}
 		}),
 		NgbDropdownModule,
+		NgxUiLoaderModule,
 		StoreModule.forRoot(appReducers),
-		EffectsModule.forRoot([ AuthEffects, IncomeEffects, CategoryEffects, ExpenseEffects ]),
+		EffectsModule.forRoot([ AuthEffects, IncomeEffects, CategoryEffects, ExpenseEffects, BudgetEffects ]),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule

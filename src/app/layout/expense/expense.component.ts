@@ -5,10 +5,9 @@ import { Category } from '../../shared/model/category.model';
 import { Page } from '../../shared/model/pagination/page.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
-import { ListCategories } from '../category/store/category.actions';
-import { CategoryState } from '../category/store/category.reducers';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
 import { ExpenseState } from './store/expense.reducers';
+
 
 
 @Component({
@@ -25,17 +24,12 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	editModal = false;
 	currentPage = 0;
 	pageOptions: Page;
+	DATE_FORMAT = 'L';
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
 		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		this.store.select('category').subscribe((categoryState: CategoryState) => {
-			if (categoryState.categories.length <= 0) {
-				this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-			}
-			this.categories = categoryState.categories;
-		});
 		this.state.subscribe((expenseState: ExpenseState) => {
 			this.pageOptions = expenseState.page;
 		});
@@ -43,6 +37,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy () {
 		this.resetData();
+		this.store.dispatch(new ResetExpenses());
 	}
 
 	openModal () {
@@ -50,7 +45,6 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	resetData () {
-		this.store.dispatch(new ResetExpenses());
 		this.showConfirm = false;
 		this.editModal = false;
 		this.currentId = -1;
@@ -71,14 +65,17 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteExpense(this.currentId));
 		}
-		this.closedEditModal();
+		this.closedEditModal(confirm);
 	}
 
-	closedEditModal () {
+	closedEditModal (saved: boolean) {
 		this.resetData();
-		setTimeout(() => {
-			this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		}, 100);
+		if (saved) {
+			this.store.dispatch(new ResetExpenses());
+			setTimeout(() => {
+				this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+			}, 300);
+		}
 	}
 
 	showMore () {

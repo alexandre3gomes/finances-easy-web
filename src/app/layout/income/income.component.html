@@ -1,5 +1,5 @@
-<app-edit-income *ngIf="editModal" [state]="state" [currentId]="currentId"
- (closed)="closedEditModal()"></app-edit-income>
+<app-edit-income *ngIf="editModal" [state]="state" [currentId]="currentId" (closed)="closedEditModal($event)">
+</app-edit-income>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
@@ -25,18 +25,21 @@
 				<tr *ngFor="let inc of (state | async).incomes">
 					<td>{{ inc.name }}</td>
 					<td>{{ inc.value }}</td>
-					<td>{{ inc.date | date:'short' }}</td>
+					<td>{{ inc.date | dateLocale: DATE_FORMAT }}</td>
 					<td>{{ inc.user.name }}</td>
 					<td>
-						<button class="btn btn-info mr-2" (click)="editIncome(inc.id)"><i class="fas fa-pencil-alt"></i></button>
-						<button class="btn btn-danger" (click)="deleteIncome(inc.id)"><i class="fas fa-trash-alt"></i></button>
+						<button class="btn btn-info mr-2" (click)="editIncome(inc.id)"><i
+								class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteIncome(inc.id)"><i
+								class="fas fa-trash-alt"></i></button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="row">
 			<div class="mx-auto stick-bottom">
-				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+				<button class="btn btn-success" (click)="showMore()"
+					[disabled]="pageOptions ? pageOptions.last : false">
 					{{ 'Show More' | translate }}
 				</button>
 			</div>

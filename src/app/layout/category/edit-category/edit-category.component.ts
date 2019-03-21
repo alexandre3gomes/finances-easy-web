@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Category } from '../../../shared/model/category.model';
@@ -6,11 +6,12 @@ import { AppState } from '../../../store/app.reducers';
 import { CreateCategory, UpdateCategory } from '../store/category.actions';
 import { CategoryState } from '../store/category.reducers';
 
+
 @Component({
 	selector: 'app-edit-category',
 	templateUrl: './edit-category.component.html'
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent implements OnInit, OnDestroy {
 
 	@Input() state;
 	categoryForm: FormGroup;
@@ -21,6 +22,10 @@ export class EditCategoryComponent implements OnInit {
 
 	ngOnInit () {
 		this.initForm();
+	}
+
+	ngOnDestroy () {
+		this.currentId = -1;
 	}
 
 	initForm () {
@@ -50,11 +55,11 @@ export class EditCategoryComponent implements OnInit {
 		} else {
 			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value)));
 		}
-		this.closeModal();
+		this.closed.emit(true);
 	}
 
 	closeModal () {
-		this.closed.emit(true);
+		this.closed.emit(false);
 	}
 
 }

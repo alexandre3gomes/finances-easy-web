@@ -8,6 +8,7 @@ import { DeleteCategory, ListCategories, ResetCategories } from './store/categor
 import { CategoryState } from './store/category.reducers';
 
 
+
 @Component({
 	selector: 'app-category',
 	templateUrl: './category.component.html'
@@ -24,7 +25,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
-		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
 		this.state.subscribe((categoryState: CategoryState) => {
 			this.pageOptions = categoryState.page;
 		});
@@ -32,6 +33,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy () {
 		this.resetData();
+		this.store.dispatch(new ResetCategories());
 	}
 
 	openModal () {
@@ -39,7 +41,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 	}
 
 	resetData () {
-		this.store.dispatch(new ResetCategories());
 		this.showConfirm = false;
 		this.editModal = false;
 		this.currentId = -1;
@@ -60,14 +61,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteCategory(this.currentId));
 		}
-		this.closedEditModal();
+		this.closedEditModal(confirm);
 	}
 
-	closedEditModal () {
+	closedEditModal (saved: boolean) {
 		this.resetData();
-		setTimeout(() => {
-			this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		}, 100);
+		if (saved) {
+			setTimeout(() => {
+				this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+			}, 100);
+		}
 	}
 
 	showMore () {

@@ -100,5 +100,4 @@ export class CategoryEffects {
 			};
 		})
 	);
-
 }
