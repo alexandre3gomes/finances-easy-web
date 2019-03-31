@@ -1,5 +1,5 @@
-<app-edit-expense *ngIf="editModal" [categories]="categories" [currentId]="currentId"
- (closed)="closedEditModal()" [state]="state"></app-edit-expense>
+<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="closedEditModal($event)" [state]="state">
+</app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
 	<div class="col-xl-12">
@@ -27,18 +27,23 @@
 					<td>{{ exp.name }}</td>
 					<td>{{ exp.value }}</td>
 					<td>{{ exp.category.name }}</td>
-					<td>{{ exp.expireAt | date:'short' }}</td>
+					<td>
+						{{ exp.expireAt | dateLocale:DATE_FORMAT }}
+					</td>
 					<td>{{ exp.user.name }}</td>
 					<td>
-						<button class="btn btn-info mr-2" (click)="editExpense(exp.id)"><i class="fas fa-pencil-alt"></i></button>
-						<button class="btn btn-danger" (click)="deleteExpense(exp.id)"><i class="fas fa-trash-alt"></i></button>
+						<button class="btn btn-info mr-2" (click)="editExpense(exp.id)"><i
+								class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteExpense(exp.id)"><i
+								class="fas fa-trash-alt"></i></button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="row">
 			<div class="mx-auto stick-bottom">
-				<button class="btn btn-success" (click)="showMore()" [disabled]="pageOptions ? pageOptions.last : false">
+				<button class="btn btn-success" (click)="showMore()"
+					[disabled]="pageOptions ? pageOptions.last : false">
 					{{ 'Show More' | translate }}
 				</button>
 			</div>

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetAlert, HideAlert } from 'src/app/store/alert.actions';
 import { errorAlert, msgAlert, visibleAlert } from 'src/app/store/alert.selectors';
-
 import { AppState } from '../../../store/app.reducers';
+
 
 
 @Component({
@@ -17,16 +17,16 @@ export class AlertComponent implements OnInit {
 
 	constructor(private store: Store<AppState>) { }
 
-	ngOnInit() {
+	ngOnInit () {
 		this.store.dispatch(new GetAlert());
 		this.visible.subscribe((data) => {
 			if (data) {
-				setTimeout(() => this.store.dispatch(new HideAlert()), 3000);
+				setTimeout(() => this.store.dispatch(new HideAlert()), 1500);
 			}
 		});
 	}
 
-	hideAlert() {
+	hideAlert () {
 		this.store.dispatch(new HideAlert());
 	}
 }

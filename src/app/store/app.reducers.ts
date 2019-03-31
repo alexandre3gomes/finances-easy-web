@@ -1,6 +1,7 @@
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
 import { authReducers, AuthState, initialAuthState } from '../auth/store/auth.reducers';
+import { budgetReducers, BudgetState, initialBudgetState } from '../layout/budget/store/budget.reducers';
 import { categoryReducers, CategoryState, initialCategoryState } from '../layout/category/store/category.reducers';
 import { expenseReducers, ExpenseState, initialExpenseState } from '../layout/expense/store/expense.reducers';
 import { incomeReducers, IncomeState, initialIncomeState } from '../layout/income/store/income.reducers';
@@ -14,6 +15,7 @@ export interface AppState {
 	income: IncomeState;
 	category: CategoryState;
 	expense: ExpenseState;
+	budget: BudgetState;
 }
 
 export const initialAppState: AppState = {
@@ -21,7 +23,8 @@ export const initialAppState: AppState = {
 	auth: initialAuthState,
 	income: initialIncomeState,
 	category: initialCategoryState,
-	expense: initialExpenseState
+	expense: initialExpenseState,
+	budget: initialBudgetState
 };
 
 export function getInitialState (): AppState {
@@ -34,5 +37,6 @@ export const appReducers: ActionReducerMap<AppState, any> = {
 	auth: authReducers,
 	income: incomeReducers,
 	category: categoryReducers,
-	expense: expenseReducers
+	expense: expenseReducers,
+	budget: budgetReducers
 };

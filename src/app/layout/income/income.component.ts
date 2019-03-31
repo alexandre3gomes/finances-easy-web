@@ -9,6 +9,7 @@ import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions'
 import { IncomeState } from './store/income.reducers';
 
 
+
 @Component({
 	selector: 'app-income',
 	templateUrl: './income.component.html'
@@ -21,6 +22,7 @@ export class IncomeComponent implements OnInit, OnDestroy {
 	showConfirm = false;
 	currentPage = 0;
 	pageOptions: Page;
+	DATE_FORMAT = 'L';
 
 	constructor(private store: Store<AppState>) { }
 
@@ -33,6 +35,7 @@ export class IncomeComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy () {
 		this.resetData();
+		this.store.dispatch(new ResetIncomes());
 	}
 
 	openModal () {
@@ -53,22 +56,24 @@ export class IncomeComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteIncome(this.currentId));
 		}
-		this.closedEditModal();
+		this.closedEditModal(confirm);
 	}
 
 	resetData () {
-		this.store.dispatch(new ResetIncomes());
 		this.showConfirm = false;
 		this.editModal = false;
 		this.currentId = -1;
 		this.currentPage = 0;
 	}
 
-	closedEditModal () {
+	closedEditModal (saved: boolean) {
 		this.resetData();
-		setTimeout(() => {
-			this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		}, 100);
+		if (saved) {
+			this.store.dispatch(new ResetIncomes());
+			setTimeout(() => {
+				this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+			}, 300);
+		}
 	}
 
 	showMore () {

@@ -22,6 +22,4 @@ export class SetAuthenticated implements Action {
 	constructor(public payload: User) { }
 }
 
-
-
 export type AuthActions = Logon | Logout | SetAuthenticated;

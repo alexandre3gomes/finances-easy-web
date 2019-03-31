@@ -1,4 +1,4 @@
-<div class="alert w-25 position-absolute" role="alert" *ngIf="visible | async" style="right: 2%;z-index: 9999;"
+<div class="alert w-25 fixed-top" role="alert" *ngIf="visible | async" style="left: 73%;top: 8%;z-index: 9999;"
  [ngClass]="{'alert-primary': !(error | async), 'alert-danger': (error | async)}">
 	<button type="button" class="close" aria-label="Close" (click)="hideAlert()">
 		<span aria-hidden="true">&times;</span>

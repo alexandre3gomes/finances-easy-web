@@ -1,12 +1,15 @@
-import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
+import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
 import { Expense } from '../../../shared/model/expense.model';
+import { Pagination } from '../../../shared/model/pagination/pagination.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
+import { ListCategories, ResetCategories } from '../../category/store/category.actions';
+import { CategoryState } from '../../category/store/category.reducers';
 import { CreateExpense, UpdateExpense } from '../store/expense.actions';
 import { ExpenseState } from '../store/expense.reducers';
 
@@ -15,27 +18,34 @@ import { ExpenseState } from '../store/expense.reducers';
 	selector: 'app-edit-expense',
 	templateUrl: './edit-expense.component.html'
 })
-export class EditExpenseComponent implements OnInit {
+export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	@Input() state;
 	expenseForm: FormGroup;
-	DATE_FORMAT = 'yyyy-MM-ddThh:mm';
 	category: Category;
 	@Input() currentId: number;
-	@Input() categories: Category[];
-	@Output() closed = new EventEmitter<void>();
+	categories: Category[];
+	@Output() closed = new EventEmitter<boolean>();
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
+		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+		this.store.select('category').subscribe((categoryState: CategoryState) => {
+			this.categories = categoryState.categories;
+		});
 		this.initForm();
+	}
+
+	ngOnDestroy () {
+		this.currentId = -1;
+		this.store.dispatch(new ResetCategories());
 	}
 
 	initForm () {
 		let name = '';
 		let value = 0;
-		const dp = new DatePipe('en-en');
-		let expireAt = dp.transform(new Date(), this.DATE_FORMAT);
+		let expireAt = new Date();
 		if (this.currentId > 0) {
 			this.state.subscribe((expenseState: ExpenseState) => {
 				const expense = expenseState.expenses.find((exp: Expense) => exp.id === this.currentId);
@@ -43,7 +53,7 @@ export class EditExpenseComponent implements OnInit {
 					name = expense.name;
 					value = expense.value;
 					this.category = expense.category;
-					expireAt = dp.transform(expense.expireAt, this.DATE_FORMAT);
+					expireAt = expense.expireAt;
 				}
 			});
 		}
@@ -56,6 +66,7 @@ export class EditExpenseComponent implements OnInit {
 	}
 
 	saveChanges () {
+		const expireAt = this.expenseForm.get('expireAt').value;
 		if (this.currentId > 0) {
 			this.store.select('expense').subscribe((expenseState: ExpenseState) => {
 				const editedExpense = expenseState.expenses.find((exp: Expense) => exp.id === this.currentId);
@@ -63,10 +74,11 @@ export class EditExpenseComponent implements OnInit {
 					editedExpense.name = this.expenseForm.get('name').value;
 					editedExpense.value = this.expenseForm.get('value').value;
 					editedExpense.category = this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value);
-					editedExpense.expireAt = this.expenseForm.get('expireAt').value;
+					editedExpense.expireAt = expireAt;
 					this.store.dispatch(new UpdateExpense(editedExpense));
 				}
 			});
+			this.closed.emit(false);
 		} else {
 			this.store.select(authLoggedUser).subscribe((user: User) => {
 				this.store.dispatch(
@@ -75,14 +87,14 @@ export class EditExpenseComponent implements OnInit {
 						this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value),
 						user,
 						this.expenseForm.get('value').value,
-						this.expenseForm.get('expireAt').value)));
+						expireAt)));
 			});
+			this.closed.emit(true);
 		}
-		this.closeModal();
 	}
 
 	closeModal () {
-		this.closed.emit();
+		this.closed.emit(false);
 	}
 
 }

@@ -11,25 +11,34 @@
 				<form [formGroup]="expenseForm" (ngSubmit)="saveChanges()">
 					<div class=" form-group mb-2">
 						<label for="name">{{ 'Name' | translate }}</label>
-						<input id="name" name="name" type="text" class="form-control" formControlName="name" (keydown.enter)="saveChanges()"
-						 (keydown.esc)="closeModal()" autofocus>
+						<input id="name" name="name" type="text" class="form-control" formControlName="name"
+							(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()" autofocus>
 					</div>
 					<div class="form-group mb-2">
 						<label for="value">{{ 'Value' | translate }}</label>
-						<input id="value" name="value" type="number" class="form-control" placeholder="€" formControlName="value"
-						 (keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
+						<input id="value" name="value" type="number" class="form-control" placeholder="€"
+							formControlName="value" (keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
 					</div>
 					<div class="form-group mb-2">
 						<label for="category">{{ 'Category' | translate }}</label>
-						<select id="category" name="category" class="form-control" formControlName="category" (keydown.enter)="saveChanges()"
-						 (keydown.esc)="closeModal()">
+						<select id="category" name="category" class="form-control" formControlName="category"
+							(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
 							<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
 						</select>
 					</div>
 					<div class=" form-group mb-5">
 						<label for="expireAt">{{ 'Created on' | translate }}</label>
-						<input id="expireAt" name="expireAt" type="datetime-local" class="form-control" formControlName="expireAt"
-						 (keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
+						<div class="input-group">
+							<input id="expireAt" name="dp" class="form-control" formControlName="expireAt"
+								(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()" ngbDatepicker
+								#expireAt="ngbDatepicker">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary calendar" (click)="expireAt.toggle()"
+									type="button">
+									<i class="far fa-calendar-alt"></i>
+								</button>
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>
