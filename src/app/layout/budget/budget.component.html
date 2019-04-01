@@ -1,5 +1,5 @@
-<app-edit-budget *ngIf="editModal" [categories]="categories" [currentId]="currentId"
- (closed)="closedEditModal()" [state]="state"></app-edit-budget>
+<app-edit-budget *ngIf="editModal" [categories]="categories" [currentId]="currentId" (closed)="closedEditModal()"
+	[state]="state" [breakpoints]="breakpoints"></app-edit-budget>
 <div class="row mb-5">
 	<div class="col-sm-12">
 		<button class="btn btn-primary" (click)="editModal = true">
@@ -11,15 +11,15 @@
 <div class="row text-center">
 	<div class="col-md-4">
 		<div class="btn-group">
-			<div class="btn btn-primary" mwlCalendarPreviousView [view]="view"
-			 [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+			<div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()">
 				{{ 'Previous' | translate }}
 			</div>
 			<div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
 				{{ 'Today' | translate }}
 			</div>
 			<div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-			 (viewDateChange)="closeOpenMonthViewDay()">
+				(viewDateChange)="closeOpenMonthViewDay()">
 				{{ 'Next' | translate }}
 			</div>
 		</div>
@@ -30,15 +30,14 @@
 	<div class="col-md-4">
 		<div class="btn-group">
 			<div class="btn btn-primary" (click)="setView(CalendarView.Month)"
-			 [class.active]="view === CalendarView.Month">
+				[class.active]="view === CalendarView.Month">
 				{{ 'Month' | translate }}
 			</div>
 			<div class="btn btn-primary" (click)="setView(CalendarView.Week)"
-			 [class.active]="view === CalendarView.Week">
+				[class.active]="view === CalendarView.Week">
 				{{ 'Week' | translate }}
 			</div>
-			<div class="btn btn-primary" (click)="setView(CalendarView.Day)"
-			 [class.active]="view === CalendarView.Day">
+			<div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
 				{{ 'Day' | translate }}
 			</div>
 		</div>
@@ -46,18 +45,16 @@
 </div>
 <br />
 <div [ngSwitch]="view">
-	<mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
-	 [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
-	 (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
-	 (eventTimesChanged)="eventTimesChanged($event)">
+	<mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+		[refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+		(eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
 	</mwl-calendar-month-view>
-	<mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
-	 [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-	 (eventTimesChanged)="eventTimesChanged($event)">
+	<mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+		[refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+		(eventTimesChanged)="eventTimesChanged($event)">
 	</mwl-calendar-week-view>
-	<mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate"
-	 [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-	 (eventTimesChanged)="eventTimesChanged($event)">
+	<mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+		(eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
 	</mwl-calendar-day-view>
 </div>
 
@@ -99,13 +96,13 @@
 				</td>
 				<td>
 					<input class="form-control" type="datetime" mwlFlatpickr [(ngModel)]="event.start"
-					 (ngModelChange)="refresh.next()" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
-					 placeholder="Not set" />
+						(ngModelChange)="refresh.next()" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+						placeholder="Not set" />
 				</td>
 				<td>
 					<input class="form-control" type="datetime" mwlFlatpickr [(ngModel)]="event.end"
-					 (ngModelChange)="refresh.next()" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
-					 placeholder="Not set" />
+						(ngModelChange)="refresh.next()" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+						placeholder="Not set" />
 				</td>
 				<td>
 					<button class="btn btn-danger" (click)="deleteEvent(event)">

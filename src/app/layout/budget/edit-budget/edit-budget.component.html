@@ -1,5 +1,5 @@
 <div class="modal" id="editBudget" style="display:block">
-	<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content modal-overflow-sm">
 			<div class="modal-header">
 				<h5 class="modal-title">{{ 'Budget' | translate }}</h5>
@@ -9,60 +9,76 @@
 			</div>
 			<div class="modal-body">
 				<form [formGroup]="budgetForm" (ngSubmit)="saveChanges()">
-					<div class="form-group mb-5">
-						<label for="startDate">{{ 'Start date' | translate }}</label>
-						<div class="input-group">
-							<input class="form-control" name="dp" formControlName="startDate" ngbDatepicker
-								#startDate="ngbDatepicker" (keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()"
-									type="button">
-									<i class="far fa-calendar-alt"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class=" form-group mb-5">
-						<label for="endDate">{{ 'End date' | translate }}</label>
-						<div class="input-group">
-							<input class="form-control" name="dp" formControlName="endDate" ngbDatepicker
-								#endDate="ngbDatepicker" (keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()"
-									type="button">
-									<i class="far fa-calendar-alt"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="container" formArrayName="categoryBudgetControls">
-						<div class="row">
-							<div class="col-sm-12">
-								<h3>{{ 'Categories' | translate }}</h3>
-							</div>
-						</div>
-						<div class="form-group mt-3"
-							*ngFor="let catBud of categoryBudgetControls.controls; let i=index">
-							<div [formGroupName]="i" class="row">
-								<div class="col-sm-7">
-									<select class="form-control" formControlName="category"
-										(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-										<option *ngFor="let cat of categories" [value]="cat.id">
-											{{ cat.name }}
-										</option>
-									</select>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group mb-5">
+								<label for="startDate">{{ 'Start date' | translate }}</label>
+								<div class="input-group">
+									<input class="form-control" name="dp" formControlName="startDate" ngbDatepicker
+										#startDate="ngbDatepicker" (keydown.enter)="saveChanges()"
+										(keydown.esc)="closeModal()">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()"
+											type="button">
+											<i class="far fa-calendar-alt"></i>
+										</button>
+									</div>
 								</div>
-								<div class="col-sm-3">
-									<input type="number" class="form-control" placeholder="€" formControlName="value"
-										(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
+							</div>
+							<div class="form-group mb-5">
+								<label for="endDate">{{ 'End date' | translate }}</label>
+								<div class="input-group">
+									<input class="form-control" name="dp" formControlName="endDate" ngbDatepicker
+										#endDate="ngbDatepicker" (keydown.enter)="saveChanges()"
+										(keydown.esc)="closeModal()">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()"
+											type="button">
+											<i class="far fa-calendar-alt"></i>
+										</button>
+									</div>
 								</div>
-								<div class="col-sm-2" *ngIf="i == categoryBudgetControls.controls.length - 1">
-									<a style="cursor: pointer" class="mr-2" (click)="addCategoryBudget()">
-										<i class="fas fa-plus"></i>
-									</a>
-									<a style="cursor: pointer" (click)="removeCategoryBudget()"><i
-											class="fas fa-minus"></i></a>
+							</div>
+							<div class="form-group mb-5">
+								<select class="form-control" formControlName="breakpoint"
+									(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
+									<option *ngFor="let br of breakpoints" [value]="br">
+										{{ br.name | translate}}
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-8" style="max-width: 90%; overflow: scroll !important">
+							<div class="container" formArrayName="categoryBudgetControls">
+								<div class="row">
+									<div class="col-sm-12">
+										<h3>{{ 'Categories' | translate }}</h3>
+									</div>
+								</div>
+								<div class="form-group mt-3"
+									*ngFor="let catBud of categoryBudgetControls.controls; let i=index">
+									<div [formGroupName]="i" class="row">
+										<div class="col-sm-7">
+											<select class="form-control" formControlName="category"
+												(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
+												<option *ngFor="let cat of categories" [value]="cat.id">
+													{{ cat.name }}
+												</option>
+											</select>
+										</div>
+										<div class="col-sm-3">
+											<input type="number" class="form-control" placeholder="€"
+												formControlName="value" (keydown.enter)="saveChanges()"
+												(keydown.esc)="closeModal()">
+										</div>
+										<div class="col-sm-2" *ngIf="i == categoryBudgetControls.controls.length - 1">
+											<a style="cursor: pointer" class="mr-2" (click)="addCategoryBudget()">
+												<i class="fas fa-plus"></i>
+											</a>
+											<a style="cursor: pointer" (click)="removeCategoryBudget()"><i
+													class="fas fa-minus"></i></a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

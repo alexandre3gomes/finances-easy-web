@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Budget } from 'src/app/shared/model/budget.model';
+import { Budget } from 'src/app/shared/model/budget/budget.model';
 import { Page } from '../../../shared/model/pagination/page.model';
 import { Pagination } from '../../../shared/model/pagination/pagination.model';
 

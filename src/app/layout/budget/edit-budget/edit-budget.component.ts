@@ -3,7 +3,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../../auth/store/auth.reducers';
 import { BudgetCategory } from '../../../shared/model/budget-category.model';
-import { Budget } from '../../../shared/model/budget.model';
+import { Breakpoint } from '../../../shared/model/budget/breakpoing.model';
+import { Budget } from '../../../shared/model/budget/budget.model';
 import { Category } from '../../../shared/model/category.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
@@ -23,8 +24,9 @@ export class EditBudgetComponent implements OnInit {
 	user: User;
 	fb = new FormBuilder();
 	DATE_FORMAT = 'l';
+	@Input() breakpoints: Array<Breakpoint>;
 	@Input() currentId: number;
-	@Input() categories: Category[];
+	@Input() categories: Array<Category>;
 	@Output() closed = new EventEmitter<void>();
 
 	constructor(private store: Store<AppState>) { }
@@ -39,6 +41,7 @@ export class EditBudgetComponent implements OnInit {
 	initForm () {
 		let startDate = new Date();
 		let endDate = new Date();
+		let breakpoint = new Breakpoint(1, 'Monthly');
 		let budgetCat: BudgetCategory[];
 		if (this.currentId > 0) {
 			this.state.subscribe((budgetState: BudgetState) => {
@@ -47,6 +50,7 @@ export class EditBudgetComponent implements OnInit {
 					this.user = budget.user;
 					startDate = budget.startDate;
 					endDate = budget.endDate;
+					breakpoint = budget.breakpoint;
 					budgetCat = budget.categories;
 				}
 			});
@@ -54,6 +58,7 @@ export class EditBudgetComponent implements OnInit {
 		this.budgetForm = this.fb.group({
 			'startDate': new FormControl(startDate, Validators.required),
 			'endDate': new FormControl(endDate, Validators.required),
+			'breakpoint': new FormControl(breakpoint, Validators.required),
 			categoryBudgetControls: this.fb.array([
 				this.categoryBudgetGroup
 			])
@@ -82,12 +87,14 @@ export class EditBudgetComponent implements OnInit {
 	saveChanges () {
 		const startDate = this.budgetForm.get('startDate').value;
 		const endDate = this.budgetForm.get('endDate').value;
+		const breakpoint = this.budgetForm.get('breakpoint').value;
 		if (this.currentId > 0) {
 			this.store.select('budget').subscribe((budgetState: BudgetState) => {
 				const editedBudget = budgetState.budgets.find((exp: Budget) => exp.id === this.currentId);
 				if (editedBudget) {
 					editedBudget.startDate = startDate;
 					editedBudget.endDate = endDate;
+					editedBudget.breakpoint = breakpoint;
 					const budgetCategories = new Array();
 					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
 						const frmGrp = this.categoryBudgetControls.controls[ idx ];
@@ -110,6 +117,7 @@ export class EditBudgetComponent implements OnInit {
 					this.user,
 					startDate,
 					endDate,
+					breakpoint,
 					budgetCategories)));
 
 		}

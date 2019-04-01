@@ -5,7 +5,7 @@ import { of, pipe } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
-import { Budget } from '../../../shared/model/budget.model';
+import { Budget } from '../../../shared/model/budget/budget.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as BudgetActions from './budget.actions';
 

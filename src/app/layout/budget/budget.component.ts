@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { Subject } from 'rxjs';
 import { Default } from '../../shared/enum/default.enum';
+import { Breakpoint } from '../../shared/model/budget/breakpoing.model';
 import { Category } from '../../shared/model/category.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
-import { ListBudgets, ResetBudgets } from './store/budget.actions';
-import { CategoryState } from '../category/store/category.reducers';
 import { ListCategories } from '../category/store/category.actions';
+import { CategoryState } from '../category/store/category.reducers';
+import { ListBudgets, ResetBudgets } from './store/budget.actions';
 
 const colors: any = {
 	red: {
@@ -38,6 +39,7 @@ export class BudgetComponent implements OnInit {
 	categories: Category[];
 	editModal = false;
 	currentId: number;
+	breakpoints: Array<Breakpoint>;
 
 	@ViewChild('modalContent') modalContent: TemplateRef<any>;
 	view: CalendarView = CalendarView.Month;
@@ -126,6 +128,9 @@ export class BudgetComponent implements OnInit {
 			}
 			this.categories = categoryState.categories;
 		});
+		this.breakpoints = new Array();
+		this.breakpoints.push(new Breakpoint(1, 'Monthly'));
+		this.breakpoints.push(new Breakpoint(2, 'Weekly'));
 	}
 
 	dayClicked ({ date, events }: { date: Date; events: CalendarEvent[] }): void {

@@ -1,5 +1,5 @@
 import { CalendarEvent } from 'calendar-utils';
-import { Budget } from '../../../shared/model/budget.model';
+import { Budget } from '../../../shared/model/budget/budget.model';
 import { BudgetActions, BudgetActionsEnum } from './budget.actions';
 
 export interface BudgetState {
