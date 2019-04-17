@@ -1,8 +1,6 @@
 import { User } from 'src/app/shared/model/user.model';
 import { AuthActions, AuthActionsEnum } from './auth.actions';
 
-
-
 export interface AuthState {
 	authenticated: boolean;
 	loggedUser: User;

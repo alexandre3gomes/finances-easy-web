@@ -26,8 +26,6 @@ export class BudgetEffects {
 		}),
 		pipe(
 			switchMap((budget: Budget) => {
-				console.log('Raw: ' + budget);
-				console.log('JSON: ' + JSON.stringify(budget));
 				return this.http.post<Budget>(this.budgetEndPoint.concat('/create'), budget);
 			}),
 			map(() => {

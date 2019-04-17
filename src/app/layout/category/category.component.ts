@@ -2,10 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
 import { Default } from '../../shared/enum/default.enum';
-import { Page } from '../../shared/model/pagination/page.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { DeleteCategory, ListCategories, ResetCategories } from './store/category.actions';
-import { CategoryState } from './store/category.reducers';
 
 
 
@@ -20,15 +18,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
 	showConfirm = false;
 	editModal = false;
 	currentPage = 0;
-	pageOptions: Page;
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
-		this.state.subscribe((categoryState: CategoryState) => {
-			this.pageOptions = categoryState.page;
-		});
 	}
 
 	ngOnDestroy () {
@@ -67,6 +61,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 	closedEditModal (saved: boolean) {
 		this.resetData();
 		if (saved) {
+			this.store.dispatch(new ResetCategories());
 			setTimeout(() => {
 				this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 			}, 100);

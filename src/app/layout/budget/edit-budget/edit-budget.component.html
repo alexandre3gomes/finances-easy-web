@@ -1,6 +1,6 @@
-<div class="modal" id="editBudget" style="display:block">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content modal-overflow-sm">
+<div class="modal" id="editBudget" style="display:block;">
+	<div class="modal-xl">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">{{ 'Budget' | translate }}</h5>
 				<button type="button" class="close" aria-label="Close" (click)="closeModal()">
@@ -40,15 +40,16 @@
 								</div>
 							</div>
 							<div class="form-group mb-5">
-								<select class="form-control" formControlName="breakpoint"
+								<label for="breakpoint">{{ 'Breakpoint' | translate }}</label>
+								<select id="breakpoint" class="form-control" formControlName="breakpoint"
 									(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-									<option *ngFor="let br of breakpoints" [value]="br">
+									<option *ngFor="let br of breakpoints" [value]="br.id">
 										{{ br.name | translate}}
 									</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-sm-8" style="max-width: 90%; overflow: scroll !important">
+						<div class="col-sm-8" style="max-height:530px;overflow:auto;">
 							<div class="container" formArrayName="categoryBudgetControls">
 								<div class="row">
 									<div class="col-sm-12">

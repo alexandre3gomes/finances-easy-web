@@ -2,11 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
-import { Page } from '../../shared/model/pagination/page.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
 import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions';
-import { IncomeState } from './store/income.reducers';
 
 
 
@@ -21,16 +19,12 @@ export class IncomeComponent implements OnInit, OnDestroy {
 	currentId: number;
 	showConfirm = false;
 	currentPage = 0;
-	pageOptions: Page;
 	DATE_FORMAT = 'L';
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
 		this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		this.state.subscribe((incomeState: IncomeState) => {
-			this.pageOptions = incomeState.page;
-		});
 	}
 
 	ngOnDestroy () {

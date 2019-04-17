@@ -1,15 +1,15 @@
-import { CalendarEvent } from 'calendar-utils';
 import { Budget } from '../../../shared/model/budget/budget.model';
+import { Page } from '../../../shared/model/pagination/page.model';
 import { BudgetActions, BudgetActionsEnum } from './budget.actions';
 
 export interface BudgetState {
 	budgets: Budget[];
-	events: CalendarEvent[];
+	page: Page;
 }
 
 export const initialBudgetState: BudgetState = {
 	budgets: [],
-	events: []
+	page: null
 };
 
 export function budgetReducers (state = initialBudgetState, action: BudgetActions): BudgetState {
@@ -17,13 +17,14 @@ export function budgetReducers (state = initialBudgetState, action: BudgetAction
 		case (BudgetActionsEnum.RESET_BUDGETS): {
 			return {
 				...state,
-				events: initialBudgetState.events
+				page: initialBudgetState.page
 			};
 		}
 		case (BudgetActionsEnum.ADD_BUDGETS): {
 			return {
 				...state,
-				budgets: [ ...state.budgets, ...action.payload.content ]
+				budgets: [ ...state.budgets, ...action.payload.content ],
+				page: action.payload
 			};
 		}
 		default: {

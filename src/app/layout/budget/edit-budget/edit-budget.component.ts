@@ -41,8 +41,8 @@ export class EditBudgetComponent implements OnInit {
 	initForm () {
 		let startDate = new Date();
 		let endDate = new Date();
-		let breakpoint = new Breakpoint(1, 'Monthly');
-		let budgetCat: BudgetCategory[];
+		const breakpoint = new Breakpoint(1, 'Monthly');
+		const frmArray = this.fb.array([]);
 		if (this.currentId > 0) {
 			this.state.subscribe((budgetState: BudgetState) => {
 				const budget = budgetState.budgets.find((bud: Budget) => bud.id === this.currentId);
@@ -50,18 +50,24 @@ export class EditBudgetComponent implements OnInit {
 					this.user = budget.user;
 					startDate = budget.startDate;
 					endDate = budget.endDate;
-					breakpoint = budget.breakpoint;
-					budgetCat = budget.categories;
+					for (let x = 0; x < budget.categories.length; x++) {
+						const frmGroup = this.fb.group({
+							'category': this.fb.control(budget.categories[ x ].category.id, Validators.required),
+							'value': this.fb.control(budget.categories[ x ].value, Validators.min(0.1))
+						});
+						frmArray.push(frmGroup);
+					}
+
 				}
 			});
+		} else {
+			frmArray.push(this.categoryBudgetGroup);
 		}
 		this.budgetForm = this.fb.group({
 			'startDate': new FormControl(startDate, Validators.required),
 			'endDate': new FormControl(endDate, Validators.required),
-			'breakpoint': new FormControl(breakpoint, Validators.required),
-			categoryBudgetControls: this.fb.array([
-				this.categoryBudgetGroup
-			])
+			'breakpoint': new FormControl(breakpoint.id, Validators.required),
+			categoryBudgetControls: frmArray
 		});
 	}
 
@@ -98,7 +104,7 @@ export class EditBudgetComponent implements OnInit {
 					const budgetCategories = new Array();
 					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
 						const frmGrp = this.categoryBudgetControls.controls[ idx ];
-						const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
+						const cat = frmGrp.get('category').value;
 						budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
 					}
 					editedBudget.categories = budgetCategories;

@@ -64,5 +64,7 @@
 	"weekdays": "['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']",
 	"months": "['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc']",
 	"Monthly": "Mensuel",
-	"Weekly": "Hebdomadaire"
+	"Weekly": "Hebdomadaire",
+	"Edit": "Modifier",
+	"Break period": "Período de descanso"
 }

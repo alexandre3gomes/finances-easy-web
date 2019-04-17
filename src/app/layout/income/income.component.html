@@ -39,7 +39,7 @@
 		<div class="row">
 			<div class="mx-auto stick-bottom">
 				<button class="btn btn-success" (click)="showMore()"
-					[disabled]="pageOptions ? pageOptions.last : false">
+					[disabled]="(state | async).page ? (state | async).page.last : false">
 					{{ 'Show More' | translate }}
 				</button>
 			</div>
