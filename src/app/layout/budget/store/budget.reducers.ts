@@ -17,6 +17,7 @@ export function budgetReducers (state = initialBudgetState, action: BudgetAction
 		case (BudgetActionsEnum.RESET_BUDGETS): {
 			return {
 				...state,
+				budgets: initialBudgetState.budgets,
 				page: initialBudgetState.page
 			};
 		}

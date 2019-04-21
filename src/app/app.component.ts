@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Component({
 	selector: 'app-root',
@@ -6,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-	constructor() {
+	constructor(private http: HttpClient) {
 	}
 
-	ngOnInit() {
+	ngOnInit () {
+		this.http.get(environment.api.concat('public/logon/test'), { responseType: 'text' }).subscribe(); // Wake up dyno
 	}
 }

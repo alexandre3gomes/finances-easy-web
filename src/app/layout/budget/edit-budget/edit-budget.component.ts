@@ -27,7 +27,7 @@ export class EditBudgetComponent implements OnInit {
 	@Input() breakpoints: Array<Breakpoint>;
 	@Input() currentId: number;
 	@Input() categories: Array<Category>;
-	@Output() closed = new EventEmitter<void>();
+	@Output() closed = new EventEmitter<boolean>();
 
 	constructor(private store: Store<AppState>) { }
 
@@ -104,7 +104,7 @@ export class EditBudgetComponent implements OnInit {
 					const budgetCategories = new Array();
 					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
 						const frmGrp = this.categoryBudgetControls.controls[ idx ];
-						const cat = frmGrp.get('category').value;
+						const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
 						budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
 					}
 					editedBudget.categories = budgetCategories;
@@ -127,10 +127,10 @@ export class EditBudgetComponent implements OnInit {
 					budgetCategories)));
 
 		}
-		this.closeModal();
+		this.closed.emit(true);
 	}
 
 	closeModal () {
-		this.closed.emit();
+		this.closed.emit(false);
 	}
 }

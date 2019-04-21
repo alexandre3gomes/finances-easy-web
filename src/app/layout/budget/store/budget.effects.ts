@@ -47,8 +47,8 @@ export class BudgetEffects {
 			return action.payload;
 		}),
 		pipe(
-			switchMap((inc: Budget) => {
-				return this.http.post<Budget>(this.budgetEndPoint.concat('/update'), inc);
+			switchMap((bud: Budget) => {
+				return this.http.post<Budget>(this.budgetEndPoint.concat('/update'), bud);
 			}),
 			map(() => {
 				return {
