@@ -70,7 +70,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
 			this.store.dispatch(new ResetBudgets());
 			setTimeout(() => {
 				this.store.dispatch(new ListBudgets(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-			}, 100);
+			}, 300);
 		}
 	}
 
