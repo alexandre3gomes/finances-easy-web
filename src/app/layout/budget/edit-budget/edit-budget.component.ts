@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../../auth/store/auth.reducers';
 import { BudgetCategory } from '../../../shared/model/budget-category.model';
-import { Breakpoint } from '../../../shared/model/budget/breakpoing.model';
 import { Budget } from '../../../shared/model/budget/budget.model';
 import { Category } from '../../../shared/model/category.model';
 import { User } from '../../../shared/model/user.model';
@@ -24,7 +23,7 @@ export class EditBudgetComponent implements OnInit {
 	user: User;
 	fb = new FormBuilder();
 	DATE_FORMAT = 'l';
-	@Input() breakpoints: Array<Breakpoint>;
+	@Input() breakpoints: Array<number>;
 	@Input() currentId: number;
 	@Input() categories: Array<Category>;
 	@Output() closed = new EventEmitter<boolean>();
@@ -41,7 +40,7 @@ export class EditBudgetComponent implements OnInit {
 	initForm () {
 		let startDate = new Date();
 		let endDate = new Date();
-		const breakpoint = new Breakpoint(1, 'Monthly');
+		const breakpoint = 1;
 		const frmArray = this.fb.array([]);
 		if (this.currentId > 0) {
 			this.state.subscribe((budgetState: BudgetState) => {
@@ -66,7 +65,7 @@ export class EditBudgetComponent implements OnInit {
 		this.budgetForm = this.fb.group({
 			'startDate': new FormControl(startDate, Validators.required),
 			'endDate': new FormControl(endDate, Validators.required),
-			'breakpoint': new FormControl(breakpoint.id, Validators.required),
+			'breakpoint': new FormControl(breakpoint, Validators.required),
 			categoryBudgetControls: frmArray
 		});
 	}

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
-import { Breakpoint } from '../../shared/model/budget/breakpoing.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
@@ -20,7 +19,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
 	showConfirm = false;
 	editModal = false;
 	currentId: number;
-	breakpoints: Array<Breakpoint> = new Array();
+	breakpoints: Array<number> = new Array();
 	currentPage = 0;
 
 	constructor(private store: Store<AppState>) { }
@@ -33,8 +32,8 @@ export class BudgetComponent implements OnInit, OnDestroy {
 	ngOnInit () {
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
-		this.breakpoints.push(new Breakpoint(1, 'Monthly'));
-		this.breakpoints.push(new Breakpoint(2, 'Weekly'));
+		this.breakpoints.push(1);
+		this.breakpoints.push(2);
 	}
 
 	ngOnDestroy () {

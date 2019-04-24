@@ -43,8 +43,8 @@
 								<label for="breakpoint">{{ 'Breakpoint' | translate }}</label>
 								<select id="breakpoint" class="form-control" formControlName="breakpoint"
 									(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-									<option *ngFor="let br of breakpoints" [value]="br.id">
-										{{ br.name | translate}}
+									<option *ngFor="let br of breakpoints" [value]="br">
+										{{ br == 1 ? 'Monthly' : 'Weekly' | translate }}
 									</option>
 								</select>
 							</div>

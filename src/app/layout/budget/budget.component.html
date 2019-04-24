@@ -16,7 +16,7 @@
 				<tr>
 					<th>{{'Start date' | translate }}</th>
 					<th>{{'End date' | translate }}</th>
-					<th>{{'Categories' | translate }}</th>
+					<th>{{'Breakpoint' | translate }}</th>
 					<th>{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
@@ -24,7 +24,7 @@
 				<tr *ngFor="let bud of (budgetState | async).budgets">
 					<td>{{ bud.startDate | dateLocale:DATE_FORMAT }}</td>
 					<td>{{ bud.endDate | dateLocale:DATE_FORMAT }}</td>
-					<td>TODO</td>
+					<td>{{ bud.breakpoint == 1 ? 'Monthly' : 'Weekly' | translate }}</td>
 					<td>
 						<button class="btn btn-info mr-2" (click)="editBudget(bud.id)"><i
 								class="fas fa-pencil-alt"></i></button>
