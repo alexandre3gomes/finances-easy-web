@@ -43,8 +43,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 				this.pieChartData.push(grouped[ cat ]);
 			});
 			this.totalIncome = dashboardState.incomes.reduce((inc, inc1) => inc + inc1.value, 0);
+			if (dashboardState.expenses.length > 0 && dashboardState.incomes.length > 0) {
+				setTimeout(() => this.showChart = true, 500);
+			}
 		});
-		setTimeout(() => this.showChart = true, 500);
 	}
 
 	ngOnDestroy () {
