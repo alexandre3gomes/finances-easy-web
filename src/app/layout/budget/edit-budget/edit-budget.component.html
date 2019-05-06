@@ -40,10 +40,10 @@
 								</div>
 							</div>
 							<div class="form-group mb-5">
-								<label for="breakpoint">{{ 'Breakpoint' | translate }}</label>
-								<select id="breakpoint" class="form-control" formControlName="breakpoint"
+								<label for="breakperiod">{{ 'Breakperiod' | translate }}</label>
+								<select id="breakperiod" class="form-control" formControlName="breakperiod"
 									(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()">
-									<option *ngFor="let br of breakpoints" [value]="br">
+									<option *ngFor="let br of breakperiods" [value]="br">
 										{{ br == 1 ? 'Monthly' : 'Weekly' | translate }}
 									</option>
 								</select>

@@ -3,8 +3,10 @@ import { ActionReducerMap } from '@ngrx/store';
 import { authReducers, AuthState, initialAuthState } from '../auth/store/auth.reducers';
 import { budgetReducers, BudgetState, initialBudgetState } from '../layout/budget/store/budget.reducers';
 import { categoryReducers, CategoryState, initialCategoryState } from '../layout/category/store/category.reducers';
+import { dashboardReducers, DashboardState, initialDashboardState } from '../layout/dashboard/store/dashboard.reducers';
 import { expenseReducers, ExpenseState, initialExpenseState } from '../layout/expense/store/expense.reducers';
 import { incomeReducers, IncomeState, initialIncomeState } from '../layout/income/store/income.reducers';
+import { initialReportState, reportReducers, ReportState } from '../layout/report/store/report.reducers';
 import { alertReducers, AlertState, initialAlertState } from './alert.reducers';
 
 
@@ -16,6 +18,8 @@ export interface AppState {
 	category: CategoryState;
 	expense: ExpenseState;
 	budget: BudgetState;
+	dashboard: DashboardState;
+	report: ReportState;
 }
 
 export const initialAppState: AppState = {
@@ -24,7 +28,9 @@ export const initialAppState: AppState = {
 	income: initialIncomeState,
 	category: initialCategoryState,
 	expense: initialExpenseState,
-	budget: initialBudgetState
+	budget: initialBudgetState,
+	dashboard: initialDashboardState,
+	report: initialReportState
 };
 
 export function getInitialState (): AppState {
@@ -38,5 +44,7 @@ export const appReducers: ActionReducerMap<AppState, any> = {
 	income: incomeReducers,
 	category: categoryReducers,
 	expense: expenseReducers,
-	budget: budgetReducers
+	budget: budgetReducers,
+	dashboard: dashboardReducers,
+	report: reportReducers
 };

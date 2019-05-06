@@ -30,6 +30,10 @@ const routes: Routes = [
 			{
 				path: 'budget',
 				loadChildren: './budget/budget.module#BudgetModule'
+			},
+			{
+				path: 'report',
+				loadChildren: './report/report.module#ReportModule'
 			}
 		]
 	}

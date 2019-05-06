@@ -17,8 +17,10 @@ import { AppComponent } from './app.component';
 import { AuthEffects } from './auth/store/auth.effects';
 import { BudgetEffects } from './layout/budget/store/budget.effects';
 import { CategoryEffects } from './layout/category/store/category.effects';
+import { DashboardEffects } from './layout/dashboard/store/dashboard.effects';
 import { ExpenseEffects } from './layout/expense/store/expense.effects';
 import { IncomeEffects } from './layout/income/store/income.effects';
+import { ReportEffects } from './layout/report/store/report.effects';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers } from './store/app.reducers';
@@ -46,7 +48,13 @@ export const createTranslateLoader = (http: HttpClient) => {
 		NgbDropdownModule,
 		NgxUiLoaderModule,
 		StoreModule.forRoot(appReducers),
-		EffectsModule.forRoot([ AuthEffects, IncomeEffects, CategoryEffects, ExpenseEffects, BudgetEffects ]),
+		EffectsModule.forRoot([ AuthEffects,
+			IncomeEffects,
+			CategoryEffects,
+			ExpenseEffects,
+			BudgetEffects,
+			DashboardEffects,
+			ReportEffects ]),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule

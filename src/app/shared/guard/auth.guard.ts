@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducers';
+import { auth } from '../../store/app.selectors';
 
 
 @Injectable()
@@ -10,7 +11,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 	canActivate () {
 		let authenticated: boolean;
-		this.store.select('auth').subscribe(authStore => {
+		this.store.select(auth).subscribe(authStore => {
 			authenticated = authStore.authenticated && authStore.loggedUser !== null && authStore.loggedUser.id > 0;
 		});
 		if (authenticated) {

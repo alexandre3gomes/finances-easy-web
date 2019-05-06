@@ -1,6 +1,6 @@
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <app-edit-budget *ngIf="editModal" [categories]="(categoryState | async).categories" [currentId]="currentId"
-	(closed)="closedEditModal()" [state]="budgetState" [breakpoints]="breakpoints"></app-edit-budget>
+	(closed)="closedEditModal()" [state]="budgetState" [breakperiods]="breakperiods"></app-edit-budget>
 <div class="row mb-4">
 	<div class="col-xl-12">
 		<button class="btn btn-primary" (click)="openModal()">
@@ -12,19 +12,19 @@
 	<div class="card-header">{{ 'Budget' | translate }}</div>
 	<div class="card-body table-responsive">
 		<table class="table table-hover table-striped">
-			<thead>
+			<thead class="thead-dark">
 				<tr>
-					<th>{{'Start date' | translate }}</th>
-					<th>{{'End date' | translate }}</th>
-					<th>{{'Breakpoint' | translate }}</th>
-					<th>{{'Actions' | translate }}</th>
+					<th scope="col">{{'Start date' | translate }}</th>
+					<th scope="col">{{'End date' | translate }}</th>
+					<th scope="col"> {{'Breakpoint' | translate }}</th>
+					<th scope="col">{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr *ngFor="let bud of (budgetState | async).budgets">
-					<td>{{ bud.startDate | dateLocale:DATE_FORMAT }}</td>
+					<th scope="row">{{ bud.startDate | dateLocale:DATE_FORMAT }}</th>
 					<td>{{ bud.endDate | dateLocale:DATE_FORMAT }}</td>
-					<td>{{ bud.breakpoint == 1 ? 'Monthly' : 'Weekly' | translate }}</td>
+					<td>{{ bud.breakperiod == 1 ? 'Monthly' : 'Weekly' | translate }}</td>
 					<td>
 						<button class="btn btn-info mr-2" (click)="editBudget(bud.id)"><i
 								class="fas fa-pencil-alt"></i></button>

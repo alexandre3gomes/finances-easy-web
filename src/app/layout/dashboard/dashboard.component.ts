@@ -1,61 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { routerTransition } from '../../router.animations';
+import { DateLocaleFilterPipe } from '../../shared/pipes/date-locale-filter.pipe';
+import { AppState } from '../../store/app.reducers';
+import { dashboard } from '../../store/app.selectors';
+import { ListActualExpenses, ListActualIncomes, ResetData } from './store/dashboard.actions';
+import { DashboardState } from './store/dashboard.reducers';
 
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
-	animations: [routerTransition()]
+	animations: [ routerTransition() ]
 })
-export class DashboardComponent implements OnInit {
-	public alerts: Array<any> = [];
-	public sliders: Array<any> = [];
+export class DashboardComponent implements OnInit, OnDestroy {
 
-	constructor() {
-		this.sliders.push(
-			{
-				imagePath: 'assets/images/slider1.jpg',
-				label: 'First slide label',
-				text:
-					' vitae elit libero, a pharetra augue mollis interdum.'
-			},
-			{
-				imagePath: 'assets/images/slider2.jpg',
-				label: 'Second slide label',
-				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-			},
-			{
-				imagePath: 'assets/images/slider3.jpg',
-				label: 'Third slide label',
-				text:
-					'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
-			}
-		);
+	public state = this.store.select(dashboard);
+	public showChart = false;
+	public pieChartOptions = {
+		responsive: true,
+		legend: {
+			position: 'top',
+		}
+	};
+	public pieChartLabels = [];
+	public pieChartData: number[] = [];
+	public pieChartType = 'pie';
+	public pieChartLegend = true;
+	public totalIncome = 0;
 
-		this.alerts.push(
-			{
-				id: 1,
-				type: 'success',
-				message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-			},
-			{
-				id: 2,
-				type: 'warning',
-				message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
-			}
-		);
+	constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe) { }
+
+	ngOnInit () {
+		this.store.dispatch(new ListActualExpenses());
+		this.store.dispatch(new ListActualIncomes());
+		this.state.subscribe((dashboardState: DashboardState) => {
+			const grouped = dashboardState.expenses.reduce((mapped, exp) => {
+				mapped[ exp.category.name ] = (mapped[ exp.category.name ] || 0) + (exp.value);
+				return mapped;
+			}, {});
+			Object.keys(grouped).forEach(cat => {
+				this.pieChartLabels.push(cat);
+				this.pieChartData.push(grouped[ cat ]);
+			});
+			this.totalIncome = dashboardState.incomes.reduce((inc, inc1) => inc + inc1.value, 0);
+		});
+		setTimeout(() => this.showChart = true, 500);
 	}
 
-	ngOnInit() { }
-
-	public closeAlert(alert: any) {
-		const index: number = this.alerts.indexOf(alert);
-		this.alerts.splice(index, 1);
+	ngOnDestroy () {
+		this.store.dispatch(new ResetData());
 	}
 }

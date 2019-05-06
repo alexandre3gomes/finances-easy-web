@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
+import { income } from '../../store/app.selectors';
 import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions';
 
 
@@ -13,7 +14,7 @@ import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions'
 	templateUrl: './income.component.html'
 })
 export class IncomeComponent implements OnInit, OnDestroy {
-	state = this.store.select('income');
+	state = this.store.select(income);
 	editModal = false;
 	incomeForm: FormGroup;
 	currentId: number;

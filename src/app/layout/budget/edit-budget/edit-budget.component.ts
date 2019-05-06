@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../../auth/store/auth.reducers';
-import { BudgetCategory } from '../../../shared/model/budget-category.model';
+import { authLoggedUser } from '../../../auth/store/auth.selectors';
+import { BudgetCategory } from '../../../shared/model/budget/budget-category.model';
 import { Budget } from '../../../shared/model/budget/budget.model';
 import { Category } from '../../../shared/model/category.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
 import { CreateBudget, UpdateBudget } from '../store/budget.actions';
 import { BudgetState } from '../store/budget.reducers';
+import { budgets } from '../store/budget.selectors';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class EditBudgetComponent implements OnInit {
 	user: User;
 	fb = new FormBuilder();
 	DATE_FORMAT = 'l';
-	@Input() breakpoints: Array<number>;
+	@Input() breakperiods: Array<number>;
 	@Input() currentId: number;
 	@Input() categories: Array<Category>;
 	@Output() closed = new EventEmitter<boolean>();
@@ -31,8 +32,8 @@ export class EditBudgetComponent implements OnInit {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
-		this.store.select('auth').subscribe((authState: AuthState) => {
-			this.user = authState.loggedUser;
+		this.store.select(authLoggedUser).subscribe((loggedUser: User) => {
+			this.user = loggedUser;
 		});
 		this.initForm();
 	}
@@ -92,14 +93,14 @@ export class EditBudgetComponent implements OnInit {
 	saveChanges () {
 		const startDate = this.budgetForm.get('startDate').value;
 		const endDate = this.budgetForm.get('endDate').value;
-		const breakpoint = this.budgetForm.get('breakpoint').value;
+		const breakperiod = this.budgetForm.get('breakperiod').value;
 		if (this.currentId > 0) {
-			this.store.select('budget').subscribe((budgetState: BudgetState) => {
-				const editedBudget = budgetState.budgets.find((exp: Budget) => exp.id === this.currentId);
+			this.store.select(budgets).subscribe((budgetsState: Budget[]) => {
+				const editedBudget = budgetsState.find((exp: Budget) => exp.id === this.currentId);
 				if (editedBudget) {
 					editedBudget.startDate = startDate;
 					editedBudget.endDate = endDate;
-					editedBudget.breakpoint = breakpoint;
+					editedBudget.breakperiod = breakperiod;
 					const budgetCategories = new Array();
 					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
 						const frmGrp = this.categoryBudgetControls.controls[ idx ];
@@ -122,7 +123,7 @@ export class EditBudgetComponent implements OnInit {
 					this.user,
 					startDate,
 					endDate,
-					breakpoint,
+					breakperiod,
 					budgetCategories)));
 
 		}

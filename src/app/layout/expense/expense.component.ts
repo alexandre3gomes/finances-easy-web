@@ -4,6 +4,7 @@ import { Default } from '../../shared/enum/default.enum';
 import { Category } from '../../shared/model/category.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
+import { expense } from '../../store/app.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
 
 
@@ -15,7 +16,7 @@ import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.acti
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
-	state = this.store.select('expense');
+	state = this.store.select(expense);
 	currentId: number;
 	showConfirm = false;
 	categories: Category[];

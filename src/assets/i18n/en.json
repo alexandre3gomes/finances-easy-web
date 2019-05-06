@@ -66,5 +66,10 @@
 	"Monthly": "Monthly",
 	"Weekly": "Weekly",
 	"Edit": "Edit",
-	"Break period": "Break period"
+	"Break period": "Break period",
+	"Report": "Report",
+	"Period": "Period",
+	"Planned Value": "Planned Value",
+	"Actual Value": "Actual Value",
+	"Total income": "Total income"
 }

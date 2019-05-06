@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
+import { budget, category } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { DeleteBudget, ListBudgets, ResetBudgets } from './store/budget.actions';
 
@@ -14,12 +15,12 @@ import { DeleteBudget, ListBudgets, ResetBudgets } from './store/budget.actions'
 export class BudgetComponent implements OnInit, OnDestroy {
 
 	DATE_FORMAT = 'L';
-	budgetState = this.store.select('budget');
-	categoryState = this.store.select('category');
+	budgetState = this.store.select(budget);
+	categoryState = this.store.select(category);
 	showConfirm = false;
 	editModal = false;
 	currentId: number;
-	breakpoints: Array<number> = new Array();
+	breakperiods: Array<number> = new Array();
 	currentPage = 0;
 
 	constructor(private store: Store<AppState>) { }
@@ -32,8 +33,8 @@ export class BudgetComponent implements OnInit, OnDestroy {
 	ngOnInit () {
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
-		this.breakpoints.push(1);
-		this.breakpoints.push(2);
+		this.breakperiods.push(1);
+		this.breakperiods.push(2);
 	}
 
 	ngOnDestroy () {

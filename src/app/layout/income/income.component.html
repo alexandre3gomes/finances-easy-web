@@ -12,18 +12,18 @@
 	<div class="card-header">{{ 'Incomes' | translate }}</div>
 	<div class="card-body table-responsive">
 		<table class="table table-hover table-striped">
-			<thead>
+			<thead class="thead-dark">
 				<tr>
-					<th>{{'Name' | translate }}</th>
-					<th>{{'Value' | translate }}</th>
-					<th>{{'Created on' | translate }}</th>
-					<th>{{'Created by' | translate }}</th>
-					<th>{{'Actions' | translate }}</th>
+					<th scope="col">{{'Name' | translate }}</th>
+					<th scope="col">{{'Value' | translate }}</th>
+					<th scope="col">{{'Created on' | translate }}</th>
+					<th scope="col">{{'Created by' | translate }}</th>
+					<th scope="col">{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr *ngFor="let inc of (state | async).incomes">
-					<td>{{ inc.name }}</td>
+					<th scope="row">{{ inc.name }}</th>
 					<td>{{ inc.value }}</td>
 					<td>{{ inc.date | dateLocale: DATE_FORMAT }}</td>
 					<td>{{ inc.user.name }}</td>

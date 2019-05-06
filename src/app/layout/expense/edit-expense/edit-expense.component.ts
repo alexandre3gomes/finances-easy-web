@@ -9,9 +9,10 @@ import { Pagination } from '../../../shared/model/pagination/pagination.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
 import { ListCategories, ResetCategories } from '../../category/store/category.actions';
-import { CategoryState } from '../../category/store/category.reducers';
+import { categories } from '../../category/store/category.selectors';
 import { CreateExpense, UpdateExpense } from '../store/expense.actions';
 import { ExpenseState } from '../store/expense.reducers';
+import { expenses } from '../store/expense.selectors';
 
 
 @Component({
@@ -31,8 +32,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	ngOnInit () {
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.select('category').subscribe((categoryState: CategoryState) => {
-			this.categories = categoryState.categories;
+		this.store.select(categories).subscribe((categoriesState: Category[]) => {
+			this.categories = categoriesState;
 		});
 		this.initForm();
 	}
@@ -68,8 +69,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 	saveChanges () {
 		const expireAt = this.expenseForm.get('expireAt').value;
 		if (this.currentId > 0) {
-			this.store.select('expense').subscribe((expenseState: ExpenseState) => {
-				const editedExpense = expenseState.expenses.find((exp: Expense) => exp.id === this.currentId);
+			this.store.select(expenses).subscribe((expensesState: Expense[]) => {
+				const editedExpense = expensesState.find((exp: Expense) => exp.id === this.currentId);
 				if (editedExpense) {
 					editedExpense.name = this.expenseForm.get('name').value;
 					editedExpense.value = this.expenseForm.get('value').value;

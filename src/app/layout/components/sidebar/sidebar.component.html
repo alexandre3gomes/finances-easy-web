@@ -30,6 +30,12 @@
 				<div class="col-sm-10"><span>{{ 'Budget' | translate }}</span></div>
 			</div>
 		</a>
+		<a [routerLink]="['/report']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<div class="row">
+				<div class="col-sm-2"><i class="fas fa-columns"></i></div>
+				<div class="col-sm-10"><span>{{ 'Report' | translate }}</span></div>
+			</div>
+		</a>
 
 		<div class="header-fields">
 			<a (click)="rltAndLtr()" class="list-group-item">
@@ -49,16 +55,6 @@
 						<li>
 							<a href="javascript:void(0)" (click)="changeLang('en')">
 								{{ 'English' | translate }}
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)" (click)="changeLang('es')">
-								{{ 'Spanish' | translate }}
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)" (click)="changeLang('fr')">
-								{{ 'French' | translate }}
 							</a>
 						</li>
 					</ul>
