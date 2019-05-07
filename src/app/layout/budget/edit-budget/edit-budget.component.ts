@@ -66,7 +66,7 @@ export class EditBudgetComponent implements OnInit {
 		this.budgetForm = this.fb.group({
 			'startDate': new FormControl(startDate, Validators.required),
 			'endDate': new FormControl(endDate, Validators.required),
-			'breakpoint': new FormControl(breakpoint, Validators.required),
+			'breakperiod': new FormControl(breakpoint, Validators.required),
 			categoryBudgetControls: frmArray
 		});
 	}
