@@ -5,10 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedPipesModule } from '../../shared';
 import { ReportRoutingModule } from './report-routing.module';
 import { ReportComponent } from './report.component';
+import { CategoryAggregComponent } from './category-aggreg/category-aggreg.component';
 
 
 @NgModule({
-	declarations: [ ReportComponent ],
+	declarations: [ ReportComponent, CategoryAggregComponent ],
 	imports: [
 		CommonModule,
 		ReportRoutingModule,
