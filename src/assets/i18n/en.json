@@ -67,9 +67,10 @@
 	"Weekly": "Weekly",
 	"Edit": "Edit",
 	"Break period": "Break period",
-	"Report": "Report",
+	"Reports": "Reports",
 	"Period": "Period",
 	"Planned Value": "Planned Value",
 	"Actual Value": "Actual Value",
-	"Total income": "Total income"
+	"Total income": "Total income",
+	"Aggregate Category Report": "Aggregate Category Report"
 }

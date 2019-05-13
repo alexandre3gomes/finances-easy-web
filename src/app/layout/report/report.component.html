@@ -1,38 +1,3 @@
 <div>
-	<h2 class="text-muted">{{ 'Report' | translate }}</h2>
-	<div class="form-group mb-5">
-		<form [formGroup]="reportForm">
-			<label for="budgets">{{ 'Select budget' }}</label>
-			<select name="budget" class="form-control" (change)="loadBudgetData()" formControlName="budget">
-				<option *ngFor="let budget of (budgets | async)">
-					{{ budget.startDate | dateLocale: 'l' }} - {{ budget.endDate | dateLocale: 'l' }}
-				</option>
-			</select>
-		</form>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-4 col-lg-3 mb-5" *ngFor="let cat of (state | async).catVal">
-			<div class="card">
-				<div class="card-header">{{ cat.category.name }}</div>
-				<div class="card-body table-responsive">
-					<table class="table table-hover table-striped">
-						<thead class="thead-dark">
-							<tr>
-								<th scope="col">{{ 'Period' | translate }}</th>
-								<th scope="col">{{ 'Planned' | translate }}</th>
-								<th scope="col">{{ 'Real' | translate }}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let val of cat.periodValue">
-								<th scope="row">{{ val.startDate | dateLocale:'MMMM' }}</th>
-								<td>{{ val.plannedValue }}</td>
-								<td>{{ val.actualValue }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+
 </div>

@@ -67,9 +67,10 @@
 	"Weekly": "Semanal",
 	"Edit": "Editar",
 	"Break period": "Período de corte",
-	"Report": "Relatório",
+	"Reports": "Relatórios",
 	"Period": "Período",
 	"Planned Value": "Planejado",
 	"Actual Value": "Real",
-	"Total income": "Receita"
+	"Total income": "Receita",
+	"Aggregate Category Report": "Aggregate Category Report"
 }
