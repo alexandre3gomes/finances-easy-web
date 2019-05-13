@@ -54,7 +54,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 					this.barChart.addChartData({ data: actualValues, label: 'Actual' });
 				}
 			}
-			console.log(this.barChart);
 		});
 	}
 
