@@ -2,12 +2,14 @@
 	<h2 class="text-muted">Dashboard</h2>
 	<div class="container">
 		<label>{{ 'Total income' | translate }}</label> {{ totalIncome | currency:'€' }}
-		<div class="w-100 h-100">
-			<div *ngIf="showChart" style="display: block">
-				<canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
-					[options]="pieChartOptions" [legend]="pieChartLegend">
-				</canvas>
-			</div>
+		<div class="row w-100 h-100 mb-5" *ngIf="(state | async).dataFetched">
+			<canvas baseChart [data]="pieChart.chartData" [labels]="pieChart.chartLabels"
+				[chartType]="pieChart.chartType" [options]="pieChart.chartOptions" [legend]="pieChart.chartLegend">
+			</canvas>
+		</div>
+		<div class="row w-100 h-100" *ngIf="(state | async).dataFetched">
+			<canvas baseChart [datasets]="barChart.chartData" [labels]="barChart.chartLabels"
+				[chartType]="barChart.chartType" [options]="barChart.chartOptions" [legend]="barChart.chartLegend">
+			</canvas>
 		</div>
 	</div>
-</div>
