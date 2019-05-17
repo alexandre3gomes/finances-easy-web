@@ -1,15 +1,18 @@
 <div [@routerTransition]>
-	<h2 class="text-muted">Dashboard</h2>
-	<div class="container">
-		<label>{{ 'Total income' | translate }}</label> {{ totalIncome | currency:'€' }}
-		<div class="row w-100 h-100 mb-5" *ngIf="(state | async).dataFetched">
+	<h2 class="text-muted">{{ 'Dashboard' | translate }}</h2>
+	<div class="card mb-4 w-100 h-100" *ngIf="(state | async).dataFetched">
+		<div class="card-header">{{ 'Total income' | translate }} {{ totalIncome | currency:'€' }}</div>
+		<div class="card-body">
 			<canvas baseChart [data]="pieChart.chartData" [labels]="pieChart.chartLabels"
 				[chartType]="pieChart.chartType" [options]="pieChart.chartOptions" [legend]="pieChart.chartLegend">
 			</canvas>
 		</div>
-		<div class="row w-100 h-100" *ngIf="(state | async).dataFetched">
+	</div>
+	<div class="card mb-4 w-100 h-10" *ngIf="(state | async).dataFetched">
+		<div class="card-body">
 			<canvas baseChart [datasets]="barChart.chartData" [labels]="barChart.chartLabels"
 				[chartType]="barChart.chartType" [options]="barChart.chartOptions" [legend]="barChart.chartLegend">
 			</canvas>
 		</div>
 	</div>
+</div>
