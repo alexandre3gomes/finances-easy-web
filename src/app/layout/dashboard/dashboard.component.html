@@ -1,5 +1,9 @@
 <div [@routerTransition]>
 	<h2 class="text-muted">{{ 'Dashboard' | translate }}</h2>
+	<div class="float-right">
+		<label>{{ 'Balance' | translate }}</label>
+		<label>{{ totalIncome - totalExpense | currency:'€' }}</label>
+	</div>
 	<div class="card mb-4 w-100 h-100" *ngIf="(state | async).dataFetched">
 		<div class="card-header">{{ 'Total income' | translate }} {{ totalIncome | currency:'€' }}</div>
 		<div class="card-body">
@@ -9,6 +13,7 @@
 		</div>
 	</div>
 	<div class="card mb-4 w-100 h-10" *ngIf="(state | async).dataFetched">
+		<div class="card-header">{{ 'Total expense' | translate }} {{ totalExpense | currency:'€' }}</div>
 		<div class="card-body">
 			<canvas baseChart [datasets]="barChart.chartData" [labels]="barChart.chartLabels"
 				[chartType]="barChart.chartType" [options]="barChart.chartOptions" [legend]="barChart.chartLegend">
