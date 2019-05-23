@@ -60,7 +60,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 		}
 		this.expenseForm = new FormGroup({
 			'name': new FormControl(name, Validators.required),
-			'value': new FormControl(value, Validators.min(1)),
+			'value': new FormControl(value, Validators.min(0.1)),
 			'category': new FormControl(this.category ? this.category.id : -1, Validators.required),
 			'expireAt': new FormControl(expireAt, Validators.required)
 		});

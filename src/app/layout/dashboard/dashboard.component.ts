@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public barChart = new BarChart();
 	public totalIncome = 0;
 	public totalExpense = 0;
+	public totalPlanned = 0;
 
 	constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe) { }
 
@@ -43,6 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 			}
 			this.totalIncome = dashboardState.incomes.reduce((inc, inc1) => inc + inc1.value, 0);
 			this.totalExpense = dashboardState.expenses.reduce((exp, exp1) => exp + exp1.value, 0);
+			this.totalPlanned = dashboardState.categories.reduce((cat, cat1) => cat + cat1.periodValue[ 0 ].plannedValue, 0);
 			let plannedValues = [];
 			let actualValues = [];
 			if (this.barChart.chartLabels.length == 0) {
