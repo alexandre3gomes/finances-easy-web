@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Budget } from 'src/app/shared/model/budget/budget.model';
+
 import { Page } from '../../../shared/model/pagination/page.model';
 import { Pagination } from '../../../shared/model/pagination/pagination.model';
 
@@ -9,7 +10,10 @@ export enum BudgetActionsEnum {
 	DELETE_BUDGET = '[Budget] DeleteBudget',
 	LIST_BUDGETS = '[Budget] ListBudgets',
 	RESET_BUDGETS = '[Budget] ResetBudgets',
-	ADD_BUDGETS = '[Budget] AddBudgets'
+	ADD_BUDGETS = '[Budget] AddBudgets',
+	ADD_BUDGET = '[Budget] AddBudget',
+	ALTER_BUDGET = '[Budget] AlterBudget',
+	REMOVE_BUDGET = '[Budget] RemoveBudget'
 }
 
 export class CreateBudget implements Action {
@@ -41,9 +45,27 @@ export class ResetBudgets implements Action {
 	public readonly type = BudgetActionsEnum.RESET_BUDGETS;
 }
 
+export class AddBudget implements Action {
+	public readonly type = BudgetActionsEnum.ADD_BUDGET;
+	constructor(public payload: Budget) { }
+}
+
+export class AlterBudget implements Action {
+	public readonly type = BudgetActionsEnum.ALTER_BUDGET;
+	constructor(public payload: Budget) { }
+}
+
+export class RemoveBudget implements Action {
+	public readonly type = BudgetActionsEnum.REMOVE_BUDGET;
+	constructor(public payload: number) { }
+}
+
 export type BudgetActions = CreateBudget |
 	UpdateBudget |
 	DeleteBudget |
 	ListBudgets |
 	ResetBudgets |
-	AddBudgets;
+	AddBudgets |
+	AddBudget |
+	AlterBudget |
+	RemoveBudget;

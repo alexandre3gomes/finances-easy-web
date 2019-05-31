@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { BudgetCategory } from '../../../shared/model/budget/budget-category.model';
 import { Budget } from '../../../shared/model/budget/budget.model';
@@ -27,18 +28,18 @@ export class EditBudgetComponent implements OnInit {
 	@Input() breakperiods: Array<number>;
 	@Input() currentId: number;
 	@Input() categories: Array<Category>;
-	@Output() closed = new EventEmitter<boolean>();
+	@Output() closed = new EventEmitter<void>();
 
 	constructor(private store: Store<AppState>) { }
 
-	ngOnInit () {
+	ngOnInit() {
 		this.store.select(authLoggedUser).subscribe((loggedUser: User) => {
 			this.user = loggedUser;
 		});
 		this.initForm();
 	}
 
-	initForm () {
+	initForm() {
 		let startDate = new Date();
 		let endDate = new Date();
 		const breakpoint = 1;
@@ -52,8 +53,8 @@ export class EditBudgetComponent implements OnInit {
 					endDate = budget.endDate;
 					for (let x = 0; x < budget.categories.length; x++) {
 						const frmGroup = this.fb.group({
-							'category': this.fb.control(budget.categories[ x ].category.id, Validators.required),
-							'value': this.fb.control(budget.categories[ x ].value, Validators.min(0.1))
+							'category': this.fb.control(budget.categories[x].category.id, Validators.required),
+							'value': this.fb.control(budget.categories[x].value, Validators.min(0.1))
 						});
 						frmArray.push(frmGroup);
 					}
@@ -71,26 +72,26 @@ export class EditBudgetComponent implements OnInit {
 		});
 	}
 
-	get categoryBudgetGroup () {
+	get categoryBudgetGroup() {
 		return this.fb.group({
 			'category': this.fb.control('', Validators.required),
 			'value': this.fb.control('', Validators.min(0.1))
 		});
 	}
 
-	get categoryBudgetControls () {
+	get categoryBudgetControls() {
 		return this.budgetForm.get('categoryBudgetControls') as FormArray;
 	}
 
-	addCategoryBudget () {
+	addCategoryBudget() {
 		this.categoryBudgetControls.push(this.categoryBudgetGroup);
 	}
 
-	removeCategoryBudget () {
+	removeCategoryBudget() {
 		this.categoryBudgetControls.removeAt(this.categoryBudgetControls.length - 1);
 	}
 
-	saveChanges () {
+	saveChanges() {
 		const startDate = this.budgetForm.get('startDate').value;
 		const endDate = this.budgetForm.get('endDate').value;
 		const breakperiod = this.budgetForm.get('breakperiod').value;
@@ -103,7 +104,7 @@ export class EditBudgetComponent implements OnInit {
 					editedBudget.breakperiod = breakperiod;
 					const budgetCategories = new Array();
 					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
-						const frmGrp = this.categoryBudgetControls.controls[ idx ];
+						const frmGrp = this.categoryBudgetControls.controls[idx];
 						const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
 						budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
 					}
@@ -114,7 +115,7 @@ export class EditBudgetComponent implements OnInit {
 		} else {
 			const budgetCategories = new Array();
 			for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
-				const frmGrp = this.categoryBudgetControls.controls[ idx ];
+				const frmGrp = this.categoryBudgetControls.controls[idx];
 				const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
 				budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
 			}
@@ -127,10 +128,10 @@ export class EditBudgetComponent implements OnInit {
 					budgetCategories)));
 
 		}
-		this.closed.emit(true);
+		this.closed.emit();
 	}
 
-	closeModal () {
-		this.closed.emit(false);
+	closeModal() {
+		this.closed.emit();
 	}
 }

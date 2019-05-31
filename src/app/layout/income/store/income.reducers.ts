@@ -12,7 +12,7 @@ export const initialIncomeState: IncomeState = {
 	page: null
 };
 
-export function incomeReducers (state = initialIncomeState, action: IncomeActions): IncomeState {
+export function incomeReducers(state = initialIncomeState, action: IncomeActions): IncomeState {
 	switch (action.type) {
 		case (IncomeActionsEnum.RESET_INCOMES): {
 			return {
@@ -24,29 +24,29 @@ export function incomeReducers (state = initialIncomeState, action: IncomeAction
 		case (IncomeActionsEnum.ADD_INCOMES): {
 			return {
 				...state,
-				incomes: [ ...state.incomes, ...action.payload.content ],
+				incomes: [...state.incomes, ...action.payload.content],
 				page: action.payload
 			};
 		}
 		case (IncomeActionsEnum.ADD_INCOME): {
-			const newIncomes = [ ...state.incomes ];
+			const newIncomes = [...state.incomes];
 			newIncomes.pop();
 			return {
 				...state,
-				incomes: [ action.payload, ...newIncomes ]
+				incomes: [action.payload, ...newIncomes]
 			};
 		}
 		case (IncomeActionsEnum.ALTER_INCOME): {
-			const newIncomes = [ ...state.incomes ];
+			const newIncomes = [...state.incomes];
 			return {
 				...state,
 				incomes: newIncomes.sort((inc1, inc2) => new Date(inc2.date).getTime() - new Date(inc1.date).getTime())
 			};
 		}
 		case (IncomeActionsEnum.REMOVE_INCOME): {
-			const newIncomes = [ ...state.incomes ];
-			const deletedIncome = newIncomes.filter((elem) => elem.id = action.payload);
-			newIncomes.splice(newIncomes.indexOf(deletedIncome[ 0 ]), 1);
+			const newIncomes = [...state.incomes];
+			const deletedIncome = newIncomes.filter((elem) => elem.id === action.payload);
+			newIncomes.splice(newIncomes.indexOf(deletedIncome[0]), 1);
 			return {
 				...state,
 				incomes: newIncomes

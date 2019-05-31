@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
@@ -25,56 +26,46 @@ export class BudgetComponent implements OnInit, OnDestroy {
 
 	constructor(private store: Store<AppState>) { }
 
-	resetData () {
+	resetData() {
 		this.editModal = false;
 		this.currentId = -1;
 	}
 
-	ngOnInit () {
+	ngOnInit() {
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
 		this.breakperiods.push(1);
 		this.breakperiods.push(2);
 	}
 
-	ngOnDestroy () {
+	ngOnDestroy() {
 		this.store.dispatch(new ResetBudgets());
 		this.store.dispatch(new ResetCategories());
 		this.resetData();
 	}
 
-	openModal () {
+	openModal() {
 		this.editModal = true;
 	}
 
-	editBudget (id: number) {
+	editBudget(id: number) {
 		this.currentId = id;
 		this.openModal();
 	}
 
-	deleteBudget (id: number) {
+	deleteBudget(id: number) {
 		this.currentId = id;
 		this.showConfirm = true;
 	}
 
-	confirmDelete (confirm: boolean) {
+	confirmDelete(confirm: boolean) {
 		if (confirm) {
 			this.store.dispatch(new DeleteBudget(this.currentId));
 		}
-		this.closedEditModal(confirm);
-	}
-
-	closedEditModal (saved: boolean) {
 		this.resetData();
-		if (saved) {
-			this.store.dispatch(new ResetBudgets());
-			setTimeout(() => {
-				this.store.dispatch(new ListBudgets(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-			}, 300);
-		}
 	}
 
-	showMore () {
+	showMore() {
 		this.currentPage++;
 		this.store.dispatch(new ListBudgets(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 	}

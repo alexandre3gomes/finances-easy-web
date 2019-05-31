@@ -2,11 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, pipe } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
 import { Budget } from '../../../shared/model/budget/budget.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
+import { BudgetActionsEnum } from './budget.actions';
 import * as BudgetActions from './budget.actions';
 
 
@@ -20,7 +22,7 @@ export class BudgetEffects {
 
 	@Effect()
 	createBudget = this.actions.pipe(
-		ofType(BudgetActions.BudgetActionsEnum.CREATE_BUDGET),
+		ofType(BudgetActionsEnum.CREATE_BUDGET),
 		map((action: BudgetActions.CreateBudget) => {
 			return action.payload;
 		}),
@@ -28,11 +30,17 @@ export class BudgetEffects {
 			switchMap((budget: Budget) => {
 				return this.http.post<Budget>(this.budgetEndPoint.concat('/create'), budget);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Budget saved'
-				};
+			mergeMap((budget: Budget) => {
+				return [
+					{
+						type: BudgetActionsEnum.ADD_BUDGET,
+						payload: budget
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Budget saved'
+					}
+				]
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on save budget'));
@@ -50,11 +58,17 @@ export class BudgetEffects {
 			switchMap((bud: Budget) => {
 				return this.http.post<Budget>(this.budgetEndPoint.concat('/update'), bud);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Budget edited'
-				};
+			mergeMap((bud: Budget) => {
+				return [
+					{
+						type: BudgetActionsEnum.ALTER_BUDGET,
+						payload: bud
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Budget edited'
+					}
+				]
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on edit budget'));
@@ -72,11 +86,17 @@ export class BudgetEffects {
 			switchMap((id: number) => {
 				return this.http.delete(this.budgetEndPoint.concat('/delete/').concat(id.toString()));
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Budget deleted'
-				};
+			mergeMap((id: number) => {
+				return [
+					{
+						type: BudgetActionsEnum.REMOVE_BUDGET,
+						payload: id
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Budget deleted'
+					}
+				]
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on delete budget'));
