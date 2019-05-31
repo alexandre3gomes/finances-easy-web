@@ -51,7 +51,7 @@ export class IncomeComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteIncome(this.currentId));
 		}
-		this.closedEditModal(confirm);
+		this.resetData();
 	}
 
 	resetData () {
@@ -59,16 +59,6 @@ export class IncomeComponent implements OnInit, OnDestroy {
 		this.editModal = false;
 		this.currentId = -1;
 		this.currentPage = 0;
-	}
-
-	closedEditModal (saved: boolean) {
-		this.resetData();
-		if (saved) {
-			this.store.dispatch(new ResetIncomes());
-			setTimeout(() => {
-				this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-			}, 300);
-		}
 	}
 
 	showMore () {

@@ -9,7 +9,10 @@ export enum ExpenseActionsEnum {
 	DELETE_EXPENSE = '[Expense] DeleteExpense',
 	LIST_EXPENSES = '[Expense] ListExpenses',
 	RESET_EXPENSES = '[Expense] ResetExpenses',
-	ADD_EXPENSES = '[Expense] AddExpenses'
+	ADD_EXPENSES = '[Expense] AddExpenses',
+	ADD_EXPENSE = '[Expense] AddExpense',
+	ALTER_EXPENSE = '[Expense] AlterExpense',
+	REMOVE_EXPENSE = '[Expense] RemoveExpense'
 }
 
 export class CreateExpense implements Action {
@@ -41,9 +44,27 @@ export class ResetExpenses implements Action {
 	public readonly type = ExpenseActionsEnum.RESET_EXPENSES;
 }
 
+export class AddExpense implements Action {
+	public readonly type = ExpenseActionsEnum.ADD_EXPENSE;
+	constructor(public payload: Expense) { }
+}
+
+export class AlterExpense implements Action {
+	public readonly type = ExpenseActionsEnum.ALTER_EXPENSE;
+	constructor(public payload: Expense) { }
+}
+
+export class RemoveExpense implements Action {
+	public readonly type = ExpenseActionsEnum.REMOVE_EXPENSE;
+	constructor(public payload: number) { }
+}
+
 export type ExpenseActions = CreateExpense |
 	UpdateExpense |
 	DeleteExpense |
 	ListExpenses |
 	ResetExpenses |
-	AddExpenses;
+	AddExpenses |
+	AddExpense |
+	AlterExpense |
+	RemoveExpense;

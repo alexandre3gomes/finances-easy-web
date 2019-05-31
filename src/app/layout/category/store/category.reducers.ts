@@ -28,6 +28,30 @@ export function categoryReducers (state = initialCategoryState, action: Category
 				page: action.payload
 			};
 		}
+		case (CategoryActionsEnum.ADD_CATEGORY): {
+			const newCategories = [ ...state.categories ];
+			newCategories.pop();
+			return {
+				...state,
+				categories: [ action.payload, ...newCategories ]
+			};
+		}
+		case (CategoryActionsEnum.ALTER_CATEGORY): {
+			const newCategories = [ ...state.categories ];
+			return {
+				...state,
+				categories: newCategories.sort((cat1, cat2) => cat2.id - cat1.id)
+			};
+		}
+		case (CategoryActionsEnum.REMOVE_CATEGORY): {
+			const newCategories = [ ...state.categories ];
+			const deletedCategory = newCategories.filter((elem) => elem.id = action.payload);
+			newCategories.splice(newCategories.indexOf(deletedCategory[ 0 ]), 1);
+			return {
+				...state,
+				categories: newCategories
+			};
+		}
 		default: {
 			return state;
 		}

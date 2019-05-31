@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, pipe } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as CategoryActions from './category.actions';
+import { CategoryActionsEnum } from './category.actions';
 
 
 
@@ -20,7 +21,7 @@ export class CategoryEffects {
 
 	@Effect()
 	createCategory = this.actions.pipe(
-		ofType(CategoryActions.CategoryActionsEnum.CREATE_CATEGORY),
+		ofType(CategoryActionsEnum.CREATE_CATEGORY),
 		map((action: CategoryActions.CreateCategory) => {
 			return action.payload;
 		}),
@@ -28,11 +29,17 @@ export class CategoryEffects {
 			switchMap((category: Category) => {
 				return this.http.post<Category>(this.categoryEndPoint.concat('/create'), category);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Category saved'
-				};
+			mergeMap((category: Category) => {
+				return [
+					{
+						type: CategoryActionsEnum.ADD_CATEGORY,
+						payload: category
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Category saved'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on save category'));
@@ -47,14 +54,20 @@ export class CategoryEffects {
 			return action.payload;
 		}),
 		pipe(
-			switchMap((inc: Category) => {
-				return this.http.post<Category>(this.categoryEndPoint.concat('/update'), inc);
+			switchMap((cat: Category) => {
+				return this.http.post<Category>(this.categoryEndPoint.concat('/update'), cat);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Category edited'
-				};
+			mergeMap((cat: Category) => {
+				return [
+					{
+						type: CategoryActionsEnum.ALTER_CATEGORY,
+						payload: cat
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Category edited'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on edit category'));
@@ -72,11 +85,17 @@ export class CategoryEffects {
 			switchMap((id: number) => {
 				return this.http.delete(this.categoryEndPoint.concat('/delete/').concat(id.toString()));
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Category deleted'
-				};
+			mergeMap((id: number) => {
+				return [
+					{
+						type: CategoryActionsEnum.REMOVE_CATEGORY,
+						payload: id
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Category deleted'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on delete category'));

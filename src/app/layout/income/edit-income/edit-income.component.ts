@@ -23,7 +23,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 	modalVisible = false;
 	incomeForm: FormGroup;
 	@Input() currentId: number;
-	@Output() closed = new EventEmitter<boolean>();
+	@Output() closed = new EventEmitter<void>();
 
 	constructor(private store: Store<AppState>) { }
 
@@ -47,7 +47,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 					this.store.dispatch(new UpdateIncome(editedIncome));
 				}
 			});
-			this.closed.emit(false);
+			this.closed.emit();
 		} else {
 			this.store.select(authLoggedUser).subscribe((user: User) => {
 				this.store.dispatch(
@@ -57,7 +57,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 						this.incomeForm.get('value').value,
 						createdDate)));
 			});
-			this.closed.emit(true);
+			this.closed.emit();
 		}
 	}
 
@@ -83,7 +83,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 	}
 
 	closeModal () {
-		this.closed.emit(false);
+		this.closed.emit();
 	}
 
 }

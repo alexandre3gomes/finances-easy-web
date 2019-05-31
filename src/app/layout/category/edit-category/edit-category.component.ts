@@ -16,7 +16,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 	@Input() state;
 	categoryForm: FormGroup;
 	@Input() currentId: number;
-	@Output() closed = new EventEmitter<boolean>();
+	@Output() closed = new EventEmitter<void>();
 
 	constructor(private store: Store<AppState>) { }
 
@@ -55,11 +55,11 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 		} else {
 			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value)));
 		}
-		this.closed.emit(true);
+		this.closed.emit();
 	}
 
 	closeModal () {
-		this.closed.emit(false);
+		this.closed.emit();
 	}
 
 }

@@ -60,17 +60,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteExpense(this.currentId));
 		}
-		this.closedEditModal(confirm);
-	}
-
-	closedEditModal (saved: boolean) {
 		this.resetData();
-		if (saved) {
-			this.store.dispatch(new ResetExpenses());
-			setTimeout(() => {
-				this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-			}, 300);
-		}
 	}
 
 	showMore () {

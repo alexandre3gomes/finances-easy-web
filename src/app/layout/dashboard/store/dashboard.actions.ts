@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
-
 import { Expense } from '../../../shared/model/expense.model';
 import { Income } from '../../../shared/model/income.model';
 import { CategoryAggregValues } from '../../../shared/model/report/category-aggreg-values.model';
 
+
 export enum DashboardActionsEnum {
-	FETCH_DATA = '[Dashboard] FetchDate',
+	FETCH_DATA = '[Dashboard] FetchData',
 	LIST_ACTUAL_EXPENSES = '[Dashboard] ListActualExpenses',
 	LIST_ACTUAL_CATEGORIES = '[Dashboard] ListActualCategories',
 	ADD_ACTUAL_INCOMES = '[Dashboard] AddActualIncomes',

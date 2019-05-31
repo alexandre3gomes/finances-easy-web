@@ -45,6 +45,7 @@ export class SidebarComponent implements OnInit {
 		this.showMenu = '';
 		this.pushRightClass = 'push-right';
 		this.userLogged = this.store.select(authLoggedUser);
+		this.toggleCollapsed();
 	}
 
 

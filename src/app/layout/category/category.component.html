@@ -1,5 +1,5 @@
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
-<app-edit-category *ngIf="editModal" [state]="state" [currentId]="currentId" (closed)="closedEditModal($event)">
+<app-edit-category *ngIf="editModal" [state]="state" [currentId]="currentId" (closed)="resetData()">
 </app-edit-category>
 <div class="row mb-4">
 	<div class="col-xl-12">

@@ -28,6 +28,30 @@ export function incomeReducers (state = initialIncomeState, action: IncomeAction
 				page: action.payload
 			};
 		}
+		case (IncomeActionsEnum.ADD_INCOME): {
+			const newIncomes = [ ...state.incomes ];
+			newIncomes.pop();
+			return {
+				...state,
+				incomes: [ action.payload, ...newIncomes ]
+			};
+		}
+		case (IncomeActionsEnum.ALTER_INCOME): {
+			const newIncomes = [ ...state.incomes ];
+			return {
+				...state,
+				incomes: newIncomes.sort((inc1, inc2) => new Date(inc2.date).getTime() - new Date(inc1.date).getTime())
+			};
+		}
+		case (IncomeActionsEnum.REMOVE_INCOME): {
+			const newIncomes = [ ...state.incomes ];
+			const deletedIncome = newIncomes.filter((elem) => elem.id = action.payload);
+			newIncomes.splice(newIncomes.indexOf(deletedIncome[ 0 ]), 1);
+			return {
+				...state,
+				incomes: newIncomes
+			};
+		}
 		default: {
 			return state;
 		}

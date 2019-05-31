@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, pipe } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
 import { Income } from '../../../shared/model/income.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as IncomeActions from './income.actions';
+import { IncomeActionsEnum } from './income.actions';
 
 
 
@@ -20,7 +21,7 @@ export class IncomeEffects {
 
 	@Effect()
 	createIncome = this.actions.pipe(
-		ofType(IncomeActions.IncomeActionsEnum.CREATE_INCOME),
+		ofType(IncomeActionsEnum.CREATE_INCOME),
 		map((action: IncomeActions.CreateIncome) => {
 			return action.payload;
 		}),
@@ -28,11 +29,17 @@ export class IncomeEffects {
 			switchMap((income: Income) => {
 				return this.http.post<Income>(this.incomeEndPoint.concat('/create'), income);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Income saved'
-				};
+			mergeMap((income: Income) => {
+				return [
+					{
+						type: IncomeActionsEnum.ADD_INCOME,
+						payload: income
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Income saved'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on save income'));
@@ -42,7 +49,7 @@ export class IncomeEffects {
 
 	@Effect()
 	updateIncome = this.actions.pipe(
-		ofType(IncomeActions.IncomeActionsEnum.UPDATE_INCOME),
+		ofType(IncomeActionsEnum.UPDATE_INCOME),
 		map((action: IncomeActions.UpdateIncome) => {
 			return action.payload;
 		}),
@@ -50,11 +57,17 @@ export class IncomeEffects {
 			switchMap((inc: Income) => {
 				return this.http.post<Income>(this.incomeEndPoint.concat('/update'), inc);
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Income edited'
-				};
+			mergeMap((inc: Income) => {
+				return [
+					{
+						type: IncomeActionsEnum.ALTER_INCOME,
+						payload: inc
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Income edited'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on edit income'));
@@ -64,7 +77,7 @@ export class IncomeEffects {
 
 	@Effect()
 	deleteIncome = this.actions.pipe(
-		ofType(IncomeActions.IncomeActionsEnum.DELETE_INCOME),
+		ofType(IncomeActionsEnum.DELETE_INCOME),
 		map((action: IncomeActions.DeleteIncome) => {
 			return action.payload;
 		}),
@@ -72,11 +85,17 @@ export class IncomeEffects {
 			switchMap((id: number) => {
 				return this.http.delete(this.incomeEndPoint.concat('/delete/').concat(id.toString()));
 			}),
-			map(() => {
-				return {
-					type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-					payload: 'Income deleted'
-				};
+			mergeMap((id: number) => {
+				return [
+					{
+						type: IncomeActionsEnum.REMOVE_INCOME,
+						payload: id
+					},
+					{
+						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+						payload: 'Income deleted'
+					}
+				];
 			}),
 			catchError(() => {
 				return of(new ShowAlertError('Error on delete income'));
@@ -86,7 +105,7 @@ export class IncomeEffects {
 
 	@Effect()
 	listIncomes = this.actions.pipe(
-		ofType(IncomeActions.IncomeActionsEnum.LIST_INCOMES),
+		ofType(IncomeActionsEnum.LIST_INCOMES),
 		switchMap((action: IncomeActions.ListIncomes) => {
 			return this.http.get(this.incomeEndPoint.concat('/list'), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
@@ -95,7 +114,7 @@ export class IncomeEffects {
 		}),
 		map((page: any) => {
 			return {
-				type: IncomeActions.IncomeActionsEnum.ADD_INCOMES,
+				type: IncomeActionsEnum.ADD_INCOMES,
 				payload: page
 			};
 		})

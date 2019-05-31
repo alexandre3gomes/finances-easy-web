@@ -28,8 +28,10 @@ export class HeaderInterceptor implements HttpInterceptor {
 			catchError((error: HttpErrorResponse) => {
 				if (error.status === 409) {
 					this.store.dispatch(new ShowAlertError('There is relationed data'));
+					this.ngxService.stop();
 				} else {
 					this.router.navigate([ '/login' ]);
+					this.ngxService.stop();
 					return throwError(error);
 				}
 			})

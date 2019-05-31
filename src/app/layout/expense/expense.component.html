@@ -1,4 +1,4 @@
-<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="closedEditModal($event)" [state]="state">
+<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()" [state]="state">
 </app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">

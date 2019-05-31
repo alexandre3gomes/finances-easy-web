@@ -104,7 +104,8 @@
 		</div>
 	</div>
 	<div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-		<i class="fa fa-fw fa-angle-double-left"></i>
+		<i *ngIf="collapsed" class="fa fa-fw fa-angle-double-right"></i>
+		<i *ngIf="!collapsed" class="fa fa-fw fa-angle-double-left"></i>
 		<span>{{ 'Collapse Sidebar' | translate }}</span>
 	</div>
 </nav>

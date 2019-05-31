@@ -26,7 +26,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 	category: Category;
 	@Input() currentId: number;
 	categories: Category[];
-	@Output() closed = new EventEmitter<boolean>();
+	@Output() closed = new EventEmitter<void>();
 
 	constructor(private store: Store<AppState>) { }
 
@@ -79,7 +79,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 					this.store.dispatch(new UpdateExpense(editedExpense));
 				}
 			});
-			this.closed.emit(false);
+			this.closed.emit();
 		} else {
 			this.store.select(authLoggedUser).subscribe((user: User) => {
 				this.store.dispatch(
@@ -90,12 +90,12 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 						this.expenseForm.get('value').value,
 						expireAt)));
 			});
-			this.closed.emit(true);
+			this.closed.emit();
 		}
 	}
 
 	closeModal () {
-		this.closed.emit(false);
+		this.closed.emit();
 	}
 
 }

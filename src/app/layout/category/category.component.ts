@@ -56,17 +56,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 		if (confirm) {
 			this.store.dispatch(new DeleteCategory(this.currentId));
 		}
-		this.closedEditModal(confirm);
-	}
-
-	closedEditModal (saved: boolean) {
 		this.resetData();
-		if (saved) {
-			this.store.dispatch(new ResetCategories());
-			setTimeout(() => {
-				this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-			}, 100);
-		}
 	}
 
 	showMore () {

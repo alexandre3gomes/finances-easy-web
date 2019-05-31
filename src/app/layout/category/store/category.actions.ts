@@ -9,7 +9,10 @@ export enum CategoryActionsEnum {
 	DELETE_CATEGORY = '[Category] DeleteCategory',
 	LIST_CATEGORIES = '[Category] ListCategories',
 	RESET_CATEGORIES = '[Category] ResetCategories',
-	ADD_CATEGORIES = '[Category] AddCategories'
+	ADD_CATEGORIES = '[Category] AddCategories',
+	ADD_CATEGORY = '[Category] AddCategory',
+	ALTER_CATEGORY = '[Category] AlterCategory',
+	REMOVE_CATEGORY = '[Category] RemoveCategory'
 }
 
 export class CreateCategory implements Action {
@@ -41,9 +44,27 @@ export class ResetCategories implements Action {
 	public readonly type = CategoryActionsEnum.RESET_CATEGORIES;
 }
 
+export class AddCategory implements Action {
+	public readonly type = CategoryActionsEnum.ADD_CATEGORY;
+	constructor(public payload: Category) { }
+}
+
+export class AlterCategory implements Action {
+	public readonly type = CategoryActionsEnum.ALTER_CATEGORY;
+	constructor(public payload: Category) { }
+}
+
+export class RemoveCategory implements Action {
+	public readonly type = CategoryActionsEnum.REMOVE_CATEGORY;
+	constructor(public payload: number) { }
+}
+
 export type CategoryActions = CreateCategory |
 	UpdateCategory |
 	DeleteCategory |
 	ListCategories |
 	ResetCategories |
-	AddCategories;
+	AddCategories |
+	AddCategory |
+	AlterCategory |
+	RemoveCategory;
