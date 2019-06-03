@@ -29,14 +29,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe) { }
 
 	ngOnInit () {
-		let x = 0;
 		this.store.dispatch(new FetchData());
 		this.state.subscribe((dashboardState: DashboardState) => {
 			const grouped = dashboardState.expenses.reduce((mapped, exp) => {
 				mapped[ exp.category.name ] = (mapped[ exp.category.name ] || 0) + (exp.value);
 				return mapped;
 			}, {});
-			if (this.pieChart.chartData.length == 0) {
+			if (this.pieChart.chartData.length === 0) {
 				Object.keys(grouped).forEach(cat => {
 					this.pieChart.addChartLabel(cat);
 					this.pieChart.addChartData(grouped[ cat ]);
@@ -45,9 +44,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 			this.totalIncome = dashboardState.incomes.reduce((inc, inc1) => inc + inc1.value, 0);
 			this.totalExpense = dashboardState.expenses.reduce((exp, exp1) => exp + exp1.value, 0);
 			this.totalPlanned = dashboardState.categories.reduce((cat, cat1) => cat + cat1.periodValue[ 0 ].plannedValue, 0);
-			let plannedValues = [];
-			let actualValues = [];
-			if (this.barChart.chartLabels.length == 0) {
+			const plannedValues = [];
+			const actualValues = [];
+			if (this.barChart.chartLabels.length === 0) {
 				dashboardState.categories.forEach((catVal: CategoryAggregValues) => {
 					this.barChart.addChartLabel(catVal.category.name);
 					plannedValues.push(catVal.periodValue[ 0 ].plannedValue);

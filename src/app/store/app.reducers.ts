@@ -8,6 +8,7 @@ import { expenseReducers, ExpenseState, initialExpenseState } from '../layout/ex
 import { incomeReducers, IncomeState, initialIncomeState } from '../layout/income/store/income.reducers';
 import { initialReportState, reportReducers, ReportState } from '../layout/report/store/report.reducers';
 import { alertReducers, AlertState, initialAlertState } from './alert.reducers';
+import { AppActionsEnum } from './app.actions';
 
 
 export interface AppState {
@@ -48,3 +49,12 @@ export const appReducers: ActionReducerMap<AppState, any> = {
 	dashboard: dashboardReducers,
 	report: reportReducers
 };
+
+export function clearState (reducer) {
+	return function (state, action) {
+		if (action.type === AppActionsEnum.CLEAR_STORE) {
+			state = undefined;
+		}
+		return reducer(state, action);
+	};
+}

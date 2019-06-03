@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, pipe } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
@@ -25,26 +25,26 @@ export class IncomeEffects {
 		map((action: IncomeActions.CreateIncome) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((income: Income) => {
-				return this.http.post<Income>(this.incomeEndPoint.concat('/create'), income);
-			}),
-			mergeMap((income: Income) => {
-				return [
-					{
-						type: IncomeActionsEnum.ADD_INCOME,
-						payload: income
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Income saved'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on save income'));
-			})
-		)
+		switchMap((income: Income) => {
+			return this.http.post<Income>(this.incomeEndPoint.concat('/create'), income).pipe(
+				mergeMap((inc: Income) => {
+					return [
+						{
+							type: IncomeActionsEnum.ADD_INCOME,
+							payload: inc
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Income saved'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on save income'));
+				})
+			);
+		}),
 	);
 
 	@Effect()
@@ -53,26 +53,26 @@ export class IncomeEffects {
 		map((action: IncomeActions.UpdateIncome) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((inc: Income) => {
-				return this.http.post<Income>(this.incomeEndPoint.concat('/update'), inc);
-			}),
-			mergeMap((inc: Income) => {
-				return [
-					{
-						type: IncomeActionsEnum.ALTER_INCOME,
-						payload: inc
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Income edited'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on edit income'));
-			})
-		)
+		switchMap((income: Income) => {
+			return this.http.post<Income>(this.incomeEndPoint.concat('/update'), income).pipe(
+				mergeMap((inc: Income) => {
+					return [
+						{
+							type: IncomeActionsEnum.ALTER_INCOME,
+							payload: inc
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Income edited'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on edit income'));
+				})
+			);
+		})
 	);
 
 	@Effect()
@@ -81,26 +81,26 @@ export class IncomeEffects {
 		map((action: IncomeActions.DeleteIncome) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((id: number) => {
-				return this.http.delete(this.incomeEndPoint.concat('/delete/').concat(id.toString()));
-			}),
-			mergeMap((id: number) => {
-				return [
-					{
-						type: IncomeActionsEnum.REMOVE_INCOME,
-						payload: id
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Income deleted'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on delete income'));
-			})
-		)
+		switchMap((id: number) => {
+			return this.http.delete(this.incomeEndPoint.concat('/delete/').concat(id.toString())).pipe(
+				mergeMap(() => {
+					return [
+						{
+							type: IncomeActionsEnum.REMOVE_INCOME,
+							payload: id
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Income deleted'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on delete income'));
+				})
+			);
+		}),
 	);
 
 	@Effect()
@@ -110,14 +110,19 @@ export class IncomeEffects {
 			return this.http.get(this.incomeEndPoint.concat('/list'), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
-			});
+			}).pipe(
+				map((page: any) => {
+					return {
+						type: IncomeActionsEnum.ADD_INCOMES,
+						payload: page
+					};
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Erro on list incomes'));
+				})
+			);
 		}),
-		map((page: any) => {
-			return {
-				type: IncomeActionsEnum.ADD_INCOMES,
-				payload: page
-			};
-		})
 	);
 
 }

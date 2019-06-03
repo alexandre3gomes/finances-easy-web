@@ -23,7 +23,7 @@ import { IncomeEffects } from './layout/income/store/income.effects';
 import { ReportEffects } from './layout/report/store/report.effects';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
-import { appReducers } from './store/app.reducers';
+import { appReducers, clearState } from './store/app.reducers';
 
 
 
@@ -47,7 +47,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 		}),
 		NgbDropdownModule,
 		NgxUiLoaderModule,
-		StoreModule.forRoot(appReducers),
+		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
 		EffectsModule.forRoot([ AuthEffects,
 			IncomeEffects,
 			CategoryEffects,

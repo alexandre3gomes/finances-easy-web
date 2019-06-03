@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, pipe } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Default } from '../../../shared/enum/default.enum';
@@ -25,26 +25,26 @@ export class ExpenseEffects {
 		map((action: ExpenseActions.CreateExpense) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((expense: Expense) => {
-				return this.http.post<Expense>(this.expenseEndPoint.concat('/create'), expense);
-			}),
-			mergeMap((expense: Expense) => {
-				return [
-					{
-						type: ExpenseActionsEnum.ADD_EXPENSE,
-						payload: expense
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Expense saved'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on save expense'));
-			})
-		)
+		switchMap((expense: Expense) => {
+			return this.http.post<Expense>(this.expenseEndPoint.concat('/create'), expense).pipe(
+				mergeMap((exp: Expense) => {
+					return [
+						{
+							type: ExpenseActionsEnum.ADD_EXPENSE,
+							payload: exp
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Expense saved'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on save expense'));
+				})
+			);
+		})
 	);
 
 	@Effect()
@@ -53,26 +53,27 @@ export class ExpenseEffects {
 		map((action: ExpenseActions.UpdateExpense) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((exp: Expense) => {
-				return this.http.post<Expense>(this.expenseEndPoint.concat('/update'), exp);
-			}),
-			mergeMap((exp: Expense) => {
-				return [
-					{
-						type: ExpenseActionsEnum.ALTER_EXPENSE,
-						payload: exp
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Expense edited'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on edit expense'));
-			})
-		)
+		switchMap((expense: Expense) => {
+			return this.http.post<Expense>(this.expenseEndPoint.concat('/update'), expense).pipe(
+				mergeMap((exp: Expense) => {
+					return [
+						{
+							type: ExpenseActionsEnum.ALTER_EXPENSE,
+							payload: exp
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Expense edited'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on edit expense'));
+				})
+			);
+
+		})
 	);
 
 	@Effect()
@@ -81,26 +82,26 @@ export class ExpenseEffects {
 		map((action: ExpenseActions.DeleteExpense) => {
 			return action.payload;
 		}),
-		pipe(
-			switchMap((id: number) => {
-				return this.http.delete(this.expenseEndPoint.concat('/delete/').concat(id.toString()));
-			}),
-			mergeMap((id: number) => {
-				return [
-					{
-						type: ExpenseActionsEnum.REMOVE_EXPENSE,
-						payload: id
-					},
-					{
-						type: AlertActionsEnum.SHOW_ALERT_SUCESS,
-						payload: 'Expense deleted'
-					}
-				];
-			}),
-			catchError(() => {
-				return of(new ShowAlertError('Error on delete expense'));
-			})
-		)
+		switchMap((id: number) => {
+			return this.http.delete(this.expenseEndPoint.concat('/delete/').concat(id.toString())).pipe(
+				mergeMap(() => {
+					return [
+						{
+							type: ExpenseActionsEnum.REMOVE_EXPENSE,
+							payload: id
+						},
+						{
+							type: AlertActionsEnum.SHOW_ALERT_SUCESS,
+							payload: 'Expense deleted'
+						}
+					];
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on delete expense'));
+				})
+			);
+		})
 	);
 
 	@Effect()
@@ -110,13 +111,18 @@ export class ExpenseEffects {
 			return this.http.get(this.expenseEndPoint.concat('/list/'), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
-			});
+			}).pipe(
+				map((page: any) => {
+					return {
+						type: ExpenseActions.ExpenseActionsEnum.ADD_EXPENSES,
+						payload: page
+					};
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on list expenses'));
+				})
+			);
 		}),
-		map((page: any) => {
-			return {
-				type: ExpenseActions.ExpenseActionsEnum.ADD_EXPENSES,
-				payload: page
-			};
-		})
 	);
 }

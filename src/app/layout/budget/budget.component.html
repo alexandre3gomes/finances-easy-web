@@ -1,6 +1,6 @@
-<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="resetData()"></app-confirm>
+<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete()"></app-confirm>
 <app-edit-budget *ngIf="editModal" [categories]="(categoryState | async).categories" [currentId]="currentId"
-	(closed)="closedEditModal()" [state]="budgetState" [breakperiods]="breakperiods"></app-edit-budget>
+	(closed)="resetData()" [state]="budgetState" [breakperiods]="breakperiods"></app-edit-budget>
 <div class="row mb-4">
 	<div class="col-xl-12">
 		<button class="btn btn-primary" (click)="openModal()">
