@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
@@ -69,27 +70,31 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 	saveChanges () {
 		const expireAt = this.expenseForm.get('expireAt').value;
 		if (this.currentId > 0) {
+			let editedExpense: Expense;
 			this.store.select(expenses).subscribe((expensesState: Expense[]) => {
-				const editedExpense = expensesState.find((exp: Expense) => exp.id === this.currentId);
-				if (editedExpense) {
-					editedExpense.name = this.expenseForm.get('name').value;
-					editedExpense.value = this.expenseForm.get('value').value;
-					editedExpense.category = this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value);
-					editedExpense.expireAt = expireAt;
-					this.store.dispatch(new UpdateExpense(editedExpense));
-				}
+				editedExpense = expensesState.find((exp: Expense) => exp.id === this.currentId);
 			});
+			if (editedExpense) {
+				editedExpense.name = this.expenseForm.get('name').value;
+				editedExpense.value = this.expenseForm.get('value').value;
+				editedExpense.category = this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value);
+				editedExpense.expireAt = expireAt;
+				this.store.dispatch(new UpdateExpense(editedExpense));
+			}
 			this.closed.emit();
 		} else {
+			let loggedUser: User;
 			this.store.select(authLoggedUser).subscribe((user: User) => {
-				this.store.dispatch(
-					new CreateExpense(new Expense(-1,
-						this.expenseForm.get('name').value,
-						this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value),
-						user,
-						this.expenseForm.get('value').value,
-						expireAt)));
+				take(1),
+					loggedUser = user;
 			});
+			const createdExpense = new Expense(-1,
+				this.expenseForm.get('name').value,
+				this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value),
+				loggedUser,
+				this.expenseForm.get('value').value,
+				expireAt);
+			this.store.dispatch(new CreateExpense(createdExpense));
 			this.closed.emit();
 		}
 	}

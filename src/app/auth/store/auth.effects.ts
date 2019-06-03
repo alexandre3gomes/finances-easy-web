@@ -7,6 +7,7 @@ import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from 'src/app/shared/model/user.model';
 import { environment } from 'src/environments/environment';
 import { ShowAlertError } from '../../store/alert.actions';
+import { AppActionsEnum } from '../../store/app.actions';
 import * as AuthActions from './auth.actions';
 import { AuthActionsEnum } from './auth.actions';
 
@@ -35,21 +36,25 @@ export class AuthEffects {
 						payload: us
 					};
 				}),
-				catchError(() => {
+				catchError((err) => {
+					console.error(err);
 					return of(new ShowAlertError('Login failed, try again'));
 				})
 			);
 		})
 	);
 
-	@Effect({ dispatch: false })
+	@Effect()
 	authLogout = this.actions.pipe(
 		ofType(AuthActionsEnum.LOGOUT),
 		switchMap(() => {
 			return this.http.get<void>(this.userEndpoint.concat('/logout')).pipe(
-				tap(() => {
+				map(() => {
 					localStorage.removeItem('token');
 					this.router.navigate([ '/login' ]);
+					return {
+						type: AppActionsEnum.CLEAR_STORE
+					};
 				}),
 				catchError((err) => {
 					return of(console.log(err));

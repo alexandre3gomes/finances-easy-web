@@ -37,26 +37,29 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 
 	saveChanges () {
 		const createdDate = this.incomeForm.get('createdDate').value;
+		let editedIncome: Income;
 		if (this.currentId > 0) {
 			this.store.select(incomes).subscribe((incomeState: Income[]) => {
-				const editedIncome = incomeState.find((inc: Income) => inc.id === this.currentId);
-				if (editedIncome) {
-					editedIncome.name = this.incomeForm.get('name').value;
-					editedIncome.value = this.incomeForm.get('value').value;
-					editedIncome.date = createdDate;
-					this.store.dispatch(new UpdateIncome(editedIncome));
-				}
+				editedIncome = incomeState.find((inc: Income) => inc.id === this.currentId);
 			});
+			if (editedIncome) {
+				editedIncome.name = this.incomeForm.get('name').value;
+				editedIncome.value = this.incomeForm.get('value').value;
+				editedIncome.date = createdDate;
+				this.store.dispatch(new UpdateIncome(editedIncome));
+			}
 			this.closed.emit();
 		} else {
+			let loggedUser: User;
 			this.store.select(authLoggedUser).subscribe((user: User) => {
-				this.store.dispatch(
-					new CreateIncome(new Income(-1,
-						user,
-						this.incomeForm.get('name').value,
-						this.incomeForm.get('value').value,
-						createdDate)));
+				loggedUser = user;
 			});
+			this.store.dispatch(
+				new CreateIncome(new Income(-1,
+					loggedUser,
+					this.incomeForm.get('name').value,
+					this.incomeForm.get('value').value,
+					createdDate)));
 			this.closed.emit();
 		}
 	}
