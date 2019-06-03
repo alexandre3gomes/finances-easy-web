@@ -1,4 +1,4 @@
-<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete()"></app-confirm>
+<app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <app-edit-budget *ngIf="editModal" [categories]="(categoryState | async).categories" [currentId]="currentId"
 	(closed)="resetData()" [state]="budgetState" [breakperiods]="breakperiods"></app-edit-budget>
 <div class="row mb-4">
