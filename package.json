@@ -2,6 +2,9 @@
 	"name": "finances-easy-web",
 	"version": "1.0.0",
 	"license": "Apache",
+	"engines": {
+		"node": "10.15.0"
+	},
 	"scripts": {
 		"ng": "ng",
 		"start": "node server.js",
