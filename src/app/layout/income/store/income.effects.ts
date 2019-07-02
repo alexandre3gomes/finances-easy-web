@@ -26,7 +26,7 @@ export class IncomeEffects {
 			return action.payload;
 		}),
 		switchMap((income: Income) => {
-			return this.http.post<Income>(this.incomeEndPoint.concat('/create'), income).pipe(
+			return this.http.post<Income>(this.incomeEndPoint, income).pipe(
 				mergeMap((inc: Income) => {
 					return [
 						{
@@ -82,7 +82,7 @@ export class IncomeEffects {
 			return action.payload;
 		}),
 		switchMap((id: number) => {
-			return this.http.delete(this.incomeEndPoint.concat('/delete/').concat(id.toString())).pipe(
+			return this.http.delete(this.incomeEndPoint.concat('/').concat(id.toString())).pipe(
 				mergeMap(() => {
 					return [
 						{
@@ -107,7 +107,7 @@ export class IncomeEffects {
 	listIncomes = this.actions.pipe(
 		ofType(IncomeActionsEnum.LIST_INCOMES),
 		switchMap((action: IncomeActions.ListIncomes) => {
-			return this.http.get(this.incomeEndPoint.concat('/list'), {
+			return this.http.get(this.incomeEndPoint, {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
 			}).pipe(

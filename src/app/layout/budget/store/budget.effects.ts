@@ -27,7 +27,7 @@ export class BudgetEffects {
 			return action.payload;
 		}),
 		switchMap((budget: Budget) => {
-			return this.http.post<Budget>(this.budgetEndPoint.concat('/create'), budget).pipe(
+			return this.http.post<Budget>(this.budgetEndPoint, budget).pipe(
 				mergeMap((bud: Budget) => {
 					return [
 						{
@@ -83,7 +83,7 @@ export class BudgetEffects {
 			return action.payload;
 		}),
 		switchMap((id: number) => {
-			return this.http.delete(this.budgetEndPoint.concat('/delete/').concat(id.toString())).pipe(
+			return this.http.delete(this.budgetEndPoint.concat('/').concat(id.toString())).pipe(
 				mergeMap((id: number) => {
 					return [
 						{
@@ -108,7 +108,7 @@ export class BudgetEffects {
 	listBudgets = this.actions.pipe(
 		ofType(BudgetActions.BudgetActionsEnum.LIST_BUDGETS),
 		switchMap((action: BudgetActions.ListBudgets) => {
-			return this.http.get(this.budgetEndPoint.concat('/list'), {
+			return this.http.get(this.budgetEndPoint, {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
 			}).pipe(

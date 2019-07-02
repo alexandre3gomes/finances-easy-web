@@ -26,7 +26,7 @@ export class ExpenseEffects {
 			return action.payload;
 		}),
 		switchMap((expense: Expense) => {
-			return this.http.post<Expense>(this.expenseEndPoint.concat('/create'), expense).pipe(
+			return this.http.post<Expense>(this.expenseEndPoint, expense).pipe(
 				mergeMap((exp: Expense) => {
 					return [
 						{
@@ -83,7 +83,7 @@ export class ExpenseEffects {
 			return action.payload;
 		}),
 		switchMap((id: number) => {
-			return this.http.delete(this.expenseEndPoint.concat('/delete/').concat(id.toString())).pipe(
+			return this.http.delete(this.expenseEndPoint.concat('/').concat(id.toString())).pipe(
 				mergeMap(() => {
 					return [
 						{
@@ -108,7 +108,7 @@ export class ExpenseEffects {
 	listExpenses = this.actions.pipe(
 		ofType(ExpenseActions.ExpenseActionsEnum.LIST_EXPENSES),
 		switchMap((action: ExpenseActions.ListExpenses) => {
-			return this.http.get(this.expenseEndPoint.concat('/list/'), {
+			return this.http.get(this.expenseEndPoint, {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
 			}).pipe(

@@ -26,7 +26,7 @@ export class CategoryEffects {
 			return action.payload;
 		}),
 		switchMap((category: Category) => {
-			return this.http.post<Category>(this.categoryEndPoint.concat('/create'), category).pipe(
+			return this.http.post<Category>(this.categoryEndPoint, category).pipe(
 				mergeMap((cat: Category) => {
 					return [
 						{
@@ -82,7 +82,7 @@ export class CategoryEffects {
 			return action.payload;
 		}),
 		switchMap((id: number) => {
-			return this.http.delete(this.categoryEndPoint.concat('/delete/').concat(id.toString())).pipe(
+			return this.http.delete(this.categoryEndPoint.concat('/').concat(id.toString())).pipe(
 				mergeMap(() => {
 					return [
 						{
@@ -107,7 +107,7 @@ export class CategoryEffects {
 	listCategories = this.actions.pipe(
 		ofType(CategoryActions.CategoryActionsEnum.LIST_CATEGORIES),
 		switchMap((action: CategoryActions.ListCategories) => {
-			return this.http.get(this.categoryEndPoint.concat('/list'), {
+			return this.http.get(this.categoryEndPoint, {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
 			}).pipe(
