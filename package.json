@@ -2,6 +2,10 @@
 	"name": "finances-easy-web",
 	"version": "1.0.0",
 	"license": "Apache",
+	"engines": {
+		"node": "10.15.0",
+		"npm": "6.9.0"
+	},
 	"scripts": {
 		"ng": "ng",
 		"start": "node server.js",
@@ -10,8 +14,7 @@
 		"test": "ng test",
 		"test-ci": "TEST_CI=true ng test",
 		"lint": "ng lint",
-		"e2e": "ng e2e",
-		"heroku-postbuild": "ng build --prod"
+		"e2e": "ng e2e"
 	},
 	"private": true,
 	"dependencies": {
