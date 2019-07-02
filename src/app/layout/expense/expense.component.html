@@ -2,12 +2,57 @@
 </app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
-	<div class="col-xl-12">
+	<div class="col-sm-10">
 		<button class="btn btn-primary" (click)="openModal()">
 			{{ 'Create' | translate }}
 		</button>
 	</div>
+	<div class="col-sm-2">
+		<button class="btn btn-primary" (click)="search()">
+			{{ 'Search' | translate }}
+		</button>
+	</div>
 </div>
+<form [formGroup]="filtersForm">
+	<div class="row mb-3">
+		<div class="col-sm-3">
+			<div class=" form-group mb-5">
+				<label for="startDate">{{ 'Start date' | translate }}</label>
+				<div class="input-group">
+					<input id="startDate" name="dp" class="form-control" formControlName="startDate" ngbDatepicker
+						#startDate="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()" type="button">
+							<i class="far fa-calendar-alt"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class=" form-group mb-5">
+				<label for="endDate">{{ 'Start date' | translate }}</label>
+				<div class="input-group">
+					<input id="endDate" name="dp" class="form-control" formControlName="endDate" ngbDatepicker
+						#endDate="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()" type="button">
+							<i class="far fa-calendar-alt"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-group mb-2">
+				<label for="category">{{ 'Category' | translate }}</label>
+				<select id="category" name="category" class="form-control" formControlName="category">
+					<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</form>
 <div class="card mb-3">
 	<div class="card-header">{{ 'Expenses' | translate }}</div>
 	<div class="card-body table-responsive">
