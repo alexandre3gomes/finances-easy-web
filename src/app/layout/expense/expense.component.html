@@ -8,19 +8,19 @@
 		</button>
 	</div>
 	<div class="col-sm-2">
-		<button class="btn btn-primary" (click)="search()">
+		<button class="btn btn-primary" type="submit" (click)="search()">
 			{{ 'Search' | translate }}
 		</button>
 	</div>
 </div>
-<form [formGroup]="filtersForm">
+<form #filtersForm="ngForm">
 	<div class="row mb-3">
 		<div class="col-sm-3">
 			<div class=" form-group mb-5">
 				<label for="startDate">{{ 'Start date' | translate }}</label>
 				<div class="input-group">
-					<input id="startDate" name="dp" class="form-control" formControlName="startDate" ngbDatepicker
-						#startDate="ngbDatepicker">
+					<input id="startDate" name="startDate" class="form-control" [(ngModel)]="filters.startDate"
+						ngbDatepicker #startDate="ngbDatepicker">
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()" type="button">
 							<i class="far fa-calendar-alt"></i>
@@ -33,7 +33,7 @@
 			<div class=" form-group mb-5">
 				<label for="endDate">{{ 'Start date' | translate }}</label>
 				<div class="input-group">
-					<input id="endDate" name="dp" class="form-control" formControlName="endDate" ngbDatepicker
+					<input id="endDate" name="endDate" class="form-control" [(ngModel)]="filters.endDate" ngbDatepicker
 						#endDate="ngbDatepicker">
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()" type="button">
@@ -46,7 +46,7 @@
 		<div class="col-sm-3">
 			<div class="form-group mb-2">
 				<label for="category">{{ 'Category' | translate }}</label>
-				<select id="category" name="category" class="form-control" formControlName="category">
+				<select id="category" name="category" class="form-control" [(ngModel)]="filters.category">
 					<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
 				</select>
 			</div>

@@ -7,11 +7,11 @@ export interface AuthState {
 }
 
 export const initialAuthState: AuthState = {
-	authenticated: false,
-	loggedUser: new User(-1, '', '', '', '')
+	authenticated: true,
+	loggedUser: new User(1, 'Alexandre', '', '', '')
 };
 
-export function authReducers (state = initialAuthState, action: AuthActions): AuthState {
+export function authReducers(state = initialAuthState, action: AuthActions): AuthState {
 	switch (action.type) {
 		case (AuthActionsEnum.SET_AUTHENTICATED): {
 			return {

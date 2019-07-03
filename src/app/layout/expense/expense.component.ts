@@ -17,7 +17,7 @@ import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.acti
 @Component({
 	selector: 'app-expense',
 	templateUrl: './expense.component.html',
-	styleUrls: ['./expense.component.scss']
+	styleUrls: [ './expense.component.scss' ]
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
@@ -28,7 +28,6 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	editModal = false;
 	currentPage = 0;
 	DATE_FORMAT = 'L';
-	filtersForm: FormGroup;
 	filters: Filter;
 
 	constructor(private store: Store<AppState>) { }
@@ -43,11 +42,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	initForm() {
-		this.filtersForm = new FormGroup({
-			'startDate': new FormControl(''),
-			'endDate': new FormControl(''),
-			'category': new FormControl(''),
-		})
+		this.filters = new Filter(new Date, new Date, new Category(-1, ''));
 	}
 
 	ngOnDestroy() {
@@ -90,7 +85,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	search() {
-		this.filters = new Filter(this.filtersForm.get('startDate').value, this.filtersForm.get('endDate').value, new Category(this.filtersForm.get('category').value, ''));
-		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		console.log(this.filters, this.categories.filter((cat) => cat.id === +this.filters.category));
+		// this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 	}
 }

@@ -46,6 +46,7 @@
 		"moment": "^2.24.0",
 		"ng2-charts": "2.2.3",
 		"ngx-ui-loader": "^7.2.2",
+		"rest-url-builder": "^1.0.6",
 		"rxjs": "^6.5.2",
 		"tslib": "^1.9.0",
 		"yarn": "1.12.1",

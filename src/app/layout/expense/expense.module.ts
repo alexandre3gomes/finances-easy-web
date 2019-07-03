@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbDateAdapter, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedPipesModule } from '../../shared';
@@ -15,6 +15,7 @@ import { ExpenseRoutingModule } from './expense.routing.module';
 	imports: [ CommonModule,
 		ExpenseRoutingModule,
 		TranslateModule,
+		FormsModule,
 		ReactiveFormsModule,
 		ConfirmModule,
 		NgbDatepickerModule,
