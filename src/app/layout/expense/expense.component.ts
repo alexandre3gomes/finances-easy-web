@@ -85,7 +85,8 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	search() {
-		console.log(this.filters, this.categories.filter((cat) => cat.id === +this.filters.category));
-		// this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		const selectedCategory = this.categories.filter((cat) => cat.id === +this.filters.category);
+		this.filters.category = selectedCategory[ 0 ];
+		this.store.dispatch(new ListExpenses(new Pagination(0, Default.PAGE_SIZE)));
 	}
 }

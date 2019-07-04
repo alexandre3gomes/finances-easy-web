@@ -9,7 +9,7 @@ import { Expense } from '../../../shared/model/expense.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as ExpenseActions from './expense.actions';
 import { ExpenseActionsEnum } from './expense.actions';
-import { UrlSegment } from '@angular/router';
+import { RestURLBuilder } from 'rest-url-builder';
 
 
 
@@ -17,6 +17,7 @@ import { UrlSegment } from '@angular/router';
 export class ExpenseEffects {
 
 	private expenseEndPoint = environment.api.concat('expense');
+	private urlBuilder = new RestURLBuilder();
 
 	constructor(private actions: Actions, private http: HttpClient) { }
 
@@ -109,7 +110,11 @@ export class ExpenseEffects {
 	listExpenses = this.actions.pipe(
 		ofType(ExpenseActions.ExpenseActionsEnum.LIST_EXPENSES),
 		switchMap((action: ExpenseActions.ListExpenses) => {
-			return this.http.get(this.expenseEndPoint, {
+			const builder = this.urlBuilder.buildRestURL(this.expenseEndPoint.concat('/:catId/:startDate/:endDate'));
+			builder.setQueryParameter('catId', '1');
+			builder.setQueryParameter('startDate', '20190101');
+			builder.setQueryParameter('endDate', '20190526');
+			return this.http.get(builder.get(), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
 			}).pipe(
