@@ -110,10 +110,10 @@ export class ExpenseEffects {
 	listExpenses = this.actions.pipe(
 		ofType(ExpenseActions.ExpenseActionsEnum.LIST_EXPENSES),
 		switchMap((action: ExpenseActions.ListExpenses) => {
-			const builder = this.urlBuilder.buildRestURL(this.expenseEndPoint.concat('/:catId/:startDate/:endDate'));
-			builder.setQueryParameter('catId', '1');
-			builder.setQueryParameter('startDate', '20190101');
-			builder.setQueryParameter('endDate', '20190526');
+			const builder = this.urlBuilder.buildRestURL(this.expenseEndPoint.concat('?category=:category&start=:start&end=:end'));
+			builder.setQueryParameter('category', '1');
+			builder.setQueryParameter('start', '20190101');
+			builder.setQueryParameter('end', '20190526');
 			return this.http.get(builder.get(), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
