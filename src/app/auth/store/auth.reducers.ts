@@ -1,4 +1,5 @@
 import { User } from 'src/app/shared/model/user.model';
+
 import { AuthActions, AuthActionsEnum } from './auth.actions';
 
 export interface AuthState {
@@ -7,8 +8,8 @@ export interface AuthState {
 }
 
 export const initialAuthState: AuthState = {
-	authenticated: true,
-	loggedUser: new User(1, 'Alexandre', '', '', '')
+	authenticated: false,
+	loggedUser: new User(-1, '', '', '', '')
 };
 
 export function authReducers(state = initialAuthState, action: AuthActions): AuthState {
