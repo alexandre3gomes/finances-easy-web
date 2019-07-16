@@ -29,6 +29,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	currentPage = 0;
 	DATE_FORMAT = 'L';
 	filter: Filter;
+	searchForm: FormGroup;
 
 	constructor(private store: Store<AppState>) { }
 
@@ -38,11 +39,11 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		this.store.select(categories).subscribe((categoriesState: Category[]) => {
 			this.categories = categoriesState;
 		});
-		this.initForm();
-	}
-
-	initForm() {
-		this.filter = new Filter(new Date, new Date, new Category(-1, ''));
+		this.searchForm = new FormGroup({
+			'startDate': new FormControl(),
+			'endDate': new FormControl(),
+			'category': new FormControl()
+		});
 	}
 
 	ngOnDestroy() {
@@ -85,8 +86,11 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	search() {
-		const selectedCategory = this.categories.filter((cat) => cat.id === +this.filter.category);
-		this.filter.category = selectedCategory[ 0 ];
-		this.store.dispatch(new ListExpenses(new Pagination(0, Default.PAGE_SIZE)));
+		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
+		const filter = new Filter(this.searchForm.get('startDate').value, this.searchForm.get('endDate').value, selectedCategory[ 0 ]);
+		const pagination = new Pagination(0, Default.PAGE_SIZE);
+		pagination.filter = filter;
+		this.store.dispatch(new ResetExpenses());
+		this.store.dispatch(new ListExpenses(pagination));
 	}
 }
