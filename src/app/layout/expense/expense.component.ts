@@ -28,7 +28,6 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	editModal = false;
 	currentPage = 0;
 	DATE_FORMAT = 'L';
-	filter: Filter;
 	searchForm: FormGroup;
 
 	constructor(private store: Store<AppState>) { }
@@ -82,15 +81,19 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
 	showMore() {
 		this.currentPage++;
-		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
 	}
 
 	search() {
+		this.store.dispatch(new ResetExpenses());
+		this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+	}
+
+	getPaginationWithFilters(): Pagination {
 		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
 		const filter = new Filter(this.searchForm.get('startDate').value, this.searchForm.get('endDate').value, selectedCategory[ 0 ]);
 		const pagination = new Pagination(0, Default.PAGE_SIZE);
 		pagination.filter = filter;
-		this.store.dispatch(new ResetExpenses());
-		this.store.dispatch(new ListExpenses(pagination));
+		return pagination;
 	}
 }

@@ -11,8 +11,6 @@ import * as ExpenseActions from './expense.actions';
 import { ExpenseActionsEnum } from './expense.actions';
 import { RestURLBuilder } from 'rest-url-builder';
 
-
-
 @Injectable()
 export class ExpenseEffects {
 
@@ -112,9 +110,15 @@ export class ExpenseEffects {
 		switchMap((action: ExpenseActions.ListExpenses) => {
 			const builder = this.urlBuilder.buildRestURL(this.expenseEndPoint.concat('?category=:category&start=:start&end=:end'));
 			if (action.payload.filter) {
-				builder.setQueryParameter('category', action.payload.filter.category.id.toString());
-				builder.setQueryParameter('start', action.payload.filter.startDate.toISOString());
-				builder.setQueryParameter('end', action.payload.filter.startDate.toISOString());
+				if (action.payload.filter.category) {
+					builder.setQueryParameter('category', action.payload.filter.category.id.toString());
+				}
+				if (action.payload.filter.startDate) {
+					builder.setQueryParameter('start', action.payload.filter.startDate.toISOString());
+				}
+				if (action.payload.filter.endDate) {
+					builder.setQueryParameter('end', action.payload.filter.startDate.toISOString());
+				}
 			}
 			return this.http.get(builder.get(), {
 				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())

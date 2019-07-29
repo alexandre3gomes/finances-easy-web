@@ -25,9 +25,9 @@
 						</thead>
 						<tbody>
 							<tr *ngFor="let val of cat.periodValue">
-								<th scope="row">{{ val.startDate | dateLocale:'MMMM' }}</th>
-								<td>{{ val.plannedValue }}</td>
-								<td>{{ val.actualValue }}</td>
+								<th scope="row">{{ val.endDate | dateLocale:'MMM YY' }}</th>
+								<td>{{ val.plannedValue | currency:'€' }}</td>
+								<td>{{ val.actualValue | currency:'€' }}</td>
 							</tr>
 						</tbody>
 					</table>

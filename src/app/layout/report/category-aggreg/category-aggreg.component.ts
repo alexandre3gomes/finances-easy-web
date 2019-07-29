@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+
 import { Default } from '../../../shared/enum/default.enum';
 import { Budget } from '../../../shared/model/budget/budget.model';
 import { Pagination } from '../../../shared/model/pagination/pagination.model';
@@ -16,7 +17,7 @@ import { ListCategoryAggregValues } from '../store/report.actions';
 	templateUrl: './category-aggreg.component.html',
 	styleUrls: [ './category-aggreg.component.scss' ]
 })
-export class CategoryAggregComponent implements OnInit {
+export class CategoryAggregComponent implements OnInit, OnDestroy {
 
 	public state = this.store.select(report);
 	public budgets = this.store.select(budgets);
@@ -25,7 +26,7 @@ export class CategoryAggregComponent implements OnInit {
 
 	constructor(public store: Store<AppState>) { }
 
-	ngOnInit () {
+	ngOnInit() {
 		this.reportForm = new FormGroup({
 			'budget': new FormControl(this.budget, Validators.required),
 		});
@@ -37,11 +38,11 @@ export class CategoryAggregComponent implements OnInit {
 		});
 	}
 
-	ngOnDestroy () {
+	ngOnDestroy() {
 		this.store.dispatch(new ResetBudgets());
 	}
 
-	loadBudgetData () {
+	loadBudgetData() {
 		if (this.budget) {
 			this.store.dispatch(new ListCategoryAggregValues(this.budget.id));
 		} else {

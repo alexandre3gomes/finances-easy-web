@@ -1,0 +1,58 @@
+<div>
+	<h2 class="text-muted">{{ 'Report' | translate }}</h2>
+	<div class="form-group mb-5">
+		<form [formGroup]="reportForm">
+			<label for="budgets">{{ 'Select budget' }}</label>
+			<select name="budget" class="form-control" (change)="loadBudgetData()" formControlName="budget">
+				<option *ngFor="let budget of (budgets | async)">
+					{{ budget.startDate | dateLocale: 'l' }} - {{ budget.endDate | dateLocale: 'l' }}
+				</option>
+			</select>
+		</form>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ 'Year Balance' | translate }}</div>
+				<div class="card-body table-responsive">
+					<table class="table table-hover table-bordered">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">{{ 'Categories' | translate }}</th>
+								<th scope="col" *ngFor="let per of periods" style="min-width: 75px">
+									{{ per | dateLocale: 'MMM YY' }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr scope="row" *ngFor="let cat of (state | async).catVal">
+								<th scope="col">{{ cat.category.name }}</th>
+								<td scope="col" *ngFor="let val of cat.periodValue">
+									<span *ngIf="isActual(val.endDate)">{{ val.actualValue | currency:'€' }}</span>
+									<span *ngIf="!isActual(val.endDate)">{{ val.plannedValue | currency:'€' }}</span>
+								</td>
+							</tr>
+							<tr scope="row" style="background-color: lightcoral;">
+								<th scope="col">{{ 'Total' | translate }}</th>
+								<td scope="col" *ngFor="let val of total">
+									<span>{{ val | currency:'€' }}</span>
+								</td>
+							</tr>
+							<tr scope="row" style="background-color: lightblue;">
+								<th scope="col">{{ 'Incomes' | translate }}</th>
+								<td scope="col" *ngFor="let inc of (state | async).incomePeriod">
+									<span>{{ inc > 0 ? inc : FORECAST_INCOME | currency:'€' }}</span>
+								</td>
+							</tr>
+							<tr scope="row" style="background-color: lightgreen;">
+								<th scope="col">{{ 'Incomes' | translate }}</th>
+								<td scope="col" *ngFor="let tot of balance">
+									<span>{{ tot | currency:'€' }}</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
