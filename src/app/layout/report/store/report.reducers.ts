@@ -3,18 +3,26 @@ import { ReportActions, ReportActionsEnum } from './report.actions';
 
 export interface ReportState {
 	catVal: CategoryAggregValues[];
+	incomePeriod: Array<number>;
 }
 
 export const initialReportState: ReportState = {
-	catVal: []
+	catVal: [],
+	incomePeriod: []
 };
 
-export function reportReducers (state = initialReportState, action: ReportActions): ReportState {
+export function reportReducers(state = initialReportState, action: ReportActions): ReportState {
 	switch (action.type) {
 		case (ReportActionsEnum.ADD_CATEGORY_AGGREG_VALUE): {
 			return {
 				...state,
 				catVal: action.payload
+			};
+		}
+		case (ReportActionsEnum.ADD_INCOME_PERIOD): {
+			return {
+				...state,
+				incomePeriod: action.payload
 			};
 		}
 		default: {

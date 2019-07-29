@@ -1,14 +1,66 @@
 <app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()" [state]="state">
 </app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
-<div class="row mb-3">
-	<div class="col-sm-10">
+<div class="row mb-1">
+	<div class="col-sm-6">
 		<button class="btn btn-primary" (click)="openModal()">
 			{{ 'Create' | translate }}
 		</button>
 	</div>
 </div>
-
+<div class="row">
+	<div class="col-sm-12">
+		<a (click)="showFilters = !showFilters" style="cursor: pointer">
+			<i class="fas fa-plus" *ngIf="!showFilters"></i>
+			<i class="fa fa-minus" *ngIf="showFilters"></i>
+			<span class="ml-2">{{ 'Filters' | translate }}</span>
+		</a>
+	</div>
+</div>
+<div class="collapse" [ngClass]="{'show': showFilters}">
+	<form [formGroup]="searchForm">
+		<div class="row mb-1">
+			<div class="col-sm-4">
+				<label for="category">{{ 'Category' | translate }}</label>
+				<select id="category" name="category" class="form-control" formControlName="category">
+					<option value="undefined">{{ 'Select a category' | translate }}</option>
+					<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<label for="startDate">{{ 'Start date' | translate }}</label>
+				<div class="input-group">
+					<input id="startDate" name="dp" class="form-control" formControlName="startDate" ngbDatepicker
+						#startDate="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()" type="button">
+							<i class="far fa-calendar-alt"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<label for="endDate">{{ 'End date' | translate }}</label>
+				<div class="input-group">
+					<input id="endDate" name="dp" class="form-control" formControlName="endDate" ngbDatepicker
+						#endDate="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()" type="button">
+							<i class="far fa-calendar-alt"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-sm-12">
+				<button class="btn btn-primary float-right" (click)="search()">
+					{{ 'Search' | translate }}
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
 <div class="card mb-3">
 	<div class="card-header">{{ 'Expenses' | translate }}</div>
 	<div class="card-body table-responsive">

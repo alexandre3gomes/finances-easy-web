@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
 import { CategoryAggregValues } from '../../../shared/model/report/category-aggreg-values.model';
-import { ReportActionsEnum, ListCategoryAggregValues } from './report.actions';
 import { ShowAlertError } from '../../../store/alert.actions';
-import { of } from 'rxjs';
+import { ListCategoryAggregValues, ListIncomePeriod, ReportActionsEnum } from './report.actions';
 
 @Injectable()
 export class ReportEffects {
@@ -28,6 +29,25 @@ export class ReportEffects {
 				catchError((err) => {
 					console.error(err);
 					return of(new ShowAlertError('Error on list category aggregate values'));
+				})
+			);
+		})
+	);
+
+	@Effect()
+	listIncomePeriod = this.actions.pipe(
+		ofType(ReportActionsEnum.LIST_INCOME_PERIOD),
+		switchMap((action: ListIncomePeriod) => {
+			return this.http.get(this.reportEndpoint.concat('/byPeriod/').concat(action.payload.toString())).pipe(
+				map((list: Array<number>) => {
+					return {
+						type: ReportActionsEnum.ADD_INCOME_PERIOD,
+						payload: list
+					};
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on list incomes by period'));
 				})
 			);
 		})

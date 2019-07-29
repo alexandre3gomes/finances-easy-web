@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { CategoryAggregComponent } from './category-aggreg/category-aggreg.component';
 import { ReportComponent } from './report.component';
+import { YearBalanceComponent } from './year-balance/year-balance.component';
 
 const routes: Routes = [
 	{
@@ -11,6 +13,10 @@ const routes: Routes = [
 	{
 		path: 'category',
 		component: CategoryAggregComponent
+	},
+	{
+		path: 'balance',
+		component: YearBalanceComponent
 	}
 ];
 
