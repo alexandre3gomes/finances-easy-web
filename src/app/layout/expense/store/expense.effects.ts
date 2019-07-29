@@ -9,13 +9,11 @@ import { Expense } from '../../../shared/model/expense.model';
 import { AlertActionsEnum, ShowAlertError } from '../../../store/alert.actions';
 import * as ExpenseActions from './expense.actions';
 import { ExpenseActionsEnum } from './expense.actions';
-import { RestURLBuilder } from 'rest-url-builder';
 
 @Injectable()
 export class ExpenseEffects {
 
 	private expenseEndPoint = environment.api.concat('expense');
-	private urlBuilder = new RestURLBuilder();
 
 	constructor(private actions: Actions, private http: HttpClient) { }
 
@@ -108,22 +106,20 @@ export class ExpenseEffects {
 	listExpenses = this.actions.pipe(
 		ofType(ExpenseActions.ExpenseActionsEnum.LIST_EXPENSES),
 		switchMap((action: ExpenseActions.ListExpenses) => {
-			const builder = this.urlBuilder.buildRestURL(this.expenseEndPoint.concat('?category=:category&start=:start&end=:end'));
+			let params = new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
+				.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString());
 			if (action.payload.filter) {
 				if (action.payload.filter.category) {
-					builder.setQueryParameter('category', action.payload.filter.category.id.toString());
+					params = params.set('category', action.payload.filter.category.id.toString());
 				}
 				if (action.payload.filter.startDate) {
-					builder.setQueryParameter('start', action.payload.filter.startDate.toISOString());
+					params = params.set('start', action.payload.filter.startDate.toISOString());
 				}
 				if (action.payload.filter.endDate) {
-					builder.setQueryParameter('end', action.payload.filter.startDate.toISOString());
+					params = params.set('end', action.payload.filter.endDate.toISOString());
 				}
 			}
-			return this.http.get(builder.get(), {
-				params: new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
-					.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString())
-			}).pipe(
+			return this.http.get(this.expenseEndPoint, { params }).pipe(
 				map((page: any) => {
 					return {
 						type: ExpenseActions.ExpenseActionsEnum.ADD_EXPENSES,

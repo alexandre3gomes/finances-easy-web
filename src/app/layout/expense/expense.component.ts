@@ -11,13 +11,14 @@ import { expense } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { categories } from '../category/store/category.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
+import { ShowAlertError } from '../../store/alert.actions';
 
 
 
 @Component({
 	selector: 'app-expense',
 	templateUrl: './expense.component.html',
-	styleUrls: [ './expense.component.scss' ]
+	styleUrls: ['./expense.component.scss']
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
@@ -29,6 +30,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	currentPage = 0;
 	DATE_FORMAT = 'L';
 	searchForm: FormGroup;
+	showFilters = false;
 
 	constructor(private store: Store<AppState>) { }
 
@@ -85,14 +87,18 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	}
 
 	search() {
-		this.store.dispatch(new ResetExpenses());
-		this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+		if (this.searchForm.get('startDate').value && !this.searchForm.get('endDate').value) {
+			this.store.dispatch(new ShowAlertError('Please select End Date'));
+		} else {
+			this.store.dispatch(new ResetExpenses());
+			this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+		}
 	}
 
 	getPaginationWithFilters(): Pagination {
 		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
-		const filter = new Filter(this.searchForm.get('startDate').value, this.searchForm.get('endDate').value, selectedCategory[ 0 ]);
-		const pagination = new Pagination(0, Default.PAGE_SIZE);
+		const filter = new Filter(this.searchForm.get('startDate').value, this.searchForm.get('endDate').value, selectedCategory[0]);
+		const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
 		pagination.filter = filter;
 		return pagination;
 	}
