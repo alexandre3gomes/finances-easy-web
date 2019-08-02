@@ -18,7 +18,7 @@ import { ShowAlertError } from '../../store/alert.actions';
 @Component({
 	selector: 'app-expense',
 	templateUrl: './expense.component.html',
-	styleUrls: ['./expense.component.scss']
+	styleUrls: [ './expense.component.scss' ]
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
@@ -41,6 +41,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 			this.categories = categoriesState;
 		});
 		this.searchForm = new FormGroup({
+			'name': new FormControl(),
 			'startDate': new FormControl(),
 			'endDate': new FormControl(),
 			'category': new FormControl()
@@ -97,7 +98,9 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
 	getPaginationWithFilters(): Pagination {
 		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
-		const filter = new Filter(this.searchForm.get('startDate').value, this.searchForm.get('endDate').value, selectedCategory[0]);
+		const filter = new Filter(this.searchForm.get('name').value,
+			this.searchForm.get('startDate').value,
+			this.searchForm.get('endDate').value, selectedCategory[ 0 ]);
 		const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
 		pagination.filter = filter;
 		return pagination;

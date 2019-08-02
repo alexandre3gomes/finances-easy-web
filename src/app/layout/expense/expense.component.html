@@ -21,12 +21,18 @@
 	<form [formGroup]="searchForm">
 		<div class="row mb-1">
 			<div class="col-sm-4">
+				<label for="name">{{ 'Name' | translate }}</label>
+				<input id="name" name="name" type="text" class="form-control" formControlName="name">
+			</div>
+			<div class="col-sm-4">
 				<label for="category">{{ 'Category' | translate }}</label>
 				<select id="category" name="category" class="form-control" formControlName="category">
 					<option value="undefined">{{ 'Select a category' | translate }}</option>
 					<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
 				</select>
 			</div>
+		</div>
+		<div class="row mb-1">
 			<div class="col-sm-4">
 				<label for="startDate">{{ 'Start date' | translate }}</label>
 				<div class="input-group">

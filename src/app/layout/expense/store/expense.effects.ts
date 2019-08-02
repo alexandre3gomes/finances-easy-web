@@ -109,6 +109,9 @@ export class ExpenseEffects {
 			let params = new HttpParams().set('page', action.payload.page ? action.payload.page.toString() : Default.START_PAGE.toString())
 				.set('size', action.payload.size ? action.payload.size.toString() : Default.PAGE_SIZE.toString());
 			if (action.payload.filter) {
+				if (action.payload.filter.name) {
+					params = params.set('name', action.payload.filter.name);
+				}
 				if (action.payload.filter.category) {
 					params = params.set('category', action.payload.filter.category.id.toString());
 				}
