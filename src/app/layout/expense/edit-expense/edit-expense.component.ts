@@ -31,20 +31,22 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	constructor(private store: Store<AppState>) { }
 
-	ngOnInit () {
-		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+	ngOnInit() {
 		this.store.select(categories).subscribe((categoriesState: Category[]) => {
+			if (categoriesState.length === 0) {
+				this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+			}
 			this.categories = categoriesState;
 		});
 		this.initForm();
 	}
 
-	ngOnDestroy () {
+	ngOnDestroy() {
 		this.currentId = -1;
 		this.store.dispatch(new ResetCategories());
 	}
 
-	initForm () {
+	initForm() {
 		let name = '';
 		let value = 0;
 		let expireAt = new Date();
@@ -67,7 +69,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	saveChanges () {
+	saveChanges() {
 		const expireAt = this.expenseForm.get('expireAt').value;
 		if (this.currentId > 0) {
 			let editedExpense: Expense;
@@ -99,7 +101,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	closeModal () {
+	closeModal() {
 		this.closed.emit();
 	}
 
