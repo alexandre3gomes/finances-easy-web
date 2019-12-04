@@ -37,6 +37,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 
 	saveChanges () {
 		const createdDate = this.incomeForm.get('createdDate').value;
+		createdDate.setHours(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
 		let editedIncome: Income;
 		if (this.currentId > 0) {
 			this.store.select(incomes).subscribe((incomeState: Income[]) => {
