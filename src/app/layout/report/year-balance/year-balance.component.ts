@@ -28,6 +28,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 	public catAggValues: Array<CategoryAggregValues>;
 	public total: Array<number>;
 	public balance: Array<number>;
+	public accumulatedBalance: Array<number>;
 	public FORECAST_INCOME = 2600;
 
 	constructor(public store: Store<AppState>) { }
@@ -45,7 +46,8 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 		});
 		this.state.subscribe((repState) => {
 			this.total = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
-			this.balance = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+			this.accumulatedBalance = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+			this.balance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 			repState.catVal.forEach(catVal => {
 				this.periods = catVal.periodValue.map(per => {
 					return per.endDate;
@@ -63,10 +65,11 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 			for (let x = 0; x < this.total.length; x++) {
 				const income = (repState.incomePeriod[ x ] > 0 ? repState.incomePeriod[ x ] : this.FORECAST_INCOME);
 				if (x >= 1) {
-					this.balance[ x ] = (income - this.total[ x ]) + this.balance[ x - 1 ];
+					this.accumulatedBalance[ x ] = this.total[x] > 0 ? (income - this.total[ x ]) + this.accumulatedBalance[ x - 1 ] : 0;
 				} else {
-					this.balance[ x ] = income - this.total[ x ];
+					this.accumulatedBalance[x] = this.total[x] > 0 ? income - this.total[ x ] : 0;
 				}
+				this.balance[x] = income - this.total[x];
 			}
 		});
 	}

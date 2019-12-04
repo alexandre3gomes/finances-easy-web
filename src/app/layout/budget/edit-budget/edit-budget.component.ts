@@ -11,6 +11,7 @@ import { AppState } from '../../../store/app.reducers';
 import { CreateBudget, UpdateBudget } from '../store/budget.actions';
 import { BudgetState } from '../store/budget.reducers';
 import { budgets } from '../store/budget.selectors';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -51,7 +52,8 @@ export class EditBudgetComponent implements OnInit {
 					this.user = budget.user;
 					startDate = budget.startDate;
 					endDate = budget.endDate;
-					for (let x = 0; x < budget.categories.length; x++) {
+					const orderedCategories = budget.categories.sort((cat1, cat2) => cat1.category.name.localeCompare(cat2.category.name));
+					for (let x = 0; x < orderedCategories.length; x++) {
 						const frmGroup = this.fb.group({
 							'category': this.fb.control(budget.categories[x].category.id, Validators.required),
 							'value': this.fb.control(budget.categories[x].value, Validators.min(0.1))
@@ -87,31 +89,33 @@ export class EditBudgetComponent implements OnInit {
 		this.categoryBudgetControls.push(this.categoryBudgetGroup);
 	}
 
-	removeCategoryBudget() {
-		this.categoryBudgetControls.removeAt(this.categoryBudgetControls.length - 1);
+	removeCategoryBudget(idx: number) {
+		this.categoryBudgetControls.removeAt(idx);
 	}
 
 	saveChanges() {
 		const startDate = this.budgetForm.get('startDate').value;
 		const endDate = this.budgetForm.get('endDate').value;
 		const breakperiod = this.budgetForm.get('breakperiod').value;
+		let editedBudget;
 		if (this.currentId > 0) {
 			this.store.select(budgets).subscribe((budgetsState: Budget[]) => {
-				const editedBudget = budgetsState.find((exp: Budget) => exp.id === this.currentId);
-				if (editedBudget) {
-					editedBudget.startDate = startDate;
-					editedBudget.endDate = endDate;
-					editedBudget.breakperiod = breakperiod;
-					const budgetCategories = new Array();
-					for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
-						const frmGrp = this.categoryBudgetControls.controls[idx];
-						const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
-						budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
-					}
-					editedBudget.categories = budgetCategories;
-					this.store.dispatch(new UpdateBudget(editedBudget));
-				}
+				take(1),
+				editedBudget = budgetsState.find((exp: Budget) => exp.id === this.currentId);
 			});
+			if (editedBudget) {
+				editedBudget.startDate = startDate;
+				editedBudget.endDate = endDate;
+				editedBudget.breakperiod = breakperiod;
+				const budgetCategories = new Array();
+				for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
+					const frmGrp = this.categoryBudgetControls.controls[idx];
+					const cat = this.categories.find((cate: Category) => cate.id === parseInt(frmGrp.get('category').value, 0));
+					budgetCategories.push(new BudgetCategory(cat, frmGrp.get('value').value));
+				}
+				editedBudget.categories = budgetCategories;
+				this.store.dispatch(new UpdateBudget(editedBudget));
+			}
 		} else {
 			const budgetCategories = new Array();
 			for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {

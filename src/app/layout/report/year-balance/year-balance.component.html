@@ -40,13 +40,19 @@
 							<tr scope="row" style="background-color: lightblue;">
 								<th scope="col">{{ 'Incomes' | translate }}</th>
 								<td scope="col" *ngFor="let inc of (state | async).incomePeriod">
-									<span>{{ inc > 0 ? inc : FORECAST_INCOME | currency:'€' }}</span>
+									<span>{{ (inc > 0 ? inc : FORECAST_INCOME) | currency:'€' }}</span>
+								</td>
+							</tr>
+							<tr scope="row" style="background-color: floralwhite;">
+								<th scope="col">{{ 'Balance' | translate }}</th>
+								<td scope="col" *ngFor="let bal of balance">
+									<span>{{ bal | currency:'€' }}</span>
 								</td>
 							</tr>
 							<tr scope="row" style="background-color: lightgreen;">
-								<th scope="col">{{ 'Balance' | translate }}</th>
-								<td scope="col" *ngFor="let tot of balance">
-									<span>{{ tot | currency:'€' }}</span>
+								<th scope="col">{{ 'Accumulated Balance' | translate }}</th>
+								<td scope="col" *ngFor="let accBal of accumulatedBalance">
+									<span>{{ accBal | currency:'€' }}</span>
 								</td>
 							</tr>
 						</tbody>

@@ -72,11 +72,11 @@
 												formControlName="value" (keydown.enter)="saveChanges()"
 												(keydown.esc)="closeModal()">
 										</div>
-										<div class="col-sm-2" *ngIf="i == categoryBudgetControls.controls.length - 1">
-											<a style="cursor: pointer" class="mr-2" (click)="addCategoryBudget()">
+										<div class="col-sm-2">
+											<a style="cursor: pointer" class="mr-2" (click)="addCategoryBudget()" *ngIf="i == categoryBudgetControls.controls.length - 1">
 												<i class="fas fa-plus"></i>
 											</a>
-											<a style="cursor: pointer" (click)="removeCategoryBudget()"><i
+											<a style="cursor: pointer" (click)="removeCategoryBudget(i)"><i
 													class="fas fa-minus"></i></a>
 										</div>
 									</div>

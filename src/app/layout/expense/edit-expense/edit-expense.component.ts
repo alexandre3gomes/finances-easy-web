@@ -89,7 +89,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 			let loggedUser: User;
 			this.store.select(authLoggedUser).subscribe((user: User) => {
 				take(1),
-					loggedUser = user;
+				loggedUser = user;
 			});
 			const createdExpense = new Expense(-1,
 				this.expenseForm.get('name').value,
