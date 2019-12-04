@@ -71,6 +71,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	saveChanges() {
 		const expireAt = this.expenseForm.get('expireAt').value;
+		expireAt.setHours(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
 		if (this.currentId > 0) {
 			let editedExpense: Expense;
 			this.store.select(expenses).subscribe((expensesState: Expense[]) => {
