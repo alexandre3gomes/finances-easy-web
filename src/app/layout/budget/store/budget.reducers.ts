@@ -24,7 +24,7 @@ export function budgetReducers(state = initialBudgetState, action: BudgetActions
 		case (BudgetActionsEnum.ADD_BUDGETS): {
 			return {
 				...state,
-				budgets: [...state.budgets, ...action.payload.content],
+				budgets: [...state.budgets, ...action.payload.content].sort((bud1, bud2) => new Date(bud2.startDate).getTime() - new Date(bud1.startDate).getTime()),
 				page: action.payload
 			};
 		}
@@ -33,7 +33,7 @@ export function budgetReducers(state = initialBudgetState, action: BudgetActions
 			newBudgets.pop();
 			return {
 				...state,
-				budgets: [action.payload, ...newBudgets]
+				budgets: [action.payload, ...newBudgets].sort((bud1, bud2) => new Date(bud2.startDate).getTime() - new Date(bud1.startDate).getTime())
 			};
 		}
 		case (BudgetActionsEnum.ALTER_BUDGET): {

@@ -24,7 +24,7 @@ export function categoryReducers(state = initialCategoryState, action: CategoryA
 		case (CategoryActionsEnum.ADD_CATEGORIES): {
 			return {
 				...state,
-				categories: [...state.categories, ...action.payload.content],
+				categories: [...state.categories, ...action.payload.content].sort((cat1, cat2) => cat2.id - cat1.id),
 				page: action.payload
 			};
 		}
@@ -33,7 +33,7 @@ export function categoryReducers(state = initialCategoryState, action: CategoryA
 			newCategories.pop();
 			return {
 				...state,
-				categories: [action.payload, ...newCategories]
+				categories: [action.payload, ...newCategories].sort((cat1, cat2) => cat2.id - cat1.id)
 			};
 		}
 		case (CategoryActionsEnum.ALTER_CATEGORY): {

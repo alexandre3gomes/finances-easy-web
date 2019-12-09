@@ -24,7 +24,7 @@ export function incomeReducers(state = initialIncomeState, action: IncomeActions
 		case (IncomeActionsEnum.ADD_INCOMES): {
 			return {
 				...state,
-				incomes: [...state.incomes, ...action.payload.content],
+				incomes: [...state.incomes, ...action.payload.content].sort((inc1, inc2) => new Date(inc2.date).getTime() - new Date(inc1.date).getTime()),
 				page: action.payload
 			};
 		}
@@ -33,7 +33,7 @@ export function incomeReducers(state = initialIncomeState, action: IncomeActions
 			newIncomes.pop();
 			return {
 				...state,
-				incomes: [action.payload, ...newIncomes]
+				incomes: [action.payload, ...newIncomes].sort((inc1, inc2) => new Date(inc2.date).getTime() - new Date(inc1.date).getTime())
 			};
 		}
 		case (IncomeActionsEnum.ALTER_INCOME): {

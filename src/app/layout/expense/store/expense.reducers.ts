@@ -24,7 +24,7 @@ export function expenseReducers(state = initialExpenseState, action: ExpenseActi
 		case (ExpenseActionsEnum.ADD_EXPENSES): {
 			return {
 				...state,
-				expenses: [...state.expenses, ...action.payload.content],
+				expenses: [...state.expenses, ...action.payload.content].sort((exp1, exp2) => new Date(exp2.expireAt).getTime() - new Date(exp1.expireAt).getTime()),
 				page: action.payload
 			};
 		}
@@ -33,7 +33,7 @@ export function expenseReducers(state = initialExpenseState, action: ExpenseActi
 			newExpenses.pop();
 			return {
 				...state,
-				expenses: [action.payload, ...newExpenses]
+				expenses: [action.payload, ...newExpenses].sort((exp1, exp2) => new Date(exp2.expireAt).getTime() - new Date(exp1.expireAt).getTime())
 			};
 		}
 		case (ExpenseActionsEnum.ALTER_EXPENSE): {
