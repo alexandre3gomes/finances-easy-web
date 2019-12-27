@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
 import { Expense } from '../../../shared/model/expense.model';
 import { Income } from '../../../shared/model/income.model';
@@ -26,6 +27,9 @@ export class DashboardEffects {
 		switchMap(() => {
 			return this.http.get<Income[]>(this.dashboardEndpoint.concat('/actualIncome')).pipe(
 				mergeMap((incomes: Income[]) => {
+					if(incomes.length <= 0) {
+						return EMPTY;
+					}
 					return [
 						{
 							type: DashboardActionsEnum.ADD_ACTUAL_INCOMES,

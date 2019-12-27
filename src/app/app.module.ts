@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,15 +12,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
+
+import { effects } from './app-effects';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthEffects } from './auth/store/auth.effects';
-import { BudgetEffects } from './layout/budget/store/budget.effects';
-import { CategoryEffects } from './layout/category/store/category.effects';
-import { DashboardEffects } from './layout/dashboard/store/dashboard.effects';
-import { ExpenseEffects } from './layout/expense/store/expense.effects';
-import { IncomeEffects } from './layout/income/store/income.effects';
-import { ReportEffects } from './layout/report/store/report.effects';
 import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers, clearState } from './store/app.reducers';
@@ -48,13 +43,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 		NgbDropdownModule,
 		NgxUiLoaderModule,
 		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
-		EffectsModule.forRoot([ AuthEffects,
-			IncomeEffects,
-			CategoryEffects,
-			ExpenseEffects,
-			BudgetEffects,
-			DashboardEffects,
-			ReportEffects ]),
+		EffectsModule.forRoot(effects),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule

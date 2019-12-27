@@ -30,6 +30,12 @@
 				<div class="col-sm-10"><span>{{ 'Budget' | translate }}</span></div>
 			</div>
 		</a>
+		<a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<div class="row">
+				<div class="col-sm-2"><i class="fas fa-users"></i></div>
+				<div class="col-sm-10"><span>{{ 'Users' | translate }}</span></div>
+			</div>
+		</a>
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('pages')">
 				<i class="fa fa-plus"></i>&nbsp;

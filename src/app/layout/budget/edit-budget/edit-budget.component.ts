@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { BudgetCategory } from '../../../shared/model/budget/budget-category.model';
@@ -9,9 +10,7 @@ import { Category } from '../../../shared/model/category.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
 import { CreateBudget, UpdateBudget } from '../store/budget.actions';
-import { BudgetState } from '../store/budget.reducers';
 import { budgets } from '../store/budget.selectors';
-import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -20,7 +19,6 @@ import { take } from 'rxjs/operators';
 })
 export class EditBudgetComponent implements OnInit {
 
-	@Input() state;
 	budgetForm: FormGroup;
 	category: Category;
 	user: User;
@@ -46,8 +44,8 @@ export class EditBudgetComponent implements OnInit {
 		const breakpoint = 1;
 		const frmArray = this.fb.array([]);
 		if (this.currentId > 0) {
-			this.state.subscribe((budgetState: BudgetState) => {
-				const budget = budgetState.budgets.find((bud: Budget) => bud.id === this.currentId);
+			this.store.select(budgets).subscribe((buds: Budget[]) => {
+				const budget = buds.find((bud: Budget) => bud.id === this.currentId);
 				if (budget) {
 					this.user = budget.user;
 					startDate = budget.startDate;

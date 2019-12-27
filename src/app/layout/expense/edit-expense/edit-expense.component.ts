@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
@@ -12,7 +13,6 @@ import { AppState } from '../../../store/app.reducers';
 import { ListCategories, ResetCategories } from '../../category/store/category.actions';
 import { categories } from '../../category/store/category.selectors';
 import { CreateExpense, UpdateExpense } from '../store/expense.actions';
-import { ExpenseState } from '../store/expense.reducers';
 import { expenses } from '../store/expense.selectors';
 
 
@@ -22,7 +22,6 @@ import { expenses } from '../store/expense.selectors';
 })
 export class EditExpenseComponent implements OnInit, OnDestroy {
 
-	@Input() state;
 	expenseForm: FormGroup;
 	category: Category;
 	@Input() currentId: number;
@@ -48,11 +47,11 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	initForm() {
 		let name = '';
-		let value = 0;
+		let value;
 		let expireAt = new Date();
 		if (this.currentId > 0) {
-			this.state.subscribe((expenseState: ExpenseState) => {
-				const expense = expenseState.expenses.find((exp: Expense) => exp.id === this.currentId);
+			this.store.select(expenses).subscribe((exps: Expense[]) => {
+				const expense = exps.find((exp: Expense) => exp.id === this.currentId);
 				if (expense) {
 					name = expense.name;
 					value = expense.value;

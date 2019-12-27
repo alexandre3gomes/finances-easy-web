@@ -1,26 +1,31 @@
 <div [@routerTransition]>
 	<h2 class="text-muted">{{ 'Dashboard' | translate }}</h2>
-	<div class="float-right">
-		<label>{{ 'Balance' | translate }}: {{ totalIncome - totalExpense | currency:'€' }}</label>
-		<label></label>
+	<div *ngIf="!(state | async).dataFetched">
+		<h1 class="text-center">{{ 'No data available' | translate}}</h1>
 	</div>
-	<div class="card mb-4 w-100 h-100" *ngIf="(state | async).dataFetched">
-		<div class="card-header">{{ 'Total income' | translate }}: {{ totalIncome | currency:'€' }}</div>
-		<div class="card-body">
-			<canvas baseChart [data]="pieChart.chartData" [labels]="pieChart.chartLabels"
-				[chartType]="pieChart.chartType" [options]="pieChart.chartOptions" [legend]="pieChart.chartLegend">
-			</canvas>
+	<div *ngIf="(state | async).dataFetched">
+		<div class="float-right">
+			<label>{{ 'Balance' | translate }}: {{ totalIncome - totalExpense | currency:'€' }}</label>
+			<label></label>
 		</div>
-	</div>
-	<div class="card mb-4 w-100 h-10" *ngIf="(state | async).dataFetched">
-		<div class="card-header">
-			<span class="float-left">{{ 'Total expense' | translate }}: {{ totalExpense | currency:'€' }}</span>
-			<span class="float-right">{{ 'Total planned' | translate }}: {{ totalPlanned | currency:'€' }}</span>
+		<div class="card mb-4 w-100 h-100">
+			<div class="card-header">{{ 'Total income' | translate }}: {{ totalIncome | currency:'€' }}</div>
+			<div class="card-body">
+				<canvas baseChart [data]="pieChart.chartData" [labels]="pieChart.chartLabels"
+					[chartType]="pieChart.chartType" [options]="pieChart.chartOptions" [legend]="pieChart.chartLegend">
+				</canvas>
+			</div>
 		</div>
-		<div class="card-body">
-			<canvas baseChart [datasets]="barChart.chartData" [labels]="barChart.chartLabels"
-				[chartType]="barChart.chartType" [options]="barChart.chartOptions" [legend]="barChart.chartLegend">
-			</canvas>
+		<div class="card mb-4 w-100 h-10" *ngIf="(state | async).dataFetched">
+			<div class="card-header">
+				<span class="float-left">{{ 'Total expense' | translate }}: {{ totalExpense | currency:'€' }}</span>
+				<span class="float-right">{{ 'Total planned' | translate }}: {{ totalPlanned | currency:'€' }}</span>
+			</div>
+			<div class="card-body">
+				<canvas baseChart [datasets]="barChart.chartData" [labels]="barChart.chartLabels"
+					[chartType]="barChart.chartType" [options]="barChart.chartOptions" [legend]="barChart.chartLegend">
+				</canvas>
+			</div>
 		</div>
 	</div>
 </div>

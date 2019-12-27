@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
-import { budget, category } from '../../store/app.selectors';
+import { category } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { DeleteBudget, ListBudgets, ResetBudgets } from './store/budget.actions';
+import { budgets } from './store/budget.selectors';
 
 @Component({
 	selector: 'app-budget',
@@ -16,7 +17,7 @@ import { DeleteBudget, ListBudgets, ResetBudgets } from './store/budget.actions'
 export class BudgetComponent implements OnInit, OnDestroy {
 
 	DATE_FORMAT = 'L';
-	budgetState = this.store.select(budget);
+	budgetState = this.store.select(budgets);
 	categoryState = this.store.select(category);
 	showConfirm = false;
 	editModal = false;

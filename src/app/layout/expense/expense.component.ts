@@ -6,12 +6,12 @@ import { Default } from '../../shared/enum/default.enum';
 import { Category } from '../../shared/model/category.model';
 import { Filter } from '../../shared/model/pagination/filter.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
+import { ShowAlertError } from '../../store/alert.actions';
 import { AppState } from '../../store/app.reducers';
-import { expense } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { categories } from '../category/store/category.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
-import { ShowAlertError } from '../../store/alert.actions';
+import { expenses } from './store/expense.selectors';
 
 
 
@@ -22,7 +22,7 @@ import { ShowAlertError } from '../../store/alert.actions';
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
-	state = this.store.select(expense);
+	state = this.store.select(expenses);
 	currentId: number;
 	showConfirm = false;
 	categories: Category[];

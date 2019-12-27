@@ -80,5 +80,7 @@
 	"Please select End Date": "Por favor, selecione a data final",
 	"Filters": "Filtros",
 	"Username": "Usuário",
-	"Accumulated Balance": "Saldo acumulado"
+	"Accumulated Balance": "Saldo acumulado",
+	"Users": "Usuários",
+	"No data available": "Sem dados"
 }

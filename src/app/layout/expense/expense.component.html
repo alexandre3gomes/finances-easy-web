@@ -1,4 +1,4 @@
-<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()" [state]="state">
+<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()">
 </app-edit-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-1">
@@ -82,7 +82,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let exp of (state | async).expenses">
+				<tr *ngFor="let exp of (state | async)">
 					<th scope="row">{{ exp.name }}</th>
 					<td>{{ exp.value }}</td>
 					<td>{{ exp.category.name }}</td>

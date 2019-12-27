@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
+
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
-import { category } from '../../store/app.selectors';
 import { DeleteCategory, ListCategories, ResetCategories } from './store/category.actions';
+import { categories } from './store/category.selectors';
 
 
 
@@ -14,7 +15,7 @@ import { DeleteCategory, ListCategories, ResetCategories } from './store/categor
 })
 export class CategoryComponent implements OnInit, OnDestroy {
 
-	state = this.store.select(category);
+	state = this.store.select(categories);
 	currentId: number;
 	showConfirm = false;
 	editModal = false;

@@ -9,6 +9,7 @@ import { incomeReducers, IncomeState, initialIncomeState } from '../layout/incom
 import { initialReportState, reportReducers, ReportState } from '../layout/report/store/report.reducers';
 import { alertReducers, AlertState, initialAlertState } from './alert.reducers';
 import { AppActionsEnum } from './app.actions';
+import { UserState, initialUserState, userReducers } from '../layout/user/store/user.reducers';
 
 
 export interface AppState {
@@ -21,6 +22,7 @@ export interface AppState {
 	budget: BudgetState;
 	dashboard: DashboardState;
 	report: ReportState;
+	user: UserState;
 }
 
 export const initialAppState: AppState = {
@@ -31,7 +33,8 @@ export const initialAppState: AppState = {
 	expense: initialExpenseState,
 	budget: initialBudgetState,
 	dashboard: initialDashboardState,
-	report: initialReportState
+	report: initialReportState,
+	user: initialUserState
 };
 
 export function getInitialState (): AppState {
@@ -47,7 +50,8 @@ export const appReducers: ActionReducerMap<AppState, any> = {
 	expense: expenseReducers,
 	budget: budgetReducers,
 	dashboard: dashboardReducers,
-	report: reportReducers
+	report: reportReducers,
+	user: userReducers
 };
 
 export function clearState (reducer) {

@@ -1,31 +1,31 @@
+<app-edit-user *ngIf="editModal" [currentId]="currentId" (closed)="resetData()">
+</app-edit-user>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
-<app-edit-category *ngIf="editModal" [currentId]="currentId" (closed)="resetData()">
-</app-edit-category>
-<div class="row mb-4">
+<div class="row mb-3">
 	<div class="col-xl-12">
 		<button class="btn btn-primary" (click)="openModal()">
-			{{'Create' | translate}}
+			{{'Create' | translate }}
 		</button>
 	</div>
 </div>
-<div class="card mb-4">
-	<div class="card-header">{{ 'Categories' | translate }}</div>
+<div class="card mb-3">
+	<div class="card-header">{{ 'Users' | translate }}</div>
 	<div class="card-body table-responsive">
 		<table class="table table-hover table-striped">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">{{'Name' | translate }}</th>
+					<th scope="col">{{'Username' | translate }}</th>
 					<th scope="col">{{'Actions' | translate }}</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let cat of (state | async)">
-					<th scope="row">{{ cat.name }}</th>
+				<tr *ngFor="let usr of (state | async)">
+					<th scope="row">{{ usr.name }}</th>
+					<td>{{ usr.username }}</td>
 					<td>
-						<button class="btn btn-info mr-2" (click)="editCategory(cat.id)"><i
-								class="fas fa-pencil-alt"></i></button>
-						<button class="btn btn-danger" (click)="deleteCategory(cat.id)"><i
-								class="fas fa-trash-alt"></i></button>
+						<button class="btn btn-info mr-2" (click)="editUser(usr.id)"><i class="fas fa-pencil-alt"></i></button>
+						<button class="btn btn-danger" (click)="deleteUser(usr.id)"><i class="fas fa-trash-alt"></i></button>
 					</td>
 				</tr>
 			</tbody>

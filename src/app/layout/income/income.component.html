@@ -1,4 +1,4 @@
-<app-edit-income *ngIf="editModal" [state]="state" [currentId]="currentId" (closed)="resetData()">
+<app-edit-income *ngIf="editModal" [currentId]="currentId" (closed)="resetData()">
 </app-edit-income>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-3">
@@ -22,7 +22,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let inc of (state | async).incomes">
+				<tr *ngFor="let inc of (state | async)">
 					<th scope="row">{{ inc.name }}</th>
 					<td>{{ inc.value }}</td>
 					<td>{{ inc.date | dateLocale: DATE_FORMAT }}</td>
