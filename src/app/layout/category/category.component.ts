@@ -24,6 +24,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit () {
+		this.store.dispatch(new ResetCategories());
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
 	}
 
