@@ -33,6 +33,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.store.dispatch(new ResetCategories());
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
 		this.breakperiods.push(1);
