@@ -22,7 +22,6 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 
 	public state = this.store.select(report);
 	public budgets = this.store.select(budgets);
-	public budget: Budget;
 	public reportForm: FormGroup;
 	public periods: Array<Date>;
 	public catAggValues: Array<CategoryAggregValues>;
@@ -30,18 +29,21 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 	public balance: Array<number>;
 	public accumulatedBalance: Array<number>;
 	public FORECAST_INCOME = 2600;
+	public budgetId: number = -1;
 
 	constructor(public store: Store<AppState>) { }
 
 	ngOnInit() {
 		this.reportForm = new FormGroup({
-			'budget': new FormControl(this.budget, Validators.required),
+			'budget': new FormControl(this.budgetId, Validators.required),
 		});
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.budgets.subscribe((stateBudgets: Budget[]) => {
-			if (stateBudgets.length === 1) {
-				this.store.dispatch(new ListCategoryAggregValues(stateBudgets[ 0 ].id));
-				this.store.dispatch(new ListIncomePeriod(stateBudgets[ 0 ].id));
+			let currBudget = stateBudgets.filter(bud => new Date(bud.startDate) <= new Date() && new Date(bud.endDate) >= new Date());
+			if (currBudget.length > 0) {
+				this.budgetId = currBudget[0].id;
+				this.store.dispatch(new ListCategoryAggregValues(currBudget[0].id));
+				this.store.dispatch(new ListIncomePeriod(currBudget[0].id));
 			}
 		});
 		this.state.subscribe((repState) => {
@@ -79,8 +81,8 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 	}
 
 	loadBudgetData() {
-		if (this.budget) {
-			this.store.dispatch(new ListCategoryAggregValues(this.budget.id));
+		if (+this.reportForm.get('budget').value > 0) {
+			this.store.dispatch(new ListCategoryAggregValues(+this.reportForm.get('budget').value));
 		} else {
 			this.store.dispatch(new ShowAlertError('Please select a budget'));
 		}

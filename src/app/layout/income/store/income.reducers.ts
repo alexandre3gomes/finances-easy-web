@@ -1,3 +1,4 @@
+import { Default } from '../../../shared/enum/default.enum';
 import { Income } from '../../../shared/model/income.model';
 import { Page } from '../../../shared/model/pagination/page.model';
 import { IncomeActions, IncomeActionsEnum } from './income.actions';
@@ -30,7 +31,9 @@ export function incomeReducers(state = initialIncomeState, action: IncomeActions
 		}
 		case (IncomeActionsEnum.ADD_INCOME): {
 			const newIncomes = [...state.incomes];
-			newIncomes.pop();
+			if(newIncomes.length >= Default.PAGE_SIZE) {
+				newIncomes.pop();
+			}
 			return {
 				...state,
 				incomes: [action.payload, ...newIncomes].sort((inc1, inc2) => new Date(inc2.date).getTime() - new Date(inc1.date).getTime())

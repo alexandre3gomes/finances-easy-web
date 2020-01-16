@@ -1,3 +1,4 @@
+import { Default } from '../../../shared/enum/default.enum';
 import { Expense } from '../../../shared/model/expense.model';
 import { Page } from '../../../shared/model/pagination/page.model';
 import { ExpenseActions, ExpenseActionsEnum } from './expense.actions';
@@ -30,7 +31,9 @@ export function expenseReducers(state = initialExpenseState, action: ExpenseActi
 		}
 		case (ExpenseActionsEnum.ADD_EXPENSE): {
 			const newExpenses = [...state.expenses];
-			newExpenses.pop();
+			if(newExpenses.length >= Default.PAGE_SIZE){
+				newExpenses.pop();
+			}
 			return {
 				...state,
 				expenses: [action.payload, ...newExpenses].sort((exp1, exp2) => new Date(exp2.expireAt).getTime() - new Date(exp1.expireAt).getTime())

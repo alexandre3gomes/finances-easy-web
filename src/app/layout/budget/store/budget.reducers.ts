@@ -1,3 +1,4 @@
+import { Default } from '../../../shared/enum/default.enum';
 import { Budget } from '../../../shared/model/budget/budget.model';
 import { Page } from '../../../shared/model/pagination/page.model';
 import { BudgetActions, BudgetActionsEnum } from './budget.actions';
@@ -30,7 +31,9 @@ export function budgetReducers(state = initialBudgetState, action: BudgetActions
 		}
 		case (BudgetActionsEnum.ADD_BUDGET): {
 			const newBudgets = [...state.budgets];
-			newBudgets.pop();
+			if(newBudgets.length >= Default.PAGE_SIZE) {
+				newBudgets.pop();
+			}
 			return {
 				...state,
 				budgets: [action.payload, ...newBudgets].sort((bud1, bud2) => new Date(bud2.startDate).getTime() - new Date(bud1.startDate).getTime())

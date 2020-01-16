@@ -1,5 +1,6 @@
-import { User } from '../../../shared/model/user.model';
+import { Default } from '../../../shared/enum/default.enum';
 import { Page } from '../../../shared/model/pagination/page.model';
+import { User } from '../../../shared/model/user.model';
 import { UserActions, UserActionsEnum } from './user.actions';
 
 export interface UserState {
@@ -30,8 +31,10 @@ export function userReducers(state = initialUserState, action: UserActions): Use
             };
         }
         case (UserActionsEnum.ADD_USER): {
-            const newUsers = [...state.users];
-            newUsers.pop();
+			const newUsers = [...state.users];
+			if(newUsers.length >= Default.PAGE_SIZE) {
+				newUsers.pop();
+			}
             return {
                 ...state,
 				users: [action.payload, ...newUsers].sort((user1, user2) => user1.name.localeCompare(user2.name))

@@ -1,10 +1,11 @@
 <div>
-	<h2 class="text-muted">{{ 'Report' | translate }}</h2>
+	<h2 class="text-muted">{{ 'Year Balance' | translate }}</h2>
 	<div class="form-group mb-5">
 		<form [formGroup]="reportForm">
 			<label for="budgets">{{ 'Select budget' }}</label>
 			<select name="budget" class="form-control" (change)="loadBudgetData()" formControlName="budget">
-				<option *ngFor="let budget of (budgets | async)">
+				<option disabled="true" selected="true" value="-1">{{ 'Current' | translate }}</option>
+				<option *ngFor="let budget of (budgets | async)" [(value)]="budget.id">
 					{{ budget.startDate | dateLocale: 'l' }} - {{ budget.endDate | dateLocale: 'l' }}
 				</option>
 			</select>
