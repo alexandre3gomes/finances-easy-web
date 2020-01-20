@@ -28,7 +28,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 	public total: Array<number>;
 	public balance: Array<number>;
 	public accumulatedBalance: Array<number>;
-	public FORECAST_INCOME = 2600;
+	public FORECAST_INCOME = 2547;
 	public budgetId: number = -1;
 
 	constructor(public store: Store<AppState>) { }

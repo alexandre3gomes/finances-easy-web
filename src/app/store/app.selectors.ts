@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+
 import { AppState } from './app.reducers';
 
 const appState = (state: AppState) => state;
@@ -41,4 +42,9 @@ export const dashboard = createSelector(
 export const report = createSelector(
 	appState,
 	(state: AppState) => state.report
+);
+
+export const user = createSelector(
+	appState,
+	(state: AppState) => state.user
 );

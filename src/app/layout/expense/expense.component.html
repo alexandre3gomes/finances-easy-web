@@ -82,7 +82,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let exp of (state | async)">
+				<tr *ngFor="let exp of (state | async).expenses">
 					<th scope="row">{{ exp.name }}</th>
 					<td>{{ exp.value }}</td>
 					<td>{{ exp.category.name }}</td>

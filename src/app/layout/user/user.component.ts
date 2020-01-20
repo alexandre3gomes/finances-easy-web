@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
+import { user } from '../../store/app.selectors';
 import { DeleteUser, ListUsers, ResetUsers } from './store/user.actions';
-import { users } from './store/user.selectors';
 
 @Component({
 	selector: 'app-user',
@@ -14,7 +14,7 @@ import { users } from './store/user.selectors';
 })
 export class UserComponent implements OnInit, OnDestroy {
 
-	state = this.store.select(users);
+	state = this.store.select(user);
 	editModal = false;
 	userForm: FormGroup;
 	currentId: number;

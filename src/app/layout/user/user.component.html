@@ -20,7 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let usr of (state | async)">
+				<tr *ngFor="let usr of (state | async).users">
 					<th scope="row">{{ usr.name }}</th>
 					<td>{{ usr.username }}</td>
 					<td>
