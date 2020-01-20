@@ -19,7 +19,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let cat of (state | async)">
+				<tr *ngFor="let cat of (state | async).categories">
 					<th scope="row">{{ cat.name }}</th>
 					<td>
 						<button class="btn btn-info mr-2" (click)="editCategory(cat.id)"><i

@@ -1,1 +1,12 @@
+.sticky-column {
+	min-width: 75px;
+	position: sticky;
+	left: -5px;
+	color: #fff;
+    background-color: #212529;
+}
 
+.card-body {
+	border: 1.25rem solid white;
+	padding: 0px;
+}

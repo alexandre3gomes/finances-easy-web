@@ -21,7 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let bud of (budgetState | async)">
+				<tr *ngFor="let bud of (budgetState | async).budgets">
 					<th scope="row">{{ bud.startDate | dateLocale:DATE_FORMAT }}</th>
 					<td>{{ bud.endDate | dateLocale:DATE_FORMAT }}</td>
 					<td>{{ bud.breakperiod == 1 ? 'Monthly' : 'Weekly' | translate }}</td>

@@ -8,10 +8,10 @@ import { Filter } from '../../shared/model/pagination/filter.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { ShowAlertError } from '../../store/alert.actions';
 import { AppState } from '../../store/app.reducers';
+import { expense } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { categories } from '../category/store/category.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
-import { expenses } from './store/expense.selectors';
 
 
 
@@ -22,7 +22,7 @@ import { expenses } from './store/expense.selectors';
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
 
-	state = this.store.select(expenses);
+	state = this.store.select(expense);
 	currentId: number;
 	showConfirm = false;
 	categories: Category[];
