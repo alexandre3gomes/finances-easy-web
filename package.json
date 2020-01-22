@@ -1,5 +1,6 @@
 {
 	"name": "finances-easy-web",
+	"description": "Web application to consume Finances Easy API",
 	"version": "1.0.0",
 	"license": "Apache Open",
 	"engines": {
