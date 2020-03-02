@@ -53,7 +53,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 				}
 			});
 		} else {
-			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value)));
+			this.store.dispatch(new CreateCategory(new Category(-1, this.categoryForm.get('name').value, false)));
 		}
 		this.closed.emit();
 	}

@@ -46,6 +46,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 			});
 			if (editedIncome) {
 				editedIncome.name = this.incomeForm.get('name').value;
+				editedIncome.description = this.incomeForm.get('description').value;
 				editedIncome.value = this.incomeForm.get('value').value;
 				editedIncome.date = createdDate;
 				this.store.dispatch(new UpdateIncome(editedIncome));
@@ -61,13 +62,15 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 					loggedUser,
 					this.incomeForm.get('name').value,
 					this.incomeForm.get('value').value,
-					createdDate)));
+					createdDate,
+					this.incomeForm.get('description').value)));
 			this.closed.emit();
 		}
 	}
 
 	initForm () {
 		let name = '';
+		let description = '';
 		let value;
 		let createdDate = new Date();
 		if (this.currentId > 0) {
@@ -75,6 +78,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 				const income = incs.find((inc: Income) => inc.id === this.currentId);
 				if (income) {
 					name = income.name;
+					description = income.description;
 					value = income.value;
 					createdDate = income.date;
 				}
@@ -82,6 +86,7 @@ export class EditIncomeComponent implements OnInit, OnDestroy {
 		}
 		this.incomeForm = new FormGroup({
 			'name': new FormControl(name, Validators.required),
+			'description': new FormControl(description),
 			'value': new FormControl(value, Validators.min(0.1)),
 			'createdDate': new FormControl(createdDate, Validators.required)
 		});

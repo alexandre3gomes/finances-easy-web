@@ -6,6 +6,7 @@ import { BudgetEffects } from './layout/budget/store/budget.effects';
 import { DashboardEffects } from './layout/dashboard/store/dashboard.effects';
 import { ReportEffects } from './layout/report/store/report.effects';
 import { UserEffects } from './layout/user/store/user.effects';
+import { SavingsEffects } from './layout/savings/store/savings.effects';
 
 export const effects = [
 	AuthEffects,
@@ -15,5 +16,6 @@ export const effects = [
 	BudgetEffects,
 	DashboardEffects,
 	ReportEffects,
-	UserEffects
+	UserEffects,
+	SavingsEffects
 ];

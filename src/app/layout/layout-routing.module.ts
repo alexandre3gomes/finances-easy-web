@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AuthGuard } from '../shared';
 import { LayoutComponent } from './layout.component';
 
@@ -38,6 +39,10 @@ const routes: Routes = [
 			{
 				path: 'user',
 				loadChildren: './user/user.module#UserModule'
+			},
+			{
+				path: 'savings',
+				loadChildren: './savings/savings.module#SavingsModule'
 			}
 		]
 	}

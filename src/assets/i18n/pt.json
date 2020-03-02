@@ -55,7 +55,7 @@
 	"Incomes": "Receitas",
 	"Value": "Valor",
 	"Created on": "Criado em",
-	"Create by": "Criado por",
+	"Created by": "Criado por",
 	"Action": "Acão",
 	"Income": "Receita",
 	"Yes": "Sim",
@@ -82,5 +82,13 @@
 	"Username": "Usuário",
 	"Accumulated Balance": "Saldo acumulado",
 	"Users": "Usuários",
-	"No data available": "Sem dados"
+	"No data available": "Sem dados",
+	"Savings": "Poupança",
+	"Description": "Descrição",
+	"In": "Entrada",
+	"Outcome": "Saída",
+	"The expense or income associated with this saving won't be edited, this needs to be done manually": "A despesa ou receita associada a essa economia não será editada, isso precisará ser feito manualmente.",
+	"Created by savings": "Criado por poupança",
+	"Automatically created by savings": "Criado automaticamente pela poupança",
+	"Last 5 movements": "Últimos 5 movimentos"
 }

@@ -54,8 +54,8 @@
 	"Expenses": "Expenses",
 	"Incomes": "Incomes",
 	"Value": "Value",
-	"Created on": "Create on",
-	"Create by": "Create by",
+	"Created on": "Created on",
+	"Created by": "Created by",
 	"Action": "Action",
 	"Income": "Income",
 	"Yes": "Yes",
@@ -82,5 +82,13 @@
 	"Username": "Username",
 	"Accumulated Balance": "Accumulated Balance",
 	"Users": "Users",
-	"No data available": "No data available"
+	"No data available": "No data available",
+	"Savings": "Savings",
+	"Description": "Description",
+	"In": "Income",
+	"Outcome": "Outcome",
+	"The expense or income associated with this saving won't be edited, this needs to be done manually": "The expense or income associated with this saving won't be edited, this needs to be done manually",
+	"Created by savings": "Created by savings",
+	"Automatically created by savings": "Automatically created by savings",
+	"Last 5 movements": "Last 5 movements"
 }

@@ -7,6 +7,7 @@ export interface DashboardState {
 	incomes: Income[];
 	expenses: Expense[];
 	categories: CategoryAggregValues[];
+	totalSavings: number;
 	dataFetched: boolean;
 }
 
@@ -14,6 +15,7 @@ export const initialDashboardState: DashboardState = {
 	incomes: [],
 	expenses: [],
 	categories: [],
+	totalSavings: 0,
 	dataFetched: false
 };
 
@@ -37,6 +39,12 @@ export function dashboardReducers(state = initialDashboardState, action: Dashboa
 				categories: action.payload
 			};
 		}
+		case (DashboardActionsEnum.SET_TOTAL_SAVINGS): {
+			return {
+				...state,
+				totalSavings: action.payload
+			};
+		}
 		case (DashboardActionsEnum.DATA_FETCHED): {
 			return {
 				...state,
@@ -49,6 +57,7 @@ export function dashboardReducers(state = initialDashboardState, action: Dashboa
 				incomes: initialDashboardState.incomes,
 				expenses: initialDashboardState.expenses,
 				categories: initialDashboardState.categories,
+				totalSavings: initialDashboardState.totalSavings,
 				dataFetched: false
 			};
 		}

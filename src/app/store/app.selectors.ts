@@ -48,3 +48,8 @@ export const user = createSelector(
 	appState,
 	(state: AppState) => state.user
 );
+
+export const savings = createSelector(
+	appState,
+	(state: AppState) => state.savings
+);

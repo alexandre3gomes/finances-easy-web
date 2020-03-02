@@ -10,8 +10,9 @@ import { Expense } from '../../../shared/model/expense.model';
 import { Pagination } from '../../../shared/model/pagination/pagination.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
+import { category } from '../../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../../category/store/category.actions';
-import { categories } from '../../category/store/category.selectors';
+import { CategoryState } from '../../category/store/category.reducers';
 import { CreateExpense, UpdateExpense } from '../store/expense.actions';
 import { expenses } from '../store/expense.selectors';
 
@@ -31,11 +32,11 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
-		this.store.select(categories).subscribe((categoriesState: Category[]) => {
-			if (categoriesState.length === 0) {
+		this.store.select(category).subscribe((categoryState: CategoryState) => {
+			if (!categoryState.page || !categoryState.page.last) {
 				this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 			}
-			this.categories = categoriesState;
+			this.categories = categoryState.categories;
 		});
 		this.initForm();
 	}
@@ -47,6 +48,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
 	initForm() {
 		let name = '';
+		let description = '';
 		let value;
 		let expireAt = new Date();
 		if (this.currentId > 0) {
@@ -54,6 +56,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 				const expense = exps.find((exp: Expense) => exp.id === this.currentId);
 				if (expense) {
 					name = expense.name;
+					description = expense.description;
 					value = expense.value;
 					this.category = expense.category;
 					expireAt = expense.expireAt;
@@ -62,6 +65,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 		}
 		this.expenseForm = new FormGroup({
 			'name': new FormControl(name, Validators.required),
+			'description': new FormControl(description),
 			'value': new FormControl(value, Validators.min(0.1)),
 			'category': new FormControl(this.category ? this.category.id : -1, Validators.required),
 			'expireAt': new FormControl(expireAt, Validators.required)
@@ -80,6 +84,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 			});
 			if (editedExpense) {
 				editedExpense.name = this.expenseForm.get('name').value;
+				editedExpense.description = this.expenseForm.get('description').value;
 				editedExpense.value = this.expenseForm.get('value').value;
 				editedExpense.category = this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value);
 				editedExpense.expireAt = expireAt;
@@ -97,7 +102,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 				this.categories.find((cat: Category) => cat.id === +this.expenseForm.get('category').value),
 				loggedUser,
 				this.expenseForm.get('value').value,
-				expireAt);
+				expireAt,
+				this.expenseForm.get('description').value);
 			this.store.dispatch(new CreateExpense(createdExpense));
 			this.closed.emit();
 		}

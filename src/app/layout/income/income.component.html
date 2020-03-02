@@ -24,7 +24,7 @@
 			<tbody>
 				<tr *ngFor="let inc of (state | async).incomes">
 					<th scope="row">{{ inc.name }}</th>
-					<td>{{ inc.value }}</td>
+					<td>{{ inc.value | currency:'€' }}</td>
 					<td>{{ inc.date | dateLocale: DATE_FORMAT }}</td>
 					<td>{{ inc.user.name }}</td>
 					<td>

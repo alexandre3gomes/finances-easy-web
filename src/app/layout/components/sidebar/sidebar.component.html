@@ -18,6 +18,12 @@
 				<div class="col-sm-10"><span>{{ 'Incomes' | translate }}</span></div>
 			</div>
 		</a>
+		<a [routerLink]="['/savings']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<div class="row">
+				<div class="col-sm-2"><i class="fas fa-piggy-bank"></i></div>
+				<div class="col-sm-10"><span>{{ 'Savings' | translate }}</span></div>
+			</div>
+		</a>
 		<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<div class="row">
 				<div class="col-sm-2"><i class="far fa-copyright"></i></div>

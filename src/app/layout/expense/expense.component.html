@@ -84,7 +84,7 @@
 			<tbody>
 				<tr *ngFor="let exp of (state | async).expenses">
 					<th scope="row">{{ exp.name }}</th>
-					<td>{{ exp.value }}</td>
+					<td>{{ exp.value | currency:'€' }}</td>
 					<td>{{ exp.category.name }}</td>
 					<td>
 						{{ exp.expireAt | dateLocale:DATE_FORMAT }}

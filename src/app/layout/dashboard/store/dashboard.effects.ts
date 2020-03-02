@@ -9,7 +9,13 @@ import { Expense } from '../../../shared/model/expense.model';
 import { Income } from '../../../shared/model/income.model';
 import { CategoryAggregValues } from '../../../shared/model/report/category-aggreg-values.model';
 import { ShowAlertError } from '../../../store/alert.actions';
-import { DashboardActionsEnum, FetchData, ListActualCategories, ListActualExpenses } from './dashboard.actions';
+import {
+    DashboardActionsEnum,
+    FetchData,
+    FetchTotalSavings,
+    ListActualCategories,
+    ListActualExpenses,
+} from './dashboard.actions';
 
 
 @Injectable()
@@ -90,13 +96,40 @@ export class DashboardEffects {
 							payload: expenses
 						},
 						{
-							type: DashboardActionsEnum.DATA_FETCHED
+							type: DashboardActionsEnum.FETCH_TOTAL_SAVINGS
 						}
 					];
 				}),
 				catchError((err) => {
 					console.error(err);
 					return of(new ShowAlertError('Error on list actual categories'));
+				})
+			);
+		})
+	);
+
+	@Effect()
+	setTotalSavings = this.actions.pipe(
+		ofType(DashboardActionsEnum.FETCH_TOTAL_SAVINGS),
+		map((action: FetchTotalSavings) => {
+			return action;
+		}),
+		switchMap(() => {
+			return this.http.get<number>(this.dashboardEndpoint.concat('/totalSavings')).pipe(
+				mergeMap((total: number) => {
+					return [
+						{
+							type: DashboardActionsEnum.SET_TOTAL_SAVINGS,
+							payload: total
+						},
+						{
+							type: DashboardActionsEnum.DATA_FETCHED
+						}
+					]
+				}),
+				catchError((err) => {
+					console.error(err);
+					return of(new ShowAlertError('Error on fetch total savings'));
 				})
 			);
 		})
