@@ -1,6 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import localeEn from '@angular/common/locales/en-GB';
+import localePt from '@angular/common/locales/pt-PT';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +12,8 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { CURRENCY_MASK_CONFIG, CurrencyMaskConfig } from 'ng2-currency-mask/src/currency-mask.config';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
 
@@ -20,11 +24,22 @@ import { AuthGuard } from './shared';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers, clearState } from './store/app.reducers';
 
-
+registerLocaleData(localeEn, 'en-GB');
+registerLocaleData(localePt, 'pt-PT');
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+};
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+	align: "left",
+	allowNegative: true,
+	decimal: ",",
+	precision: 2,
+	prefix: "€ ",
+	suffix: "",
+	thousands: "."
 };
 
 @NgModule({
@@ -42,6 +57,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 		}),
 		NgbDropdownModule,
 		NgxUiLoaderModule,
+		CurrencyMaskModule,
 		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
 		EffectsModule.forRoot(effects),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
@@ -55,6 +71,14 @@ export const createTranslateLoader = (http: HttpClient) => {
 			provide: HTTP_INTERCEPTORS,
 			useClass: HeaderInterceptor,
 			multi: true
+		},
+		{
+			provide: CURRENCY_MASK_CONFIG,
+			useValue: CustomCurrencyMaskConfig
+		},
+		{
+			provide: LOCALE_ID,
+			useValue: 'pt-PT'
 		}
 	],
 	bootstrap: [ AppComponent ]

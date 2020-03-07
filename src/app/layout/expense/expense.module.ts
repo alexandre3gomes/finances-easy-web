@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDateAdapter, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+
 import { SharedPipesModule } from '../../shared';
 import { ConfirmModule } from '../../shared/modules/confirm/confirm.module';
 import { NgbDateLocaleAdapter } from '../../shared/utils/ngb-date-locale.adapter';
@@ -19,7 +21,8 @@ import { ExpenseRoutingModule } from './expense.routing.module';
 		ReactiveFormsModule,
 		ConfirmModule,
 		NgbDatepickerModule,
-		SharedPipesModule
+		SharedPipesModule,
+		CurrencyMaskModule
 	],
 	providers: [ { provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter } ]
 })

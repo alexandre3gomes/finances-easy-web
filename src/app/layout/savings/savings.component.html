@@ -24,7 +24,7 @@
 			<tbody>
 				<tr *ngFor="let sav of (state | async).savings">
 					<th scope="row">{{ sav.description }}</th>
-					<td>{{ sav.value }}</td>
+					<td>{{ sav.value | currency:'EUR'}}</td>
 					<td>{{ sav.createdDate | dateLocale: DATE_FORMAT }}</td>
 					<td>{{ sav.user.name }}</td>
 					<td>
