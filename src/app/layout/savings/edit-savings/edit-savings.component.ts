@@ -1,4 +1,3 @@
-import { formatNumber } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -108,7 +107,7 @@ export class EditSavingsComponent implements OnInit {
 				const savings = savs.find((sav: Savings) => sav.id === this.currentId);
 				if (savings) {
 					description = savings.description;
-					value = formatNumber(savings.value, Default.CURR_LOCALE);
+					value = savings.value;
 					createdDate = savings.createdDate;
 				}
 			});
