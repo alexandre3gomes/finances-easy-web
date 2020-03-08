@@ -14,35 +14,35 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
 			{
 				path: 'dashboard',
-				loadChildren: './dashboard/dashboard.module#DashboardModule'
+				loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
 			},
 			{
 				path: 'expense',
-				loadChildren: './expense/expense.module#ExpenseModule'
+				loadChildren: () => import('./expense/expense.module').then(m => m.ExpenseModule)
 			},
 			{
 				path: 'income',
-				loadChildren: './income/income.module#IncomeModule'
+				loadChildren: () => import('./income/income.module').then(m => m.IncomeModule)
 			},
 			{
 				path: 'category',
-				loadChildren: './category/category.module#CategoryModule'
+				loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
 			},
 			{
 				path: 'budget',
-				loadChildren: './budget/budget.module#BudgetModule'
+				loadChildren: () => import('./budget/budget.module').then(m => m.BudgetModule)
 			},
 			{
 				path: 'report',
-				loadChildren: './report/report.module#ReportModule'
+				loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
 			},
 			{
 				path: 'user',
-				loadChildren: './user/user.module#UserModule'
+				loadChildren: () => import('./user/user.module').then(m => m.UserModule)
 			},
 			{
 				path: 'savings',
-				loadChildren: './savings/savings.module#SavingsModule'
+				loadChildren: () => import('./savings/savings.module').then(m => m.SavingsModule)
 			}
 		]
 	}

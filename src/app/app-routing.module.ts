@@ -10,10 +10,12 @@ const routes: Routes = [
 		redirectTo: 'login',
 		pathMatch: 'full'
 	},
-	{ path: 'login', loadChildren: './auth/auth.module#AuthModule' },
+	{
+		path: 'login',
+		loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
 	{
 		path: '',
-		loadChildren: './layout/layout.module#LayoutModule',
+		loadChildren: ()=> import('./layout/layout.module').then(m => m.LayoutModule),
 		canActivate: [AuthGuard]
 	},
 	{ path: '**', redirectTo: 'not-found' }
