@@ -4,15 +4,12 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
-import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
 import { Expense } from '../../../shared/model/expense.model';
-import { Pagination } from '../../../shared/model/pagination/pagination.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
 import { category } from '../../../store/app.selectors';
-import { ListCategories, ResetCategories } from '../../category/store/category.actions';
-import { CategoryState } from '../../category/store/category.reducers';
+import { categories } from '../../category/store/category.selectors';
 import { CreateExpense, UpdateExpense } from '../store/expense.actions';
 import { expenses } from '../store/expense.selectors';
 
@@ -32,18 +29,14 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
-		this.store.select(category).subscribe((categoryState: CategoryState) => {
-			if (!categoryState.page || !categoryState.page.last) {
-				this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-			}
-			this.categories = categoryState.categories;
+		this.store.select(categories).subscribe((categories: Category[]) => {
+			this.categories = categories;
 		});
 		this.initForm();
 	}
 
 	ngOnDestroy() {
 		this.currentId = -1;
-		this.store.dispatch(new ResetCategories());
 	}
 
 	initForm() {

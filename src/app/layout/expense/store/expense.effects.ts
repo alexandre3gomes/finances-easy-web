@@ -121,6 +121,9 @@ export class ExpenseEffects {
 				if (action.payload.filter.endDate) {
 					params = params.set('end', action.payload.filter.endDate.toISOString());
 				}
+				if (action.payload.filter.user) {
+					params = params.set('user', action.payload.filter.user.toString());
+				}
 			}
 			return this.http.get(this.expenseEndPoint, { params }).pipe(
 				map((page: any) => {

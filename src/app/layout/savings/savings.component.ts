@@ -6,7 +6,7 @@ import { Default } from '../../shared/enum/default.enum';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { AppState } from '../../store/app.reducers';
 import { savings } from '../../store/app.selectors';
-import { ResetCategories } from '../category/store/category.actions';
+import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { ResetExpenses } from '../expense/store/expense.actions';
 import { ResetIncomes } from '../income/store/income.actions';
 import { DeleteSavings, ListSavings, ResetSavings } from './store/savings.actions';
@@ -30,6 +30,7 @@ export class SavingsComponent implements OnInit {
 
 	ngOnInit() {
 		this.store.dispatch(new ListSavings(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.MAX_SIZE)));
 	}
 
 	ngOnDestroy() {

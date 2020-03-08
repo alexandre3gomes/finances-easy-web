@@ -6,11 +6,14 @@ import { Default } from '../../shared/enum/default.enum';
 import { Category } from '../../shared/model/category.model';
 import { Filter } from '../../shared/model/pagination/filter.model';
 import { Pagination } from '../../shared/model/pagination/pagination.model';
+import { User } from '../../shared/model/user.model';
 import { ShowAlertError } from '../../store/alert.actions';
 import { AppState } from '../../store/app.reducers';
 import { expense } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { categories } from '../category/store/category.selectors';
+import { ListUsers, ResetUsers } from '../user/store/user.actions';
+import { users } from '../user/store/user.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
 
 
@@ -26,6 +29,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	currentId: number;
 	showConfirm = false;
 	categories: Category[];
+	users: User[];
 	editModal = false;
 	currentPage = 0;
 	DATE_FORMAT = 'L';
@@ -37,14 +41,19 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.select(categories).subscribe((categoriesState: Category[]) => {
-			this.categories = categoriesState;
+		this.store.dispatch(new ListUsers(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+		this.store.select(categories).subscribe((categories: Category[]) => {
+			this.categories = categories;
+		});
+		this.store.select(users).subscribe(users => {
+			this.users = users;
 		});
 		this.searchForm = new FormGroup({
 			'name': new FormControl(),
 			'startDate': new FormControl(),
 			'endDate': new FormControl(),
-			'category': new FormControl()
+			'category': new FormControl(),
+			'user': new FormControl()
 		});
 	}
 
@@ -52,6 +61,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		this.resetData();
 		this.store.dispatch(new ResetCategories());
 		this.store.dispatch(new ResetExpenses());
+		this.store.dispatch(new ResetUsers());
 	}
 
 	openModal() {
@@ -100,7 +110,8 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
 		const filter = new Filter(this.searchForm.get('name').value,
 			this.searchForm.get('startDate').value,
-			this.searchForm.get('endDate').value, selectedCategory[ 0 ]);
+			this.searchForm.get('endDate').value, selectedCategory[ 0 ],
+			+this.searchForm.get('user').value);
 		const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
 		pagination.filter = filter;
 		return pagination;

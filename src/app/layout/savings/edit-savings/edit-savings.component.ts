@@ -4,17 +4,14 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
-import { Default } from '../../../shared/enum/default.enum';
 import { Category } from '../../../shared/model/category.model';
 import { Expense } from '../../../shared/model/expense.model';
 import { Income } from '../../../shared/model/income.model';
-import { Pagination } from '../../../shared/model/pagination/pagination.model';
 import { Savings } from '../../../shared/model/savings.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
 import { category } from '../../../store/app.selectors';
-import { ListCategories, ResetCategories } from '../../category/store/category.actions';
-import { CategoryState } from '../../category/store/category.reducers';
+import { categories } from '../../category/store/category.selectors';
 import { CreateExpense } from '../../expense/store/expense.actions';
 import { CreateIncome } from '../../income/store/income.actions';
 import { CreateSavings, UpdateSavings } from '../store/savings.actions';
@@ -38,11 +35,8 @@ export class EditSavingsComponent implements OnInit {
 	constructor(private store: Store<AppState>, private translate: TranslateService) { }
 
 	ngOnInit() {
-		this.store.select(category).subscribe((categoryState: CategoryState) => {
-			if (!categoryState.page || !categoryState.page.last) {
-				this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-			}
-			this.categories = categoryState.categories.filter(cat => cat.savings);
+		this.store.select(categories).subscribe((categories: Category[]) => {
+			this.categories = categories.filter(cat => cat.savings);
 		});
 		this.initForm();
 	}
@@ -50,7 +44,6 @@ export class EditSavingsComponent implements OnInit {
 	ngOnDestroy() {
 		this.currentId = -1;
 		this.isEdit = false;
-		this.store.dispatch(new ResetCategories());
 	}
 
 	saveChanges() {
