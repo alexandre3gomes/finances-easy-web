@@ -12,8 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { CURRENCY_MASK_CONFIG, CurrencyMaskConfig } from 'ng2-currency-mask/src/currency-mask.config';
+import { NgxCurrencyModule } from 'ngx-currency';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
 
@@ -32,14 +31,16 @@ export const createTranslateLoader = (http: HttpClient) => {
 	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 };
 
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig = {
 	align: "left",
 	allowNegative: true,
+	allowZero: true,
 	decimal: ",",
 	precision: 2,
 	prefix: "€ ",
 	suffix: "",
-	thousands: "."
+	thousands: ".",
+	nullable: true
 };
 
 @NgModule({
@@ -57,7 +58,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 		}),
 		NgbDropdownModule,
 		NgxUiLoaderModule,
-		CurrencyMaskModule,
+		NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
 		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
 		EffectsModule.forRoot(effects),
 		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
@@ -71,10 +72,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 			provide: HTTP_INTERCEPTORS,
 			useClass: HeaderInterceptor,
 			multi: true
-		},
-		{
-			provide: CURRENCY_MASK_CONFIG,
-			useValue: CustomCurrencyMaskConfig
 		},
 		{
 			provide: LOCALE_ID,
