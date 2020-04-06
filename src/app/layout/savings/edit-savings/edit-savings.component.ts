@@ -108,7 +108,7 @@ export class EditSavingsComponent implements OnInit {
 		this.selectedCat = this.categories && this.categories.length > 0 ? this.categories[0].id : -1;
 		this.savingsForm = new FormGroup({
 			'description': new FormControl(description, Validators.required),
-			'value': new FormControl(value, Validators.min(0.1)),
+			'value': new FormControl(value),
 			'createdDate': new FormControl(createdDate, Validators.required),
 			'operation': new FormControl('in'),
 			'category': new FormControl(this.selectedCat),
