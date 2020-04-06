@@ -28,8 +28,8 @@
 							<tr scope="row" *ngFor="let cat of (state | async).catVal">
 								<th scope="col" class="sticky-column">{{ cat.category.name }}</th>
 								<td scope="col" *ngFor="let val of cat.periodValue">
-									<span *ngIf="isActual(val.endDate)">{{ val.actualValue | currency:'EUR' }}</span>
-									<span *ngIf="!isActual(val.endDate)">{{ val.plannedValue | currency:'EUR' }}</span>
+									<span *ngIf="isActual(val.startDate)">{{ val.actualValue | currency:'EUR' }}</span>
+									<span *ngIf="!isActual(val.startDate)">{{ val.plannedValue | currency:'EUR' }}</span>
 								</td>
 							</tr>
 							<tr scope="row" style="background-color: lightcoral;">

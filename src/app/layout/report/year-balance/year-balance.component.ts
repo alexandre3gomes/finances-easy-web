@@ -52,7 +52,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 			this.balance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 			repState.catVal.forEach(catVal => {
 				this.periods = catVal.periodValue.map(per => {
-					return per.endDate;
+					return per.startDate;
 				});
 				for (let x = 0; x <= catVal.periodValue.length; x++) {
 					if (catVal.periodValue[ x ]) {
