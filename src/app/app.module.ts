@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -61,7 +61,7 @@ export const customCurrencyMaskConfig = {
 		NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
 		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
 		EffectsModule.forRoot(effects),
-		StoreRouterConnectingModule.forRoot({ stateKey: '[Router]' }),
+		StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		AppRoutingModule
 	],

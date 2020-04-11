@@ -2,20 +2,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
-import { LayoutComponent } from './layout.component';
-import { LayoutModule } from './layout.module';
+import { EditExpenseComponent } from './edit-expense.component';
 import { StoreModule } from '@ngrx/store';
-import { appReducers, clearState } from '../store/app.reducers';
+import { appReducers, clearState } from '../../../store/app.reducers';
+import { ExpenseModule } from '../expense.module';
 
-describe('LayoutComponent', () => {
-	let component: LayoutComponent;
-	let fixture: ComponentFixture<LayoutComponent>;
+describe('EditExpenseComponent', () => {
+	let component: EditExpenseComponent;
+	let fixture: ComponentFixture<EditExpenseComponent>;
 
 	beforeEach(
 		async(() => {
 			TestBed.configureTestingModule({
 				imports: [
-					LayoutModule,
+					ExpenseModule,
 					RouterTestingModule,
 					TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
 					StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] })
@@ -26,7 +26,7 @@ describe('LayoutComponent', () => {
 	);
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(LayoutComponent);
+		fixture = TestBed.createComponent(EditExpenseComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

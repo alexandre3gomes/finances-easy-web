@@ -4,8 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthComponent } from './auth.component';
 import { AuthModule } from './auth.module';
+import { StoreModule } from "@ngrx/store";
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { appReducers, clearState } from '../store/app.reducers';
 
-describe('LoginComponent', () => {
+describe('AuthComponent', () => {
 	let component: AuthComponent;
 	let fixture: ComponentFixture<AuthComponent>;
 
@@ -15,6 +18,8 @@ describe('LoginComponent', () => {
 				AuthModule,
 				RouterTestingModule,
 				BrowserAnimationsModule,
+				TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+				StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] })
 			],
 		})
 			.compileComponents();
@@ -29,4 +34,5 @@ describe('LoginComponent', () => {
 	it('should create', () => {
 		expect(component).toBeTruthy();
 	});
+
 });
