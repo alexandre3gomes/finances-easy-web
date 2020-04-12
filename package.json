@@ -46,7 +46,7 @@
 		"express": "^4.17.1",
 		"font-awesome": "4.7.0",
 		"moment": "^2.24.0",
-		"ng2-charts": "2.2.3",
+		"ng2-charts": "^2.3.0",
 		"ngx-currency": "^2.2.2",
 		"ngx-ui-loader": "^7.2.2",
 		"rest-url-builder": "^1.0.6",
