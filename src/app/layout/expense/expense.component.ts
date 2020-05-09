@@ -101,6 +101,7 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		if (this.searchForm.get('startDate').value && !this.searchForm.get('endDate').value) {
 			this.store.dispatch(new ShowAlertError('Please select End Date'));
 		} else {
+			this.currentPage = 0;
 			this.store.dispatch(new ResetExpenses());
 			this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
 		}

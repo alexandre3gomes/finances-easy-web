@@ -15,7 +15,7 @@ const routes: Routes = [
 		loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
 	{
 		path: '',
-		loadChildren: ()=> import('./layout/layout.module').then(m => m.LayoutModule),
+		loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule),
 		canActivate: [AuthGuard]
 	},
 	{ path: '**', redirectTo: 'not-found' }

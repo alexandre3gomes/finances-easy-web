@@ -59,7 +59,7 @@ export const customCurrencyMaskConfig = {
 		NgbDropdownModule,
 		NgxUiLoaderModule,
 		NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
+		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ], runtimeChecks: { strictActionImmutability: false, strictStateImmutability: false } }),
 		EffectsModule.forRoot(effects),
 		StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: '[Router]' }),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],

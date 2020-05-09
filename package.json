@@ -10,6 +10,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+	"dev": "ng serve",
     "build": "ng build --prod",
     "gitbuild": "ng build --prod --base-href /dist/",
     "test": "ng test",
