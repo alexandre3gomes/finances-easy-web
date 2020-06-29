@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "license": "Apache Open",
   "engines": {
-    "node": "10.15.0",
-    "npm": "6.9.0"
+    "node": "12.16.2",
+    "npm": "6.14.5"
   },
   "scripts": {
     "ng": "ng",
