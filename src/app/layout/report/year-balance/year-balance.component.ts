@@ -29,7 +29,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 	public balance: Array<number>;
 	public accumulatedBalance: Array<number>;
 	public FORECAST_INCOME = 2591;
-	public budgetId: number = -1;
+	public budgetId = -1;
 
 	constructor(public store: Store<AppState>) { }
 
@@ -39,7 +39,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 		});
 		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.budgets.subscribe((stateBudgets: Budget[]) => {
-			let currBudget = stateBudgets.filter(bud => new Date(bud.startDate) <= new Date() && new Date(bud.endDate) >= new Date());
+			const currBudget = stateBudgets.filter(bud => new Date(bud.startDate) <= new Date() && new Date(bud.endDate) >= new Date());
 			if (currBudget.length > 0) {
 				this.budgetId = currBudget[0].id;
 				this.store.dispatch(new ListCategoryAggregValues(currBudget[0].id));

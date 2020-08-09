@@ -12,23 +12,36 @@
 		</form>
 	</div>
 	<div class="row">
-		<div class="col-sm-6 col-md-4 col-lg-3 mb-5" *ngFor="let cat of (state | async).catVal">
+		<div class="col-sm-12">
 			<div class="card">
-				<div class="card-header">{{ cat.category.name }}</div>
+				<div class="card-header">{{ 'Planned x Real' | translate }}</div>
 				<div class="card-body table-responsive">
-					<table class="table table-hover table-striped">
+					<table class="table table-hover table-bordered" data-show-columns="true">
 						<thead class="thead-dark">
-							<tr>
-								<th scope="col">{{ 'Period' | translate }}</th>
-								<th scope="col">{{ 'Planned' | translate }}</th>
-								<th scope="col">{{ 'Real' | translate }}</th>
-							</tr>
+						<tr>
+							<th scope="col">{{ 'Categories' | translate }}</th>
+							<th scope="col" colspan="2" class="text-center" *ngFor="let per of periods">
+								{{ per | dateLocale: 'MMM YY' }}</th>
+						</tr>
+						<tr>
+							<th></th>
+							<ng-container *ngFor="let per of periods">
+								<th class="badge-light">{{ 'Planned' | translate}}</th>
+								<th>{{ 'Actual' | translate}}</th>
+							</ng-container>
+						</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let val of cat.periodValue">
-								<th scope="row">{{ val.endDate | dateLocale:'MMM YY' }}</th>
-								<td>{{ val.plannedValue | currency:'EUR' }}</td>
-								<td>{{ val.actualValue | currency:'EUR' }}</td>
+							<tr scope="row" *ngFor="let cat of (state | async).catVal">
+								<th scope="col" class="sticky-column">{{ cat.category.name }}</th>
+								<ng-container *ngFor="let val of cat.periodValue">
+									<td scope="col" class="badge-light">
+										<span>{{ val.plannedValue | currency:'EUR' }}</span>
+									</td>
+									<td scope="col">
+										<span>{{ val.actualValue | currency:'EUR' }}</span>
+									</td>
+								</ng-container>
 							</tr>
 						</tbody>
 					</table>
