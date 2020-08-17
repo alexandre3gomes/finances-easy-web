@@ -14,44 +14,29 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="card">
-				<div class="card-header">{{ 'Year Balance' | translate }}</div>
+				<div class="card-header">{{ 'Planned x Real' | translate }}</div>
 				<div class="card-body table-responsive">
-					<table class="table table-hover table-bordered">
+					<table class="table table-hover table-bordered" data-show-columns="true">
 						<thead class="thead-dark">
 						<tr>
-							<th scope="col" class="sticky-column">{{ 'Categories' | translate }}</th>
-							<th scope="col" *ngFor="let per of periods">
-								{{ per | dateLocale: 'MMM YY' }}</th>
+							<th scope="col">{{ 'Categories' | translate }}</th>
+							<th scope="col">{{ 'Planned' | translate }}</th>
+							<th scope="col" *ngFor="let per of periods" style="min-width: 80px">
+								{{ per | dateLocale: 'MMM YY' }}
+							</th>
 						</tr>
+						<tr>
 						</thead>
 						<tbody>
 							<tr scope="row" *ngFor="let cat of (state | async).catVal">
-								<th rowspan="2" scope="col" class="sticky-column">{{ cat.category.name }}</th>
-								<td scope="col" *ngFor="let val of cat.periodValue">
-									<span>{{ val.plannedValue | currency:'EUR' }}</span>
+								<th scope="col" class="sticky-column">{{ cat.category.name }}</th>
+								<td scope="col" class="badge-light">
+									<span>{{ cat.periodValue[0].plannedValue | currency:'EUR' }}</span>
 								</td>
-							</tr>
-							<tr scope="row" *ngFor="let cat of (state | async).catVal">
-								<td scope="col" *ngFor="let val of cat.periodValue">
+								<td scope="col" *ngFor="let val of cat.periodValue"
+									[ngClass]="{'bg-success' : val.actualValue <= val.plannedValue,
+												'bg-danger': val.actualValue > val.plannedValue }">
 									<span>{{ val.actualValue | currency:'EUR' }}</span>
-								</td>
-							</tr>
-							<tr scope="row" style="background-color: #f08080;">
-								<th scope="col" class="sticky-column">{{ 'Total' | translate }}</th>
-								<td scope="col" *ngFor="let val of total">
-									<span>{{ val | currency:'EUR' }}</span>
-								</td>
-							</tr>
-							<tr scope="row" style="background-color: lightblue;">
-								<th scope="col" class="sticky-column">{{ 'Incomes' | translate }}</th>
-								<td scope="col" *ngFor="let inc of (state | async).incomePeriod">
-									<span>{{ (inc > 0 ? inc : FORECAST_INCOME) | currency:'EUR' }}</span>
-								</td>
-							</tr>
-							<tr scope="row" style="background-color: floralwhite;">
-								<th scope="col" class="sticky-column">{{ 'Balance' | translate }}</th>
-								<td scope="col" *ngFor="let bal of balance">
-									<span>{{ bal | currency:'EUR' }}</span>
 								</td>
 							</tr>
 						</tbody>
