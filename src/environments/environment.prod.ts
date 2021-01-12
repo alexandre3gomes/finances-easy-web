@@ -1,4 +1,4 @@
 export const environment = {
 	production: true,
-	api: 'http://210c5b67-0182-46f1-8bfb-715fe8815174.pub.instances.scw.cloud:8089/'
+	api: 'http://47a43729-0b35-4e05-9b55-b2e57dc9c22a.nodes.k8s.fr-par.scw.cloud/'
 };
