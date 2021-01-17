@@ -1,10 +1,10 @@
-name: Build app
+name: Build teste app
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,6 +30,6 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build image
-        run: docker build -t alexandre3gomes/finances-easy-web .
+        run: docker build -t alexandre3gomes/finances-easy-web:dev .
       - name: Push image to registry
-        run: docker push alexandre3gomes/finances-easy-web
+        run: docker push alexandre3gomes/finances-easy-web:dev
