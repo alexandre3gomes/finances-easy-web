@@ -1,4 +1,4 @@
-name: Build teste app
+name: Build test app
 on:
   push:
     branches: [ dev ]
