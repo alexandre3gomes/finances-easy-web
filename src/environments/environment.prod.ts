@@ -1,4 +1,4 @@
 export const environment = {
 	production: true,
-	api: 'https://api.finances-easy.com/'
+	api: 'http://api.finances-easy.com/'
 };
