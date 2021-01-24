@@ -15,6 +15,7 @@ jobs:
           check-latest: true
       - run: npm install
       - run: npm install -g @angular/cli > /dev/null
+      - run: npm ci
       - run: ng build --prod
         env:
           CI: true
