@@ -12,10 +12,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.15.4'
-          check-latest: true
       - run: npm install
-      - run: npm install -g @angular/cli > /dev/null
-      - run: npm ci
       - run: ng build --prod
         env:
           CI: true
