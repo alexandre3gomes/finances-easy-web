@@ -14,7 +14,8 @@ jobs:
           node-version: '14.15.4'
           check-latest: true
       - run: npm install
-      - run: npm run build --if-present
+      - run: npm install -g @angular/cli > /dev/null
+      - run: ng buld --prod
         env:
           CI: true
       - name: Cache Node.js modules
