@@ -15,7 +15,7 @@ jobs:
           check-latest: true
       - run: npm install
       - run: npm install -g @angular/cli > /dev/null
-      - run: ng buld --prod
+      - run: ng build --prod
         env:
           CI: true
       - name: Cache Node.js modules
