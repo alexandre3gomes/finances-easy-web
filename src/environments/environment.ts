@@ -4,7 +4,14 @@
 
 export const environment = {
 	production: false,
-	api: 'http://localhost:8089/'
+	api: 'http://localhost:8089/',
+	okta: {
+		clientId: '0oa4e4x01zItFJ2dF5d6',
+		issuer: 'https://dev-2225315.okta.com/oauth2/default',
+		redirectUri: 'http://localhost:4200/callback',
+		scopes: ['openid', 'profile', 'email'],
+		pkce: true
+	}
 };
 
 /*
