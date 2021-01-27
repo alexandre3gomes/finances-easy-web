@@ -42,11 +42,11 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
 		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
 		this.store.dispatch(new ListUsers(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.select(categories).subscribe((categories: Category[]) => {
-			this.categories = categories;
+		this.store.select(categories).subscribe((catgs: Category[]) => {
+			this.categories = catgs;
 		});
-		this.store.select(users).subscribe(users => {
-			this.users = users;
+		this.store.select(users).subscribe(usrs => {
+			this.users = usrs;
 		});
 		this.searchForm = new FormGroup({
 			'name': new FormControl(),

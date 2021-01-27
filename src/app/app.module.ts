@@ -7,7 +7,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {EffectsModule} from '@ngrx/effects';
-import {StoreRouterConnectingModule, DefaultRouterStateSerializer} from '@ngrx/router-store';
+import {DefaultRouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -22,7 +22,6 @@ import {AppComponent} from './app.component';
 import {HeaderInterceptor} from './shared/interceptors/header.interceptor';
 import {appReducers, clearState} from './store/app.reducers';
 import {OKTA_CONFIG, OktaAuthModule} from '@okta/okta-angular';
-import { AuthComponent } from './auth/auth.component';
 
 registerLocaleData(localeEn, 'en-GB');
 registerLocaleData(localePt, 'pt-PT');
@@ -72,7 +71,7 @@ export const oktaConfig = environment.okta;
 		AppRoutingModule,
 		OktaAuthModule
 	],
-	declarations: [AppComponent, AuthComponent],
+	declarations: [AppComponent],
 	providers: [
 		{
 			provide: HTTP_INTERCEPTORS,
