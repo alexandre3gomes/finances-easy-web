@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
+import {OktaAuthModule} from '@okta/okta-angular';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { LayoutComponent } from './layout.component';
 		LayoutRoutingModule,
 		TranslateModule,
 		NgbDropdownModule,
-		AlertModule
+		AlertModule,
+		OktaAuthModule
 	],
 	declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
 })

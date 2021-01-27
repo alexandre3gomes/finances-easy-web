@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { authLoggedUser } from 'src/app/auth/store/auth.selectors';
-
-import { Logout } from '../../../auth/store/auth.actions';
-import { User } from '../../../shared/model/user.model';
-import { AppState } from '../../../store/app.reducers';
+import {Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {TranslateService} from '@ngx-translate/core';
+import {AppState} from '../../../store/app.reducers';
+import {OktaAuthService} from '@okta/okta-angular';
 
 
 @Component({
@@ -17,12 +13,13 @@ import { AppState } from '../../../store/app.reducers';
 })
 export class HeaderComponent implements OnInit {
 	public pushRightClass: string;
-	public userLogged: Observable<User>;
+	public userLogged: string;
 
 	constructor(
 		private translate: TranslateService,
 		private router: Router,
-		private store: Store<AppState>
+		private store: Store<AppState>,
+		private oktaAuth: OktaAuthService
 	) {
 		this.translate.addLangs([ 'en', 'pt' ]);
 		this.translate.setDefaultLang('pt');
@@ -41,9 +38,10 @@ export class HeaderComponent implements OnInit {
 		});
 	}
 
-	ngOnInit () {
+	async ngOnInit () {
 		this.pushRightClass = 'push-right';
-		this.userLogged = this.store.select(authLoggedUser);
+		const claims = await this.oktaAuth.getUser();
+		this.userLogged = claims.name;
 	}
 
 	isToggled (): boolean {
@@ -62,7 +60,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	onLoggedout () {
-		this.store.dispatch(new Logout());
+		// TODO
 	}
 
 	changeLang (language: string) {

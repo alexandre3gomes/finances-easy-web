@@ -3,7 +3,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Logout } from 'src/app/auth/store/auth.actions';
 import { authLoggedUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/shared/model/user.model';
 import { AppState } from 'src/app/store/app.reducers';
@@ -85,6 +84,6 @@ export class SidebarComponent implements OnInit {
 	}
 
 	onLoggedout () {
-		this.store.dispatch(new Logout());
+		// TODO
 	}
 }

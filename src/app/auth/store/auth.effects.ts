@@ -15,59 +15,31 @@ import { AuthActionsEnum } from './auth.actions';
 @Injectable()
 export class AuthEffects {
 
-	private logonEndpoint = environment.api.concat('public/logon');
 	private userEndpoint = environment.api.concat('user');
 
 	constructor(private actions: Actions, private http: HttpClient, private router: Router) { }
 
 	@Effect()
 	authLogon = this.actions.pipe(
-		ofType(AuthActionsEnum.LOGON),
-		map((action: AuthActions.Logon) => {
+		ofType(AuthActionsEnum.SET_LOGGED_USER),
+		map((action: AuthActions.SetLoggerUser) => {
 			return action.payload;
 		}),
 		switchMap((user: User) => {
-			return this.http.post<User>(this.logonEndpoint.concat('/login'), user).pipe(
+			return this.http.post<User>(this.userEndpoint.concat('/current'), user).pipe(
 				take(1),
 				map((us: User) => {
-					localStorage.setItem('token', us.token);
 					return {
-						type: AuthActionsEnum.SET_AUTHENTICATED,
+						type: AuthActionsEnum.SET_LOGGED_USER,
 						payload: us
 					};
 				}),
 				catchError((err) => {
 					console.error(err);
-					return of(new ShowAlertError('Login failed, try again'));
+					return of(new ShowAlertError('Get current user failed, try again'));
 				})
 			);
 		})
 	);
 
-	@Effect()
-	authLogout = this.actions.pipe(
-		ofType(AuthActionsEnum.LOGOUT),
-		switchMap(() => {
-			return this.http.get<void>(this.userEndpoint.concat('/logout')).pipe(
-				map(() => {
-					localStorage.removeItem('token');
-					this.router.navigate([ '/login' ]);
-					return {
-						type: AppActionsEnum.CLEAR_STORE
-					};
-				}),
-				catchError((err) => {
-					return of(console.log(err));
-				})
-			);
-		})
-	);
-
-	@Effect({ dispatch: false })
-	authSetToken = this.actions.pipe(
-		ofType(AuthActionsEnum.SET_AUTHENTICATED),
-		tap(() => {
-			this.router.navigate([ '/dashboard' ]);
-		})
-	);
 }

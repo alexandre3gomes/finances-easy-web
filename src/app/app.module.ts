@@ -1,27 +1,28 @@
-import { CommonModule, registerLocaleData } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {CommonModule, registerLocaleData} from '@angular/common';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import localeEn from '@angular/common/locales/en-GB';
 import localePt from '@angular/common/locales/pt-PT';
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgxCurrencyModule } from 'ngx-currency';
-import { NgxUiLoaderModule } from 'ngx-ui-loader';
-import { environment } from 'src/environments/environment';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreRouterConnectingModule, DefaultRouterStateSerializer} from '@ngrx/router-store';
+import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {NgxCurrencyModule} from 'ngx-currency';
+import {NgxUiLoaderModule} from 'ngx-ui-loader';
+import {environment} from 'src/environments/environment';
 
-import { effects } from './app-effects';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AuthGuard } from './shared';
-import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
-import { appReducers, clearState } from './store/app.reducers';
+import {effects} from './app-effects';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HeaderInterceptor} from './shared/interceptors/header.interceptor';
+import {appReducers, clearState} from './store/app.reducers';
+import {OKTA_CONFIG, OktaAuthModule} from '@okta/okta-angular';
+import { AuthComponent } from './auth/auth.component';
 
 registerLocaleData(localeEn, 'en-GB');
 registerLocaleData(localePt, 'pt-PT');
@@ -32,15 +33,23 @@ export const createTranslateLoader = (http: HttpClient) => {
 };
 
 export const customCurrencyMaskConfig = {
-	align: "left",
+	align: 'left',
 	allowNegative: true,
 	allowZero: true,
-	decimal: ",",
+	decimal: ',',
 	precision: 2,
-	prefix: "€ ",
-	suffix: "",
-	thousands: ".",
+	prefix: '€ ',
+	suffix: '',
+	thousands: '.',
 	nullable: true
+};
+
+export const oktaConfig = {
+	clientId: '0oa4e4x01zItFJ2dF5d6',
+	issuer: 'https://dev-2225315.okta.com/oauth2/default',
+	redirectUri: 'http://localhost:4200/callback',
+	scopes: ['openid', 'profile', 'email'],
+	pkce: true
 };
 
 @NgModule({
@@ -53,21 +62,24 @@ export const customCurrencyMaskConfig = {
 			loader: {
 				provide: TranslateLoader,
 				useFactory: createTranslateLoader,
-				deps: [ HttpClient ]
+				deps: [HttpClient]
 			}
 		}),
 		NgbDropdownModule,
 		NgxUiLoaderModule,
 		NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-		StoreModule.forRoot(appReducers, { metaReducers: [ clearState ], runtimeChecks: { strictActionImmutability: false, strictStateImmutability: false } }),
+		StoreModule.forRoot(appReducers, {
+			metaReducers: [clearState],
+			runtimeChecks: {strictActionImmutability: false, strictStateImmutability: false}
+		}),
 		EffectsModule.forRoot(effects),
-		StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: '[Router]' }),
+		StoreRouterConnectingModule.forRoot({serializer: DefaultRouterStateSerializer, stateKey: '[Router]'}),
 		!environment.production ? StoreDevtoolsModule.instrument() : [],
-		AppRoutingModule
+		AppRoutingModule,
+		OktaAuthModule
 	],
-	declarations: [ AppComponent ],
+	declarations: [AppComponent, AuthComponent],
 	providers: [
-		AuthGuard,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: HeaderInterceptor,
@@ -76,8 +88,13 @@ export const customCurrencyMaskConfig = {
 		{
 			provide: LOCALE_ID,
 			useValue: 'pt-PT'
+		},
+		{
+			provide: OKTA_CONFIG,
+			useValue: oktaConfig
 		}
 	],
-	bootstrap: [ AppComponent ]
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

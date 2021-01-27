@@ -86,8 +86,8 @@
 		</div>
 	</li>
 	<li class="nav-item dropdown" ngbDropdown>
-		<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle *ngIf="(userLogged | async)">
-			<i class="fa fa-user"></i> {{ (userLogged | async).name }} <b class="caret"></b>
+		<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle *ngIf="userLogged">
+			<i class="fa fa-user"></i> {{ userLogged }} <b class="caret"></b>
 		</a>
 		<div class="dropdown-menu-right" ngbDropdownMenu>
 			<a class="dropdown-item" href="javascript:void(0)">
