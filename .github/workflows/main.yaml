@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.15.4'
-      - run: npm lint
+      - run: npm run lint
   Build:
     runs-on: ubuntu-20.04
     steps:
