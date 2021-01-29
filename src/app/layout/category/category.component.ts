@@ -7,62 +7,63 @@ import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { category } from '../../store/app.selectors';
 import { DeleteCategory, ListCategories, ResetCategories } from './store/category.actions';
 
-
-
 @Component({
-	selector: 'app-category',
-	templateUrl: './category.component.html'
+    selector: 'app-category',
+    templateUrl: './category.component.html'
 })
 export class CategoryComponent implements OnInit, OnDestroy {
+    state = this.store.select(category);
 
-	state = this.store.select(category);
-	currentId: number;
-	showConfirm = false;
-	editModal = false;
-	currentPage = 0;
+    currentId: number;
 
-	constructor(private store: Store<AppState>) { }
+    showConfirm = false;
 
-	ngOnInit () {
-		this.store.dispatch(new ResetCategories());
-		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
-	}
+    editModal = false;
 
-	ngOnDestroy () {
-		this.resetData();
-		this.store.dispatch(new ResetCategories());
-	}
+    currentPage = 0;
 
-	openModal () {
-		this.editModal = true;
-	}
+    constructor(private store: Store<AppState>) { }
 
-	resetData () {
-		this.showConfirm = false;
-		this.editModal = false;
-		this.currentId = -1;
-		this.currentPage = 0;
-	}
+    ngOnInit () {
+        this.store.dispatch(new ResetCategories());
+        this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
+    }
 
-	editCategory (id: number) {
-		this.currentId = id;
-		this.openModal();
-	}
+    ngOnDestroy () {
+        this.resetData();
+        this.store.dispatch(new ResetCategories());
+    }
 
-	deleteCategory (id: number) {
-		this.currentId = id;
-		this.showConfirm = true;
-	}
+    openModal () {
+        this.editModal = true;
+    }
 
-	confirmDelete (confirm: boolean) {
-		if (confirm) {
-			this.store.dispatch(new DeleteCategory(this.currentId));
-		}
-		this.resetData();
-	}
+    resetData () {
+        this.showConfirm = false;
+        this.editModal = false;
+        this.currentId = -1;
+        this.currentPage = 0;
+    }
 
-	showMore () {
-		this.currentPage++;
-		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-	}
+    editCategory (id: number) {
+        this.currentId = id;
+        this.openModal();
+    }
+
+    deleteCategory (id: number) {
+        this.currentId = id;
+        this.showConfirm = true;
+    }
+
+    confirmDelete (confirm: boolean) {
+        if (confirm) {
+            this.store.dispatch(new DeleteCategory(this.currentId));
+        }
+        this.resetData();
+    }
+
+    showMore () {
+        this.currentPage++;
+        this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+    }
 }

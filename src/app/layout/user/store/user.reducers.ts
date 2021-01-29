@@ -13,7 +13,6 @@ export const initialUserState: UserState = {
     page: null
 }
 
-
 export function userReducers(state = initialUserState, action: UserActions): UserState {
     switch(action.type) {
         case (UserActionsEnum.RESET_USERS): {
@@ -26,18 +25,18 @@ export function userReducers(state = initialUserState, action: UserActions): Use
         case (UserActionsEnum.ADD_USERS): {
             return {
                 ...state,
-				users: [...state.users, ...action.payload.content].sort((user1, user2) => user1.name.localeCompare(user2.name)),
+                users: [...state.users, ...action.payload.content].sort((user1, user2) => user1.name.localeCompare(user2.name)),
                 page: action.payload
             };
         }
         case (UserActionsEnum.ADD_USER): {
-			const newUsers = [...state.users];
-			if(newUsers.length >= Default.PAGE_SIZE) {
-				newUsers.pop();
-			}
+            const newUsers = [...state.users];
+            if(newUsers.length >= Default.PAGE_SIZE) {
+                newUsers.pop();
+            }
             return {
                 ...state,
-				users: [action.payload, ...newUsers].sort((user1, user2) => user1.name.localeCompare(user2.name))
+                users: [action.payload, ...newUsers].sort((user1, user2) => user1.name.localeCompare(user2.name))
             };
         }
         case (UserActionsEnum.ALTER_USER): {

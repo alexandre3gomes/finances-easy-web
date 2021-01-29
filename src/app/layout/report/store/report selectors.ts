@@ -5,6 +5,6 @@ import { ReportState } from './report.reducers';
 const reportState = (state: AppState) => state.report;
 
 export const catVal = createSelector(
-	reportState,
-	(state: ReportState) => state.catVal
+    reportState,
+    (state: ReportState) => state.catVal
 );

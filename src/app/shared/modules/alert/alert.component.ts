@@ -4,29 +4,29 @@ import { GetAlert, HideAlert } from 'src/app/store/alert.actions';
 import { errorAlert, msgAlert, visibleAlert } from 'src/app/store/alert.selectors';
 import { AppState } from '../../../store/app.reducers';
 
-
-
 @Component({
-	selector: 'app-alert',
-	templateUrl: './alert.component.html'
+    selector: 'app-alert',
+    templateUrl: './alert.component.html'
 })
 export class AlertComponent implements OnInit {
-	error = this.store.select(errorAlert);
-	msg = this.store.select(msgAlert);
-	visible = this.store.select(visibleAlert);
+    error = this.store.select(errorAlert);
 
-	constructor(private store: Store<AppState>) { }
+    msg = this.store.select(msgAlert);
 
-	ngOnInit () {
-		this.store.dispatch(new GetAlert());
-		this.visible.subscribe((data) => {
-			if (data) {
-				setTimeout(() => this.store.dispatch(new HideAlert()), 1500);
-			}
-		});
-	}
+    visible = this.store.select(visibleAlert);
 
-	hideAlert () {
-		this.store.dispatch(new HideAlert());
-	}
+    constructor(private store: Store<AppState>) { }
+
+    ngOnInit () {
+        this.store.dispatch(new GetAlert());
+        this.visible.subscribe((data) => {
+            if (data) {
+                setTimeout(() => this.store.dispatch(new HideAlert()), 1500);
+            }
+        });
+    }
+
+    hideAlert () {
+        this.store.dispatch(new HideAlert());
+    }
 }

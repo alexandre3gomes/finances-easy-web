@@ -16,105 +16,111 @@ import { ListUsers, ResetUsers } from '../user/store/user.actions';
 import { users } from '../user/store/user.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
 
-
-
 @Component({
-	selector: 'app-expense',
-	templateUrl: './expense.component.html',
-	styleUrls: [ './expense.component.scss' ]
+    selector: 'app-expense',
+    templateUrl: './expense.component.html',
+    styleUrls: ['./expense.component.scss']
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
+    state = this.store.select(expense);
 
-	state = this.store.select(expense);
-	currentId: number;
-	showConfirm = false;
-	categories: Category[];
-	users: User[];
-	editModal = false;
-	currentPage = 0;
-	DATE_FORMAT = 'L';
-	searchForm: FormGroup;
-	showFilters = false;
+    currentId: number;
 
-	constructor(private store: Store<AppState>) { }
+    showConfirm = false;
 
-	ngOnInit() {
-		this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.dispatch(new ListUsers(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.select(categories).subscribe((catgs: Category[]) => {
-			this.categories = catgs;
-		});
-		this.store.select(users).subscribe(usrs => {
-			this.users = usrs;
-		});
-		this.searchForm = new FormGroup({
-			'name': new FormControl(),
-			'startDate': new FormControl(),
-			'endDate': new FormControl(),
-			'category': new FormControl(),
-			'user': new FormControl()
-		});
-	}
+    categories: Category[];
 
-	ngOnDestroy() {
-		this.resetData();
-		this.store.dispatch(new ResetCategories());
-		this.store.dispatch(new ResetExpenses());
-		this.store.dispatch(new ResetUsers());
-	}
+    users: User[];
 
-	openModal() {
-		this.editModal = true;
-	}
+    editModal = false;
 
-	resetData() {
-		this.showConfirm = false;
-		this.editModal = false;
-		this.currentId = -1;
-		this.currentPage = 0;
-	}
+    currentPage = 0;
 
-	editExpense(id: number) {
-		this.currentId = id;
-		this.openModal();
-	}
+    DATE_FORMAT = 'L';
 
-	deleteExpense(id: number) {
-		this.currentId = id;
-		this.showConfirm = true;
-	}
+    searchForm: FormGroup;
 
-	confirmDelete(confirm: boolean) {
-		if (confirm) {
-			this.store.dispatch(new DeleteExpense(this.currentId));
-		}
-		this.resetData();
-	}
+    showFilters = false;
 
-	showMore() {
-		this.currentPage++;
-		this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
-	}
+    constructor(private store: Store<AppState>) { }
 
-	search() {
-		if (this.searchForm.get('startDate').value && !this.searchForm.get('endDate').value) {
-			this.store.dispatch(new ShowAlertError('Please select End Date'));
-		} else {
-			this.currentPage = 0;
-			this.store.dispatch(new ResetExpenses());
-			this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
-		}
-	}
+    ngOnInit() {
+        this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+        this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+        this.store.dispatch(new ListUsers(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+        this.store.select(categories).subscribe((catgs: Category[]) => {
+            this.categories = catgs;
+        });
+        this.store.select(users).subscribe((usrs) => {
+            this.users = usrs;
+        });
+        this.searchForm = new FormGroup({
+            name: new FormControl(),
+            startDate: new FormControl(),
+            endDate: new FormControl(),
+            category: new FormControl(),
+            user: new FormControl()
+        });
+    }
 
-	getPaginationWithFilters(): Pagination {
-		const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
-		const filter = new Filter(this.searchForm.get('name').value,
-			this.searchForm.get('startDate').value,
-			this.searchForm.get('endDate').value, selectedCategory[ 0 ],
-			+this.searchForm.get('user').value);
-		const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
-		pagination.filter = filter;
-		return pagination;
-	}
+    ngOnDestroy() {
+        this.resetData();
+        this.store.dispatch(new ResetCategories());
+        this.store.dispatch(new ResetExpenses());
+        this.store.dispatch(new ResetUsers());
+    }
+
+    openModal() {
+        this.editModal = true;
+    }
+
+    resetData() {
+        this.showConfirm = false;
+        this.editModal = false;
+        this.currentId = -1;
+        this.currentPage = 0;
+    }
+
+    editExpense(id: number) {
+        this.currentId = id;
+        this.openModal();
+    }
+
+    deleteExpense(id: number) {
+        this.currentId = id;
+        this.showConfirm = true;
+    }
+
+    confirmDelete(confirm: boolean) {
+        if (confirm) {
+            this.store.dispatch(new DeleteExpense(this.currentId));
+        }
+        this.resetData();
+    }
+
+    showMore() {
+        this.currentPage++;
+        this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+    }
+
+    search() {
+        if (this.searchForm.get('startDate').value && !this.searchForm.get('endDate').value) {
+            this.store.dispatch(new ShowAlertError('Please select End Date'));
+        } else {
+            this.currentPage = 0;
+            this.store.dispatch(new ResetExpenses());
+            this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+        }
+    }
+
+    getPaginationWithFilters(): Pagination {
+        const selectedCategory = this.categories.filter((cat) => cat.id === +this.searchForm.get('category').value);
+        const filter = new Filter(this.searchForm.get('name').value,
+            this.searchForm.get('startDate').value,
+            this.searchForm.get('endDate').value, selectedCategory[0],
+            +this.searchForm.get('user').value);
+        const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
+        pagination.filter = filter;
+        return pagination;
+    }
 }

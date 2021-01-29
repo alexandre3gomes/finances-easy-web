@@ -6,6 +6,6 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
-    constructor() { }
-    ngOnInit() { }
+    ngOnInit() {
+    }
 }

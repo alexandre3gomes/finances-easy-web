@@ -13,57 +13,56 @@ import { initialUserState, userReducers, UserState } from '../layout/user/store/
 import { alertReducers, AlertState, initialAlertState } from './alert.reducers';
 import { AppActionsEnum } from './app.actions';
 
-
 export interface AppState {
-	router?: RouterReducerState;
-	alert: AlertState;
-	auth: AuthState;
-	income: IncomeState;
-	category: CategoryState;
-	expense: ExpenseState;
-	budget: BudgetState;
-	dashboard: DashboardState;
-	report: ReportState;
-	user: UserState;
-	savings: SavingsState;
+    router?: RouterReducerState;
+    alert: AlertState;
+    auth: AuthState;
+    income: IncomeState;
+    category: CategoryState;
+    expense: ExpenseState;
+    budget: BudgetState;
+    dashboard: DashboardState;
+    report: ReportState;
+    user: UserState;
+    savings: SavingsState;
 }
 
 export const initialAppState: AppState = {
-	alert: initialAlertState,
-	auth: initialAuthState,
-	income: initialIncomeState,
-	category: initialCategoryState,
-	expense: initialExpenseState,
-	budget: initialBudgetState,
-	dashboard: initialDashboardState,
-	report: initialReportState,
-	user: initialUserState,
-	savings: initialSavingsState
+    alert: initialAlertState,
+    auth: initialAuthState,
+    income: initialIncomeState,
+    category: initialCategoryState,
+    expense: initialExpenseState,
+    budget: initialBudgetState,
+    dashboard: initialDashboardState,
+    report: initialReportState,
+    user: initialUserState,
+    savings: initialSavingsState
 };
 
 export function getInitialState (): AppState {
-	return initialAppState;
+    return initialAppState;
 }
 
 export const appReducers: ActionReducerMap<AppState, any> = {
-	router: routerReducer,
-	alert: alertReducers,
-	auth: authReducers,
-	income: incomeReducers,
-	category: categoryReducers,
-	expense: expenseReducers,
-	budget: budgetReducers,
-	dashboard: dashboardReducers,
-	report: reportReducers,
-	user: userReducers,
-	savings: savingsReducers
+    router: routerReducer,
+    alert: alertReducers,
+    auth: authReducers,
+    income: incomeReducers,
+    category: categoryReducers,
+    expense: expenseReducers,
+    budget: budgetReducers,
+    dashboard: dashboardReducers,
+    report: reportReducers,
+    user: userReducers,
+    savings: savingsReducers
 };
 
 export function clearState (reducer) {
-	return function (state, action) {
-		if (action.type === AppActionsEnum.CLEAR_STORE) {
-			state = undefined;
-		}
-		return reducer(state, action);
-	};
+    return function (state, action) { // eslint-disable-line
+        if (action.type === AppActionsEnum.CLEAR_STORE) {
+            state = undefined; // eslint-disable-line
+        }
+        return reducer(state, action);
+    };
 }

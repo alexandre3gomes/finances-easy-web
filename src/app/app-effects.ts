@@ -9,13 +9,13 @@ import { UserEffects } from './layout/user/store/user.effects';
 import { SavingsEffects } from './layout/savings/store/savings.effects';
 
 export const effects = [
-	AuthEffects,
-	IncomeEffects,
-	CategoryEffects,
-	ExpenseEffects,
-	BudgetEffects,
-	DashboardEffects,
-	ReportEffects,
-	UserEffects,
-	SavingsEffects
+    AuthEffects,
+    IncomeEffects,
+    CategoryEffects,
+    ExpenseEffects,
+    BudgetEffects,
+    DashboardEffects,
+    ReportEffects,
+    UserEffects,
+    SavingsEffects
 ];

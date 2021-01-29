@@ -9,26 +9,25 @@ import { ChatComponent, NotificationComponent, TimelineComponent } from './compo
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 
-
 @NgModule({
-	imports: [
-		CommonModule,
-		NgbCarouselModule,
-		NgbAlertModule,
-		DashboardRoutingModule,
-		StatModule,
-		ChartsModule,
-		TranslateModule,
-		SharedPipesModule
-	],
-	declarations: [
-		DashboardComponent,
-		TimelineComponent,
-		NotificationComponent,
-		ChatComponent
-	],
-	providers: [
-		DateLocaleFilterPipe
-	]
+    imports: [
+        CommonModule,
+        NgbCarouselModule,
+        NgbAlertModule,
+        DashboardRoutingModule,
+        StatModule,
+        ChartsModule,
+        TranslateModule,
+        SharedPipesModule
+    ],
+    declarations: [
+        DashboardComponent,
+        TimelineComponent,
+        NotificationComponent,
+        ChatComponent
+    ],
+    providers: [
+        DateLocaleFilterPipe
+    ]
 })
 export class DashboardModule { }

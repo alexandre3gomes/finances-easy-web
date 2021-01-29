@@ -1,12 +1,13 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
-export function routerTransition() {
-
-    return noTransition();
-}
+import {
+ animate, state, style, transition, trigger
+} from '@angular/animations';
 
 export function noTransition() {
     return trigger('routerTransition', []);
+}
+
+export function routerTransition() {
+    return noTransition();
 }
 
 export function slideToRight() {
