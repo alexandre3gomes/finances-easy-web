@@ -14,13 +14,13 @@ jobs:
           node-version: '14.15.4'
       - run: npm install
       - name: Cache Node.js modules
-          uses: actions/cache@v2
-          with:
-            path: ~/.npm
-            key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.OS }}-node-
-              ${{ runner.OS }}-
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
       - run: npm run lint
   Build:
     runs-on: ubuntu-20.04
