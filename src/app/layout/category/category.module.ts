@@ -9,7 +9,7 @@ import { CategoryComponent } from './category.component';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
 
 @NgModule({
-	declarations: [ CategoryComponent, EditCategoryComponent ],
-	imports: [ CommonModule, CategoryRoutingModule, TranslateModule, ReactiveFormsModule, ConfirmModule, NgbPaginationModule ]
+    declarations: [CategoryComponent, EditCategoryComponent],
+    imports: [CommonModule, CategoryRoutingModule, TranslateModule, ReactiveFormsModule, ConfirmModule, NgbPaginationModule]
 })
 export class CategoryModule { }

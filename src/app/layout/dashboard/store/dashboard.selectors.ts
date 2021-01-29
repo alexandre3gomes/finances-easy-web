@@ -5,11 +5,11 @@ import { DashboardState } from './dashboard.reducers';
 const dashboardState = (state: AppState) => state.dashboard;
 
 export const incomes = createSelector(
-	dashboardState,
-	(state: DashboardState) => state.incomes
+    dashboardState,
+    (state: DashboardState) => state.incomes
 );
 
 export const expenses = createSelector(
-	dashboardState,
-	(state: DashboardState) => state.expenses
+    dashboardState,
+    (state: DashboardState) => state.expenses
 );

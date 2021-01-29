@@ -1,16 +1,15 @@
 import { Filter } from './filter.model';
 
 export class Pagination {
+    private _filter: Filter;
 
-	private _filter: Filter;
+    constructor(public page: number, public size: number) { }
 
-	constructor(public page: number, public size: number) { }
+    get filter() {
+        return this._filter;
+    }
 
-	get filter() {
-		return this._filter;
-	}
-
-	set filter(filter: Filter) {
-		this._filter = filter;
-	}
+    set filter(filter: Filter) {
+        this._filter = filter;
+    }
 }

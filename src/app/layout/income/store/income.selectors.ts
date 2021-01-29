@@ -5,11 +5,11 @@ import { IncomeState } from './income.reducers';
 const incomeState = (state: AppState) => state.income;
 
 export const incomes = createSelector(
-	incomeState,
-	(state: IncomeState) => state.incomes
+    incomeState,
+    (state: IncomeState) => state.incomes
 );
 
 export const page = createSelector(
-	incomeState,
-	(state: IncomeState) => state.page
+    incomeState,
+    (state: IncomeState) => state.page
 );

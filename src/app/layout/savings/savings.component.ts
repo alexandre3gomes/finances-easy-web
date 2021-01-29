@@ -17,61 +17,65 @@ import { DeleteSavings, ListSavings, ResetSavings } from './store/savings.action
   styleUrls: ['./savings.component.scss']
 })
 export class SavingsComponent implements OnInit {
+    state = this.store.select(savings);
 
-	state = this.store.select(savings);
-	editModal = false;
-	savingsForm: FormGroup;
-	currentId: number;
-	showConfirm = false;
-	currentPage = 0;
-	DATE_FORMAT = 'L';
+    editModal = false;
 
-	constructor(private store: Store<AppState>) { }
+    savingsForm: FormGroup;
 
-	ngOnInit() {
-		this.store.dispatch(new ListSavings(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-		this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.MAX_SIZE)));
-	}
+    currentId: number;
 
-	ngOnDestroy() {
-		this.resetData();
-		this.store.dispatch(new ResetSavings());
-		this.store.dispatch(new ResetIncomes());
-		this.store.dispatch(new ResetExpenses());
-		this.store.dispatch(new ResetCategories());
-	}
+    showConfirm = false;
 
-	openModal() {
-		this.editModal = true;
-	}
+    currentPage = 0;
 
-	editSavings(id: number) {
-		this.currentId = id;
-		this.openModal();
-	}
+    DATE_FORMAT = 'L';
 
-	deleteSavings(id: number) {
-		this.currentId = id;
-		this.showConfirm = true;
-	}
+    constructor(private store: Store<AppState>) { }
 
-	confirmDelete(confirm: boolean) {
-		if (confirm) {
-			this.store.dispatch(new DeleteSavings(this.currentId));
-		}
-		this.resetData();
-	}
+    ngOnInit() {
+        this.store.dispatch(new ListSavings(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+        this.store.dispatch(new ListCategories(new Pagination(this.currentPage, Default.MAX_SIZE)));
+    }
 
-	resetData() {
-		this.showConfirm = false;
-		this.editModal = false;
-		this.currentId = -1;
-		this.currentPage = 0;
-	}
+    ngOnDestroy() {
+        this.resetData();
+        this.store.dispatch(new ResetSavings());
+        this.store.dispatch(new ResetIncomes());
+        this.store.dispatch(new ResetExpenses());
+        this.store.dispatch(new ResetCategories());
+    }
 
-	showMore() {
-		this.currentPage++;
-		this.store.dispatch(new ListSavings(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-	}
+    openModal() {
+        this.editModal = true;
+    }
 
+    editSavings(id: number) {
+        this.currentId = id;
+        this.openModal();
+    }
+
+    deleteSavings(id: number) {
+        this.currentId = id;
+        this.showConfirm = true;
+    }
+
+    confirmDelete(confirm: boolean) {
+        if (confirm) {
+            this.store.dispatch(new DeleteSavings(this.currentId));
+        }
+        this.resetData();
+    }
+
+    resetData() {
+        this.showConfirm = false;
+        this.editModal = false;
+        this.currentId = -1;
+        this.currentPage = 0;
+    }
+
+    showMore() {
+        this.currentPage++;
+        this.store.dispatch(new ListSavings(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+    }
 }

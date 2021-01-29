@@ -1,69 +1,70 @@
-import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {TranslateService} from '@ngx-translate/core';
-import {AppState} from '../../../store/app.reducers';
-import {OktaAuthService} from '@okta/okta-angular';
-
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { OktaAuthService } from '@okta/okta-angular';
+import { AppState } from '../../../store/app.reducers';
+import { AuthActionsEnum, GetCurrentUser, SetLoggerUser } from '../../../auth/store/auth.actions';
 
 @Component({
-	selector: 'app-header',
-	templateUrl: './header.component.html',
-	styleUrls: [ './header.component.scss' ]
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	public pushRightClass: string;
-	public userLogged: string;
+    public pushRightClass: string;
 
-	constructor(
-		private translate: TranslateService,
-		private router: Router,
-		private store: Store<AppState>,
-		private oktaAuth: OktaAuthService
-	) {
-		this.translate.addLangs([ 'en', 'pt' ]);
-		this.translate.setDefaultLang('pt');
-		const browserLang = this.translate.getBrowserLang();
-		this.translate.use(
-			browserLang.match(/en|pt/) ? browserLang : 'pt'
-		);
-		this.router.events.subscribe(val => {
-			if (
-				val instanceof NavigationEnd &&
-				window.innerWidth <= 992 &&
-				this.isToggled()
-			) {
-				this.toggleSidebar();
-			}
-		});
-	}
+    public userLogged: string;
 
-	async ngOnInit () {
-		this.pushRightClass = 'push-right';
-		const claims = await this.oktaAuth.getUser();
-		this.userLogged = claims.name;
-	}
+    constructor(
+        private translate: TranslateService,
+        private router: Router,
+        private store: Store<AppState>,
+        private oktaAuth: OktaAuthService
+    ) {
+        this.translate.addLangs(['en', 'pt']);
+        this.translate.setDefaultLang('pt');
+        const browserLang = this.translate.getBrowserLang();
+        this.translate.use(
+            browserLang.match(/en|pt/) ? browserLang : 'pt'
+        );
+        this.router.events.subscribe((val) => {
+            if (
+                val instanceof NavigationEnd
+                && window.innerWidth <= 992
+                && this.isToggled()
+            ) {
+                this.toggleSidebar();
+            }
+        });
+    }
 
-	isToggled (): boolean {
-		const dom: Element = document.querySelector('body');
-		return dom.classList.contains(this.pushRightClass);
-	}
+    async ngOnInit () {
+        this.pushRightClass = 'push-right';
+        const claims = await this.oktaAuth.getUser();
+        this.userLogged = claims.name;
+    }
 
-	toggleSidebar () {
-		const dom: any = document.querySelector('body');
-		dom.classList.toggle(this.pushRightClass);
-	}
+    isToggled (): boolean {
+        const dom: Element = document.querySelector('body');
+        return dom.classList.contains(this.pushRightClass);
+    }
 
-	rltAndLtr () {
-		const dom: any = document.querySelector('body');
-		dom.classList.toggle('rtl');
-	}
+    toggleSidebar () {
+        const dom: any = document.querySelector('body');
+        dom.classList.toggle(this.pushRightClass);
+    }
 
-	onLoggedout () {
-		// TODO
-	}
+    rltAndLtr () {
+        const dom: any = document.querySelector('body');
+        dom.classList.toggle('rtl');
+    }
 
-	changeLang (language: string) {
-		this.translate.use(language);
-	}
+    onLoggedout () {
+        // TODO
+    }
+
+    changeLang (language: string) {
+        this.translate.use(language);
+    }
 }

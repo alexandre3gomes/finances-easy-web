@@ -12,18 +12,17 @@ import { EditSavingsComponent } from './edit-savings/edit-savings.component';
 import { SavingsRoutingModule } from './savings-routing.module';
 import { SavingsComponent } from './savings.component';
 
-
 @NgModule({
   declarations: [SavingsComponent, EditSavingsComponent],
   imports: [
     CommonModule,
-	SavingsRoutingModule,
-	TranslateModule,
-	ReactiveFormsModule,
-	ConfirmModule,
-	NgbDatepickerModule,
-	SharedPipesModule,
-	NgxCurrencyModule
+    SavingsRoutingModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    ConfirmModule,
+    NgbDatepickerModule,
+    SharedPipesModule,
+    NgxCurrencyModule
   ],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter }]
 })

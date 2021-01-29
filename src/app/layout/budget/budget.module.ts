@@ -12,21 +12,19 @@ import { BudgetRoutingModule } from './budget-routing.module';
 import { BudgetComponent } from './budget.component';
 import { EditBudgetComponent } from './edit-budget/edit-budget.component';
 
-
-
 @NgModule({
-	imports: [
-		CommonModule,
-		BudgetRoutingModule,
-		FormsModule,
-		TranslateModule,
-		ReactiveFormsModule,
-		NgbDatepickerModule,
-		SharedPipesModule,
-		ConfirmModule,
-		NgxCurrencyModule
-	],
-	declarations: [ BudgetComponent, EditBudgetComponent ],
-	providers: [ { provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter } ]
+    imports: [
+        CommonModule,
+        BudgetRoutingModule,
+        FormsModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        NgbDatepickerModule,
+        SharedPipesModule,
+        ConfirmModule,
+        NgxCurrencyModule
+    ],
+    declarations: [BudgetComponent, EditBudgetComponent],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter }]
 })
 export class BudgetModule { }

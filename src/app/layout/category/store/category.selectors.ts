@@ -5,11 +5,11 @@ import { CategoryState } from './category.reducers';
 const categoryState = (state: AppState) => state.category;
 
 export const categories = createSelector(
-	categoryState,
-	(state: CategoryState) => state.categories
+    categoryState,
+    (state: CategoryState) => state.categories
 );
 
 export const page = createSelector(
-	categoryState,
-	(state: CategoryState) => state.page
+    categoryState,
+    (state: CategoryState) => state.page
 );

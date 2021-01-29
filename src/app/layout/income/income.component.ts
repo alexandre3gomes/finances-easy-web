@@ -9,60 +9,65 @@ import { income } from '../../store/app.selectors';
 import { DeleteIncome, ListIncomes, ResetIncomes } from './store/income.actions';
 
 @Component({
-	selector: 'app-income',
-	templateUrl: './income.component.html'
+    selector: 'app-income',
+    templateUrl: './income.component.html'
 })
 export class IncomeComponent implements OnInit, OnDestroy {
-	state = this.store.select(income);
-	editModal = false;
-	incomeForm: FormGroup;
-	currentId: number;
-	showConfirm = false;
-	currentPage = 0;
-	DATE_FORMAT = 'L';
+    state = this.store.select(income);
 
-	constructor(private store: Store<AppState>) { }
+    editModal = false;
 
-	ngOnInit () {
-		this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-	}
+    incomeForm: FormGroup;
 
-	ngOnDestroy () {
-		this.resetData();
-		this.store.dispatch(new ResetIncomes());
-	}
+    currentId: number;
 
-	openModal () {
-		this.editModal = true;
-	}
+    showConfirm = false;
 
-	editIncome (id: number) {
-		this.currentId = id;
-		this.openModal();
-	}
+    currentPage = 0;
 
-	deleteIncome (id: number) {
-		this.currentId = id;
-		this.showConfirm = true;
-	}
+    DATE_FORMAT = 'L';
 
-	confirmDelete (confirm: boolean) {
-		if (confirm) {
-			this.store.dispatch(new DeleteIncome(this.currentId));
-		}
-		this.resetData();
-	}
+    constructor(private store: Store<AppState>) { }
 
-	resetData () {
-		this.showConfirm = false;
-		this.editModal = false;
-		this.currentId = -1;
-		this.currentPage = 0;
-	}
+    ngOnInit () {
+        this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+    }
 
-	showMore () {
-		this.currentPage++;
-		this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-	}
+    ngOnDestroy () {
+        this.resetData();
+        this.store.dispatch(new ResetIncomes());
+    }
 
+    openModal () {
+        this.editModal = true;
+    }
+
+    editIncome (id: number) {
+        this.currentId = id;
+        this.openModal();
+    }
+
+    deleteIncome (id: number) {
+        this.currentId = id;
+        this.showConfirm = true;
+    }
+
+    confirmDelete (confirm: boolean) {
+        if (confirm) {
+            this.store.dispatch(new DeleteIncome(this.currentId));
+        }
+        this.resetData();
+    }
+
+    resetData () {
+        this.showConfirm = false;
+        this.editModal = false;
+        this.currentId = -1;
+        this.currentPage = 0;
+    }
+
+    showMore () {
+        this.currentPage++;
+        this.store.dispatch(new ListIncomes(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+    }
 }

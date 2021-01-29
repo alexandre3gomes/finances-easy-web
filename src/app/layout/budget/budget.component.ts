@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+ ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Default } from '../../shared/enum/default.enum';
@@ -8,68 +10,72 @@ import { budget, category } from '../../store/app.selectors';
 import { ListCategories, ResetCategories } from '../category/store/category.actions';
 import { DeleteBudget, ListBudgets, ResetBudgets } from './store/budget.actions';
 
-
 @Component({
-	selector: 'app-budget',
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	templateUrl: 'budget.component.html'
+    selector: 'app-budget',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: 'budget.component.html'
 })
 export class BudgetComponent implements OnInit, OnDestroy {
+    DATE_FORMAT = 'L';
 
-	DATE_FORMAT = 'L';
-	budgetState = this.store.select(budget);
-	categoryState = this.store.select(category);
-	showConfirm = false;
-	editModal = false;
-	currentId: number;
-	breakperiods: Array<number> = new Array();
-	currentPage = 0;
+    budgetState = this.store.select(budget);
 
-	constructor(private store: Store<AppState>) { }
+    categoryState = this.store.select(category);
 
-	resetData() {
-		this.editModal = false;
-		this.currentId = -1;
-	}
+    showConfirm = false;
 
-	ngOnInit() {
-		this.store.dispatch(new ResetCategories());
-		this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
-		this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
-		this.breakperiods.push(1);
-		this.breakperiods.push(2);
-	}
+    editModal = false;
 
-	ngOnDestroy() {
-		this.store.dispatch(new ResetBudgets());
-		this.store.dispatch(new ResetCategories());
-		this.resetData();
-	}
+    currentId: number;
 
-	openModal() {
-		this.editModal = true;
-	}
+    breakperiods: Array<number> = [];
 
-	editBudget(id: number) {
-		this.currentId = id;
-		this.openModal();
-	}
+    currentPage = 0;
 
-	deleteBudget(id: number) {
-		this.currentId = id;
-		this.showConfirm = true;
-	}
+    constructor(private store: Store<AppState>) { }
 
-	confirmDelete(confirm: boolean) {
-		if (confirm) {
-			this.store.dispatch(new DeleteBudget(this.currentId));
-		}
-		this.resetData();
-	}
+    resetData() {
+        this.editModal = false;
+        this.currentId = -1;
+    }
 
-	showMore() {
-		this.currentPage++;
-		this.store.dispatch(new ListBudgets(new Pagination(this.currentPage, Default.PAGE_SIZE)));
-	}
+    ngOnInit() {
+        this.store.dispatch(new ResetCategories());
+        this.store.dispatch(new ListCategories(new Pagination(Default.START_PAGE, Default.MAX_SIZE)));
+        this.store.dispatch(new ListBudgets(new Pagination(Default.START_PAGE, Default.PAGE_SIZE)));
+        this.breakperiods.push(1);
+        this.breakperiods.push(2);
+    }
 
+    ngOnDestroy() {
+        this.store.dispatch(new ResetBudgets());
+        this.store.dispatch(new ResetCategories());
+        this.resetData();
+    }
+
+    openModal() {
+        this.editModal = true;
+    }
+
+    editBudget(id: number) {
+        this.currentId = id;
+        this.openModal();
+    }
+
+    deleteBudget(id: number) {
+        this.currentId = id;
+        this.showConfirm = true;
+    }
+
+    confirmDelete(confirm: boolean) {
+        if (confirm) {
+            this.store.dispatch(new DeleteBudget(this.currentId));
+        }
+        this.resetData();
+    }
+
+    showMore() {
+        this.currentPage++;
+        this.store.dispatch(new ListBudgets(new Pagination(this.currentPage, Default.PAGE_SIZE)));
+    }
 }

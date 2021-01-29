@@ -13,17 +13,17 @@ import { ExpenseComponent } from './expense.component';
 import { ExpenseRoutingModule } from './expense.routing.module';
 
 @NgModule({
-	declarations: [ ExpenseComponent, EditExpenseComponent ],
-	imports: [ CommonModule,
-		ExpenseRoutingModule,
-		TranslateModule,
-		FormsModule,
-		ReactiveFormsModule,
-		ConfirmModule,
-		NgbDatepickerModule,
-		SharedPipesModule,
-		NgxCurrencyModule
-	],
-	providers: [ { provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter } ]
+    declarations: [ExpenseComponent, EditExpenseComponent],
+    imports: [CommonModule,
+        ExpenseRoutingModule,
+        TranslateModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ConfirmModule,
+        NgbDatepickerModule,
+        SharedPipesModule,
+        NgxCurrencyModule
+    ],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter }]
 })
 export class ExpenseModule { }

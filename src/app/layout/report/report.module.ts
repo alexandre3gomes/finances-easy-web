@@ -9,15 +9,14 @@ import { ReportRoutingModule } from './report-routing.module';
 import { ReportComponent } from './report.component';
 import { YearBalanceComponent } from './year-balance/year-balance.component';
 
-
 @NgModule({
-	declarations: [ ReportComponent, CategoryAggregComponent, YearBalanceComponent ],
-	imports: [
-		CommonModule,
-		ReportRoutingModule,
-		TranslateModule,
-		SharedPipesModule,
-		ReactiveFormsModule
-	]
+    declarations: [ReportComponent, CategoryAggregComponent, YearBalanceComponent],
+    imports: [
+        CommonModule,
+        ReportRoutingModule,
+        TranslateModule,
+        SharedPipesModule,
+        ReactiveFormsModule
+    ]
 })
 export class ReportModule { }

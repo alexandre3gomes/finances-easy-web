@@ -1,13 +1,13 @@
 import { ConfirmModule } from './confirm.module';
 
 describe('ConfirmModule', () => {
-	let confirmModule: ConfirmModule;
+    let confirmModule: ConfirmModule;
 
-	beforeEach(() => {
-		confirmModule = new ConfirmModule();
-	});
+    beforeEach(() => {
+        confirmModule = new ConfirmModule();
+    });
 
-	it('should create an instance', () => {
-		expect(confirmModule).toBeTruthy();
-	});
+    it('should create an instance', () => {
+        expect(confirmModule).toBeTruthy();
+    });
 });

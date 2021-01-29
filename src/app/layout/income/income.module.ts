@@ -12,20 +12,17 @@ import { EditIncomeComponent } from './edit-income/edit-income.component';
 import { IncomeComponent } from './income.component';
 import { IncomeRoutingModule } from './income.routing.module';
 
-
-
-
 @NgModule({
-	declarations: [ IncomeComponent, EditIncomeComponent ],
-	imports: [ CommonModule,
-		IncomeRoutingModule,
-		TranslateModule,
-		ReactiveFormsModule,
-		ConfirmModule,
-		NgbDatepickerModule,
-		SharedPipesModule,
-		NgxCurrencyModule
-	],
-	providers: [ { provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter } ]
+    declarations: [IncomeComponent, EditIncomeComponent],
+    imports: [CommonModule,
+        IncomeRoutingModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        ConfirmModule,
+        NgbDatepickerModule,
+        SharedPipesModule,
+        NgxCurrencyModule
+    ],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateLocaleAdapter }]
 })
 export class IncomeModule { }
