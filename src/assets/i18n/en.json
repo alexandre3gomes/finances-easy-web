@@ -91,5 +91,6 @@
 	"Created by savings": "Created by savings",
 	"Automatically created by savings": "Automatically created by savings",
 	"Last 5 movements": "Last 5 movements",
-	"Select a user": "Select a user"
+	"Select a user": "Select a user",
+    "Login provided by Okta": "Login provided by Okta"
 }
