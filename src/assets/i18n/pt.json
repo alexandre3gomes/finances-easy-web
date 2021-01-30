@@ -91,5 +91,6 @@
 	"Created by savings": "Criado por poupança",
 	"Automatically created by savings": "Criado automaticamente pela poupança",
 	"Last 5 movements": "Últimos 5 movimentos",
-	"Select a user": "Selecione um usuário"
+	"Select a user": "Selecione um usuário",
+    "Login provided by Okta": "Login gerenciado pela Okta"
 }

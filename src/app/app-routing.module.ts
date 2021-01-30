@@ -4,8 +4,17 @@ import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 
 const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule)
+    },
+    {
         path: 'callback',
-        component: OktaCallbackComponent,
+        redirectTo: 'dashboard',
         pathMatch: 'full'
     },
     {

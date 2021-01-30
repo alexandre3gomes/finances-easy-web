@@ -5,9 +5,9 @@ on:
       - main
 
 jobs:
-  Build:
+  build:
+    name: Build Image
     runs-on: ubuntu-20.04
-    needs: [Tests]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node
