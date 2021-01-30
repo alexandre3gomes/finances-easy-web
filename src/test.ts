@@ -13,11 +13,11 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
-declare const karma: any;
+declare const __karma__: any; // eslint-disable-line
 declare const require: any;
 
 // Prevent Karma from running prematurely.
-karma.loaded = function () { // eslint-disable-line
+__karma__.loaded = function () { // eslint-disable-line
 };
 
 // First, initialize the Angular testing environment.
@@ -30,4 +30,4 @@ const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 // Finally, start Karma to run the tests.
-karma.start();
+__karma__.start();

@@ -6,6 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { LayoutComponent } from './layout.component';
 import { LayoutModule } from './layout.module';
 import { appReducers, clearState } from '../store/app.reducers';
+import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
+import { oktaConfig } from '../app.module';
 
 describe('LayoutComponent', () => {
     let component: LayoutComponent;
@@ -18,8 +20,14 @@ describe('LayoutComponent', () => {
                     LayoutModule,
                     RouterTestingModule,
                     TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-                    StoreModule.forRoot(appReducers, { metaReducers: [clearState] })
-
+                    StoreModule.forRoot(appReducers, { metaReducers: [clearState] }),
+                    OktaAuthModule
+                ],
+                providers: [
+                    {
+                        provide: OKTA_CONFIG,
+                        useValue: oktaConfig
+                    }
                 ]
             }).compileComponents();
         })
