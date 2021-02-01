@@ -1,12 +1,12 @@
 <style>
-    .blue_bg {
-        background-color: blue;
+    .bg-home {
+        background-image: url("assets/images/bgHome.jpeg");
     }
 </style>
 
-<div class="login-page" [@routerTransition]>
+<div class="login-page bg-home" [@routerTransition]>
     <app-alert></app-alert>
-    <div class="row justify-content-md-center">
+    <!--<div class="row justify-content-md-center">
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
             <h1>Finances Easy</h1>
@@ -21,9 +21,8 @@
                            id="password" placeholder="{{ 'Password' | translate }}" (keyup.enter)="login()">
                 </div>
             </div>
-            <a class="btn rounded-btn" (click)="login()">{{
-                'Log in' | translate }}</a>
+            <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Log in' | translate }}</a>
             <p class="mt-5 text-sm">Login provided by Okta</p>
         </div>
-    </div>
+    </div>-->
 </div>

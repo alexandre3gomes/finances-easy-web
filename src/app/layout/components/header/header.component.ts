@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { AppState } from '../../../store/app.reducers';
-import { AuthActionsEnum, GetCurrentUser, SetLoggerUser } from '../../../auth/store/auth.actions';
 
 @Component({
     selector: 'app-header',
