@@ -35,7 +35,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
 
     public accumulatedBalance: Array<number>;
 
-    public FORECAST_INCOME = 2863;
+    public FORECAST_INCOME = 0;
 
     public budgetId = -1;
 
@@ -58,6 +58,8 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
             this.total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             this.accumulatedBalance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             this.balance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            const validInc = repState.incomePeriod.filter(i => i > 0);
+            this.FORECAST_INCOME = validInc.reduce((a,b) => a + b, 0) / validInc.length
             repState.catVal.forEach((catVal) => {
                 this.periods = catVal.periodValue.map((per) => per.startDate);
                 for (let x = 0; x <= catVal.periodValue.length; x++) {
