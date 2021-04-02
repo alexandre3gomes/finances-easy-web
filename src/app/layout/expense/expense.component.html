@@ -44,7 +44,7 @@
 				<label for="startDate">{{ 'Start date' | translate }}</label>
 				<div class="input-group">
 					<input id="startDate" name="dp" class="form-control" formControlName="startDate" ngbDatepicker
-						#startDate="ngbDatepicker">
+						#startDate="ngbDatepicker" [weekdays]="0">
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()" type="button">
 							<i class="far fa-calendar-alt"></i>
@@ -56,7 +56,7 @@
 				<label for="endDate">{{ 'End date' | translate }}</label>
 				<div class="input-group">
 					<input id="endDate" name="dp" class="form-control" formControlName="endDate" ngbDatepicker
-						#endDate="ngbDatepicker">
+						#endDate="ngbDatepicker" [weekdays]="0">
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()" type="button">
 							<i class="far fa-calendar-alt"></i>

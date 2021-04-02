@@ -10,7 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
@@ -23,8 +23,8 @@ import { AppComponent } from './app.component';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers, clearState } from './store/app.reducers';
 
-registerLocaleData(localeEn, 'en-GB');
-registerLocaleData(localePt, 'pt-PT');
+registerLocaleData(localeEn, 'en');
+registerLocaleData(localePt, 'pt');
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -78,7 +78,10 @@ export const oktaConfig = environment.okta;
         },
         {
             provide: LOCALE_ID,
-            useValue: 'pt-PT'
+            useFactory: (translate: TranslateService) => {
+                return translate.getBrowserLang();
+            },
+            deps: [ TranslateService ]
         },
         {
             provide: OKTA_CONFIG,

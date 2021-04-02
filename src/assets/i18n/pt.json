@@ -61,8 +61,6 @@
 	"Yes": "Sim",
 	"No": "Não",
 	"Portuguese": "Português",
-	"weekdays": "['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']",
-	"months": "['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']",
 	"Monthly": "Mensal",
 	"Weekly": "Semanal",
 	"Edit": "Editar",

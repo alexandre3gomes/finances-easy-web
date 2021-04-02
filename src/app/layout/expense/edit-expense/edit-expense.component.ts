@@ -1,9 +1,6 @@
-import {
- Component, EventEmitter, Input, OnDestroy, OnInit, Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
 
 import { authLoggedUser } from '../../../auth/store/auth.selectors';
 import { Category } from '../../../shared/model/category.model';
