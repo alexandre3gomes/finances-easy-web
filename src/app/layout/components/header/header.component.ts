@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
         private oktaAuth: OktaAuthService
     ) {
         this.translate.addLangs(['en', 'pt']);
-        this.translate.setDefaultLang('pt');
         const browserLang = this.translate.getBrowserLang();
         this.translate.use(
             browserLang.match(/en|pt/) ? browserLang : 'pt'

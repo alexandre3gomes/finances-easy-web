@@ -36,7 +36,7 @@
 						<div class="input-group">
 							<input id="expireAt" name="dp" class="form-control" formControlName="expireAt"
 								(keydown.enter)="saveChanges()" (keydown.esc)="closeModal()" ngbDatepicker
-								#expireAt="ngbDatepicker">
+								#expireAt="ngbDatepicker" [weekdays]="0">
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary calendar" (click)="expireAt.toggle()"
 									type="button">

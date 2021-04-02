@@ -28,7 +28,7 @@
 						<label for="createdDate">{{ 'Created on' | translate }}</label>
 						<div class="input-group">
 							<input class="form-control" name="dp" formControlName="createdDate" ngbDatepicker
-								#createdDate="ngbDatepicker" (keydown.enter)="saveChanges()"
+								#createdDate="ngbDatepicker" [weekdays]="0" (keydown.enter)="saveChanges()"
 								(keydown.esc)="closeModal()">
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary calendar" (click)="createdDate.toggle()"
