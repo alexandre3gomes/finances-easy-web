@@ -12,9 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update image
-        id: run-kubectl
-        uses: Consensys/kubernetes-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        id: fetch-lastest-image
+        uses: appleboy/ssh-action@master
         with:
-          args: rollout restart deployments finances-easy-web -n finances
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.EC2_PEM }}
+          port: ${{ secrets.PROD_PORT }}
+          script: |
+            cd /home/ubuntu
+            sudo docker-compose down
+            sudo docker-compose up -d
