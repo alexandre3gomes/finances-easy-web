@@ -4,5 +4,5 @@ WORKDIR /usr/src/app
 COPY ./dist ./dist
 ### STAGE 2: Run ###
 FROM nginx:1.19.6-alpine
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
