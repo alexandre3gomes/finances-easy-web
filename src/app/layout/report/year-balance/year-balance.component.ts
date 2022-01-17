@@ -61,7 +61,7 @@ export class YearBalanceComponent implements OnInit, OnDestroy {
             const validInc = repState.incomePeriod.filter(i => i > 0);
             this.FORECAST_INCOME = validInc.reduce((a,b) => a + b, 0) / validInc.length
             repState.catVal.forEach((catVal) => {
-                this.periods = catVal.periodValue.map((per) => per.startDate);
+                this.periods = catVal.periodValue.map((per) => per.endDate);
                 for (let x = 0; x <= catVal.periodValue.length; x++) {
                     if (catVal.periodValue[x]) {
                         if (new Date(catVal.periodValue[x].endDate).getTime() <= new Date().getTime()) {

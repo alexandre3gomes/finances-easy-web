@@ -56,7 +56,7 @@ export class CategoryAggregComponent implements OnInit, OnDestroy {
             this.total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             this.balance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             repState.catVal.forEach((catVal) => {
-                this.periods = catVal.periodValue.map((per) => per.startDate);
+                this.periods = catVal.periodValue.map((per) => per.endDate);
                 for (let x = 0; x <= catVal.periodValue.length; x++) {
                     if (catVal.periodValue[x]) {
                         if (new Date(catVal.periodValue[x].endDate).getTime() <= new Date().getTime()) {

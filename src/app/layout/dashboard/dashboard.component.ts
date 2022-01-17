@@ -8,22 +8,24 @@ import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { CategoryAggregValues } from '../../shared/model/report/category-aggreg-values.model';
 import { DateLocaleFilterPipe } from '../../shared/pipes/date-locale-filter.pipe';
 import { AppState } from '../../store/app.reducers';
-import { dashboard, savings } from '../../store/app.selectors';
+import { category, dashboard, savings } from '../../store/app.selectors';
 import { ListSavings, ResetSavings } from '../savings/store/savings.actions';
 import { FetchData, ResetData } from './store/dashboard.actions';
 import { DashboardState } from './store/dashboard.reducers';
-import { User } from '../../shared/model/user.model';
 import { GetCurrentUser } from '../../auth/store/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    animations: [routerTransition()]
+    animations: [ routerTransition() ]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     public state = this.store.select(dashboard);
 
     public savingsState = this.store.select(savings);
+
+    public categoryState = this.store.select(category);
 
     public showChart = false;
 
@@ -43,9 +45,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private LAST_FIVE_MOVS = 5;
 
-    constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe) { }
+    constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe, private router: Router) {
+    }
 
-    ngOnInit () {
+    ngOnInit() {
         this.store.dispatch(new FetchData());
         this.state.subscribe((dashboardState: DashboardState) => {
             this.totalSavings = dashboardState.totalSavings;
@@ -71,8 +74,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     actualValues.push(catVal.periodValue[0].actualValue);
                 });
                 if (plannedValues.length > 0 && actualValues.length > 0) {
-                    this.barChart.addChartData({ data: plannedValues, label: 'Planned' });
-                    this.barChart.addChartData({ data: actualValues, label: 'Actual' });
+                    this.barChart.addChartData({data: plannedValues, label: 'Planned'});
+                    this.barChart.addChartData({data: actualValues, label: 'Actual'});
                 }
             }
         });
@@ -80,8 +83,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetCurrentUser());
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         this.store.dispatch(new ResetData());
         this.store.dispatch(new ResetSavings());
+    }
+
+    openExpense(evt: { event?: MouseEvent; active?: {}[] }) {
+        const clicked = evt.active[0]['_model']['label'];
+        this.state.subscribe((dashboardState: DashboardState) => {
+            const category = dashboardState.expenses.find(exp => exp.category.name === clicked);
+            if(category) {
+                this.router.navigate([ 'expense', {'category': category.id} ]);
+            }
+        });
     }
 }

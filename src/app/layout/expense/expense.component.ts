@@ -15,11 +15,12 @@ import { categories } from '../category/store/category.selectors';
 import { ListUsers, ResetUsers } from '../user/store/user.actions';
 import { users } from '../user/store/user.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-expense',
     templateUrl: './expense.component.html',
-    styleUrls: ['./expense.component.scss']
+    styleUrls: [ './expense.component.scss' ]
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
     state = this.store.select(expense);
@@ -42,7 +43,8 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
     showFilters = false;
 
-    constructor(private store: Store<AppState>) { }
+    constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+    }
 
     ngOnInit() {
         this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
