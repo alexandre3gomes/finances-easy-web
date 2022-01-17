@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, take } from 'rxjs/operators';
+import {
+ catchError, map, switchMap, take
+} from 'rxjs/operators';
 import { User } from 'src/app/shared/model/user.model';
 import { environment } from 'src/environments/environment';
 import { ShowAlertError } from '../../store/alert.actions';

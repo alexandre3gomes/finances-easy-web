@@ -78,10 +78,8 @@ export const oktaConfig = environment.okta;
         },
         {
             provide: LOCALE_ID,
-            useFactory: (translate: TranslateService) => {
-                return translate.getBrowserLang();
-            },
-            deps: [ TranslateService ]
+            useFactory: (translate: TranslateService) => translate.getBrowserLang(),
+            deps: [TranslateService]
         },
         {
             provide: OKTA_CONFIG,

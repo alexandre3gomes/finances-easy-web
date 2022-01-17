@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { Router } from '@angular/router';
 import { routerTransition } from '../../router.animations';
 import { BarChart } from '../../shared/model/charts/bar-chart.model';
 import { PieChart } from '../../shared/model/charts/pie-chart.model';
@@ -13,12 +14,11 @@ import { ListSavings, ResetSavings } from '../savings/store/savings.actions';
 import { FetchData, ResetData } from './store/dashboard.actions';
 import { DashboardState } from './store/dashboard.reducers';
 import { GetCurrentUser } from '../../auth/store/auth.actions';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    animations: [ routerTransition() ]
+    animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     public state = this.store.select(dashboard);
@@ -74,8 +74,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     actualValues.push(catVal.periodValue[0].actualValue);
                 });
                 if (plannedValues.length > 0 && actualValues.length > 0) {
-                    this.barChart.addChartData({data: plannedValues, label: 'Planned'});
-                    this.barChart.addChartData({data: actualValues, label: 'Actual'});
+                    this.barChart.addChartData({ data: plannedValues, label: 'Planned' });
+                    this.barChart.addChartData({ data: actualValues, label: 'Actual' });
                 }
             }
         });
@@ -89,11 +89,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     openExpense(evt: { event?: MouseEvent; active?: {}[] }) {
-        const clicked = evt.active[0]['_model']['label'];
+        // @ts-ignore
+        const clicked = evt.active[0]._model.label;
         this.state.subscribe((dashboardState: DashboardState) => {
-            const category = dashboardState.expenses.find(exp => exp.category.name === clicked);
-            if(category) {
-                this.router.navigate([ 'expense', {'category': category.id} ]);
+            const cat = dashboardState.expenses.find((exp) => exp.category.name === clicked);
+            if(cat) {
+                this.router.navigate(['expense', { category: cat.id }]);
             }
         });
     }

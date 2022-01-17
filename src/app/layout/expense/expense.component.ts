@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
+import { ActivatedRoute } from '@angular/router';
 import { Default } from '../../shared/enum/default.enum';
 import { Category } from '../../shared/model/category.model';
 import { Filter } from '../../shared/model/pagination/filter.model';
@@ -15,12 +16,11 @@ import { categories } from '../category/store/category.selectors';
 import { ListUsers, ResetUsers } from '../user/store/user.actions';
 import { users } from '../user/store/user.selectors';
 import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-expense',
     templateUrl: './expense.component.html',
-    styleUrls: [ './expense.component.scss' ]
+    styleUrls: ['./expense.component.scss']
 })
 export class ExpenseComponent implements OnInit, OnDestroy {
     state = this.store.select(expense);
