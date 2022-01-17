@@ -1,6 +1,5 @@
-/* SystemJS module definition */
-// @ts-ignore
-declare var module: NodeModule;
+export {};
+declare let module: NodeModule;
 interface NodeModule {
     id: string;
 }

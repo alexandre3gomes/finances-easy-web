@@ -6,8 +6,8 @@ export enum AuthActionsEnum {
     SET_LOGGED_USER = '[Auth] SetLoggerUser'
 }
 
-export class GetCurrentUser implements  Action {
-    public readonly  type = AuthActionsEnum.GET_CURRENT_USER;
+export class GetCurrentUser implements Action {
+    public readonly type = AuthActionsEnum.GET_CURRENT_USER;
 }
 
 export class SetLoggerUser implements Action {

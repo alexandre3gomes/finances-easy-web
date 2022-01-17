@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { Router } from '@angular/router';
 import { routerTransition } from '../../router.animations';
 import { BarChart } from '../../shared/model/charts/bar-chart.model';
 import { PieChart } from '../../shared/model/charts/pie-chart.model';
@@ -8,11 +9,10 @@ import { Pagination } from '../../shared/model/pagination/pagination.model';
 import { CategoryAggregValues } from '../../shared/model/report/category-aggreg-values.model';
 import { DateLocaleFilterPipe } from '../../shared/pipes/date-locale-filter.pipe';
 import { AppState } from '../../store/app.reducers';
-import { dashboard, savings } from '../../store/app.selectors';
+import { category, dashboard, savings } from '../../store/app.selectors';
 import { ListSavings, ResetSavings } from '../savings/store/savings.actions';
 import { FetchData, ResetData } from './store/dashboard.actions';
 import { DashboardState } from './store/dashboard.reducers';
-import { User } from '../../shared/model/user.model';
 import { GetCurrentUser } from '../../auth/store/auth.actions';
 
 @Component({
@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public state = this.store.select(dashboard);
 
     public savingsState = this.store.select(savings);
+
+    public categoryState = this.store.select(category);
 
     public showChart = false;
 
@@ -43,9 +45,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private LAST_FIVE_MOVS = 5;
 
-    constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe) { }
+    constructor(public store: Store<AppState>, public dateLocale: DateLocaleFilterPipe, private router: Router) {
+    }
 
-    ngOnInit () {
+    ngOnInit() {
         this.store.dispatch(new FetchData());
         this.state.subscribe((dashboardState: DashboardState) => {
             this.totalSavings = dashboardState.totalSavings;
@@ -80,8 +83,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetCurrentUser());
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         this.store.dispatch(new ResetData());
         this.store.dispatch(new ResetSavings());
+    }
+
+    openExpense(evt: { event?: MouseEvent; active?: {}[] }) {
+        // @ts-ignore
+        const clicked = evt.active[0]._model.label;
+        this.state.subscribe((dashboardState: DashboardState) => {
+            const cat = dashboardState.expenses.find((exp) => exp.category.name === clicked);
+            if(cat) {
+                this.router.navigate(['expense', { category: cat.id }]);
+            }
+        });
     }
 }

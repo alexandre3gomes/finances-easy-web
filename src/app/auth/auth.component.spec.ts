@@ -2,12 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AuthComponent } from './auth.component';
-import { AuthModule } from './auth.module';
 import { StoreModule } from "@ngrx/store";
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { appReducers, clearState } from '../store/app.reducers';
 import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
+import { AuthComponent } from './auth.component';
+import { AuthModule } from './auth.module';
+import { appReducers, clearState } from '../store/app.reducers';
 import { oktaConfig } from '../app.module';
 
 describe('AuthComponent', () => {
@@ -21,7 +21,7 @@ describe('AuthComponent', () => {
                 RouterTestingModule,
                 BrowserAnimationsModule,
                 TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-                StoreModule.forRoot(appReducers, { metaReducers: [ clearState ] }),
+                StoreModule.forRoot(appReducers, { metaReducers: [clearState] }),
                 OktaAuthModule
             ],
             providers: [
@@ -43,5 +43,4 @@ describe('AuthComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-
 });

@@ -27,7 +27,6 @@
 			<div class="col-sm-3">
 				<label for="category">{{ 'Category' | translate }}</label>
 				<select id="category" name="category" class="form-control" formControlName="category">
-					<option value="undefined">{{ 'Select a category' | translate }}</option>
 					<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
 				</select>
 			</div>

@@ -3,10 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { StoreModule } from '@ngrx/store';
+import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
 import { HeaderComponent } from './header.component';
 import { LayoutModule } from '../../layout.module';
 import { appReducers, clearState } from '../../../store/app.reducers';
-import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
 import { oktaConfig } from '../../../app.module';
 
 describe('HeaderComponent', () => {

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
+import { ActivatedRoute } from '@angular/router';
 import { Default } from '../../shared/enum/default.enum';
 import { Category } from '../../shared/model/category.model';
 import { Filter } from '../../shared/model/pagination/filter.model';
@@ -42,7 +43,8 @@ export class ExpenseComponent implements OnInit, OnDestroy {
 
     showFilters = false;
 
-    constructor(private store: Store<AppState>) { }
+    constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+    }
 
     ngOnInit() {
         this.store.dispatch(new ListExpenses(new Pagination(this.currentPage, Default.PAGE_SIZE)));
