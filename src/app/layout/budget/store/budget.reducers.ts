@@ -6,11 +6,13 @@ import { BudgetActions, BudgetActionsEnum } from './budget.actions';
 export interface BudgetState {
     budgets: Budget[];
     page: Page;
+    editedBudgetId: Number;
 }
 
 export const initialBudgetState: BudgetState = {
     budgets: [],
-    page: null
+    page: null,
+    editedBudgetId: 0
 };
 
 export function budgetReducers(state = initialBudgetState, action: BudgetActions): BudgetState {
@@ -42,10 +44,11 @@ export function budgetReducers(state = initialBudgetState, action: BudgetActions
             };
         }
         case (BudgetActionsEnum.ALTER_BUDGET): {
-            const newBudgets = [...state.budgets];
+            const newBudget = action.payload
+            const newBudgetList = state.budgets.filter(bud => bud.id !== state.editedBudgetId);
             return {
                 ...state,
-                budgets: newBudgets
+                budgets: [...newBudgetList, newBudget]
                     .sort((bud1, bud2) => new Date(bud2.startDate).getTime() - new Date(bud1.startDate).getTime())
             };
         }
@@ -57,6 +60,12 @@ export function budgetReducers(state = initialBudgetState, action: BudgetActions
                 ...state,
                 budgets: newBudgets
             };
+        }
+        case (BudgetActionsEnum.SET_EDITED_BUDGET): {
+           return {
+               ...state,
+               editedBudgetId: action.payload
+           }
         }
         default: {
             return state;
