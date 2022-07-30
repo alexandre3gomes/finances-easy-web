@@ -2,7 +2,7 @@ import {
  Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
 import {
- FormArray, FormBuilder, FormControl, FormGroup, Validators
+ FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, Validators
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -52,7 +52,7 @@ export class EditBudgetComponent implements OnInit {
         let startDate = new Date();
         let endDate = new Date();
         const breakpoint = 1;
-        const frmArray = this.fb.array([]);
+        const frmArray: UntypedFormArray = this.fb.array([]);
         if (this.currentId > 0) {
             this.store.select(budgets).subscribe((buds: Budget[]) => {
                 const budget = buds.find((bud: Budget) => bud.id === this.currentId);

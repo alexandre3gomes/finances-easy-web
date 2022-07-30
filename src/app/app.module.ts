@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
-import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { MinimalRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -64,7 +64,7 @@ export const oktaConfig = environment.okta;
             runtimeChecks: { strictActionImmutability: false, strictStateImmutability: false }
         }),
         EffectsModule.forRoot(effects),
-        StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: '[Router]' }),
+        StoreRouterConnectingModule.forRoot({ serializer: MinimalRouterStateSerializer, stateKey: '[Router]' }),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         AppRoutingModule,
         OktaAuthModule
