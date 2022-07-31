@@ -1,0 +1,47 @@
+<div class="modal fade" id="editMultipleExpense" role="dialog" style="display:block">
+    <div class="modal-dialog modal-xl" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'Imported expenses' | translate }}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" class="col-lg-6">{{'Name' | translate }}</th>
+                                <th scope="col" class="col-lg-2">{{'Value' | translate }}</th>
+                                <th scope="col" class="col-lg-4">{{'Category' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let exp of (state | async)">
+                                <th scope="row"><input id="name" name="name" type="text" class="form-control"
+                                        [(ngModel)]="exp.name"></th>
+                                <td><input id="value" name="value" class="form-control" currencyMask
+                                        [(ngModel)]="exp.value"></td>
+                                <td>
+                                    <select id="category" name="category" class="form-control"
+                                        [(ngModel)]="exp.category">
+                                        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                    {{'Close' | translate }}
+                </button>
+                <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="false">
+                    {{ 'Save changes' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

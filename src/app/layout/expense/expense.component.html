@@ -1,10 +1,16 @@
-<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()">
-</app-edit-expense>
+<app-edit-expense *ngIf="editModal" [currentId]="currentId" (closed)="resetData()"></app-edit-expense>
+<app-edit-multiple-expense *ngIf="importModal" (closed)="exported()"></app-edit-multiple-expense>
 <app-confirm msg="Confirm this exclusion?" [visible]="showConfirm" (result)="confirmDelete($event)"></app-confirm>
 <div class="row mb-1">
-	<div class="col-sm-6">
+	<div class="col-sm-11">
 		<button class="btn btn-primary" (click)="openModal()">
 			{{ 'Create' | translate }}
+		</button>
+	</div>
+	<div class="col-sm-1">
+		<button class="btn btn-primary" (click)="fileInput.click()">
+			{{ 'Import' | translate }}
+			<input #fileInput type="file" (change)="onFileUpload($event.target.files)" style="display: none;"/>
 		</button>
 	</div>
 </div>

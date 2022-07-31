@@ -6,11 +6,13 @@ import { ExpenseActions, ExpenseActionsEnum } from './expense.actions';
 export interface ExpenseState {
     expenses: Expense[];
     page: Page;
+    tempExpenses: Expense[];
 }
 
 export const initialExpenseState: ExpenseState = {
     expenses: [],
-    page: null
+    page: null,
+    tempExpenses: []
 };
 
 export function expenseReducers(state = initialExpenseState, action: ExpenseActions): ExpenseState {
@@ -56,6 +58,20 @@ export function expenseReducers(state = initialExpenseState, action: ExpenseActi
             return {
                 ...state,
                 expenses: newExpenses
+            };
+        }
+        case (ExpenseActionsEnum.ADD_TEMP_EXPENSES): {
+            return {
+                ...state,
+                expenses: [...state.expenses, ...action.payload]
+                    .sort((exp1, exp2) => new Date(exp2.expireAt).getTime() - new Date(exp1.expireAt).getTime()),
+                tempExpenses: action.payload
+            };
+        }
+        case (ExpenseActionsEnum.CLEAR_TEMP_EXPENSES): {
+            return {
+                ...state,
+                tempExpenses: []
             };
         }
         default: {
