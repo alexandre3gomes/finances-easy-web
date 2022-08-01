@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers, clearState } from './store/app.reducers';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 registerLocaleData(localeEn, 'en');
 registerLocaleData(localePt, 'pt');
@@ -41,7 +42,7 @@ export const customCurrencyMaskConfig = {
     nullable: true
 };
 
-export const oktaConfig = environment.okta;
+export const oktaAuth = new OktaAuth(environment.okta);
 
 @NgModule({
     imports: [
@@ -83,7 +84,7 @@ export const oktaConfig = environment.okta;
         },
         {
             provide: OKTA_CONFIG,
-            useValue: oktaConfig
+            useValue: { oktaAuth }
         }
     ],
     bootstrap: [AppComponent]

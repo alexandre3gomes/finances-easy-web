@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { OktaAuthService } from '@okta/okta-angular';
+import { OKTA_AUTH } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
 import { AppState } from '../../../store/app.reducers';
 
 @Component({
@@ -19,7 +20,7 @@ export class HeaderComponent implements OnInit {
         private translate: TranslateService,
         private router: Router,
         private store: Store<AppState>,
-        private oktaAuth: OktaAuthService
+        @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth
     ) {
         this.translate.addLangs(['en', 'pt']);
         const browserLang = this.translate.getBrowserLang();
@@ -39,8 +40,8 @@ export class HeaderComponent implements OnInit {
 
     async ngOnInit () {
         this.pushRightClass = 'push-right';
-        const claims = await this.oktaAuth.getUser();
-        this.userLogged = claims.name;
+        const claims = this._oktaAuth.getUser()
+        this.userLogged = (await claims).name;
     }
 
     isToggled (): boolean {
@@ -51,7 +52,7 @@ export class HeaderComponent implements OnInit {
     toggleSidebar () {
         const dom: any = document.querySelector('body');
         dom.classList.toggle(this.pushRightClass);
-    }
+    }ghe
 
     rltAndLtr () {
         const dom: any = document.querySelector('body');
