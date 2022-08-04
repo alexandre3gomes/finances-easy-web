@@ -63,8 +63,6 @@ export function expenseReducers(state = initialExpenseState, action: ExpenseActi
         case (ExpenseActionsEnum.ADD_TEMP_EXPENSES): {
             return {
                 ...state,
-                expenses: [...state.expenses, ...action.payload]
-                    .sort((exp1, exp2) => new Date(exp2.expireAt).getTime() - new Date(exp1.expireAt).getTime()),
                 tempExpenses: action.payload
             };
         }
