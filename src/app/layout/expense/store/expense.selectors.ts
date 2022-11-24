@@ -13,3 +13,8 @@ export const page = createSelector(
     expenseState,
     (state: ExpenseState) => state.page
 );
+
+export const tempExpenses = createSelector(
+    expenseState,
+    (state: ExpenseState) => state.tempExpenses
+);

@@ -15,7 +15,8 @@ import { ListCategories, ResetCategories } from '../category/store/category.acti
 import { categories } from '../category/store/category.selectors';
 import { ListUsers, ResetUsers } from '../user/store/user.actions';
 import { users } from '../user/store/user.selectors';
-import { DeleteExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
+import { ClearTempExpenses, DeleteExpense, ImportExpense, ListExpenses, ResetExpenses } from './store/expense.actions';
+import { tempExpenses } from './store/expense.selectors';
 
 @Component({
     selector: 'app-expense',
@@ -34,6 +35,8 @@ export class ExpenseComponent implements OnInit, OnDestroy {
     users: User[];
 
     editModal = false;
+
+    importModal = false;
 
     currentPage = 0;
 
@@ -124,5 +127,17 @@ export class ExpenseComponent implements OnInit, OnDestroy {
         const pagination = new Pagination(this.currentPage, Default.PAGE_SIZE);
         pagination.filter = filter;
         return pagination;
+    }
+
+    onFileUpload(files: FileList) {
+        this.store.dispatch(new ImportExpense(files[0]));
+        this.importModal = true;
+        // this.store.dispatch(new ResetExpenses());
+        // this.store.dispatch(new ListExpenses(this.getPaginationWithFilters()));
+    }
+
+    exported() {
+        this.importModal = false;
+        this.store.dispatch(new ClearTempExpenses());
     }
 }

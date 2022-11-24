@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { OktaAuthService } from '@okta/okta-angular';
-import { Router } from '@angular/router';
+import { OKTA_AUTH } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
 import { routerTransition } from '../router.animations';
 import { ShowAlertError } from '../store/alert.actions';
 import { AppState } from '../store/app.reducers';
@@ -23,7 +24,7 @@ export class AuthComponent implements OnInit {
 
     constructor(private translate$: TranslateService,
                 private store: Store<AppState>,
-                private oktaAuth: OktaAuthService,
+                @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth,
                 private router: Router) {
         this.translate$.addLangs(['en', 'fr', 'es', 'pt']);
         this.translate$.setDefaultLang('pt');
@@ -40,10 +41,10 @@ export class AuthComponent implements OnInit {
 
     login() {
         if (this.username.valid && this.password.valid) {
-            this.oktaAuth.signInWithCredentials({ password: this.password.value, username: this.username.value })
+            this._oktaAuth.signInWithCredentials({ password: this.password.value, username: this.username.value })
                 .then((transaction) => {
                     if (transaction.status === 'SUCCESS') {
-                        this.oktaAuth.token.getWithRedirect({
+                        this._oktaAuth.token.getWithRedirect({
                             sessionToken: transaction.sessionToken,
                             responseType: 'id_token'
                         });

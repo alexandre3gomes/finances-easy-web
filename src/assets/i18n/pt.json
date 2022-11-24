@@ -90,5 +90,8 @@
 	"Automatically created by savings": "Criado automaticamente pela poupança",
 	"Last 5 movements": "Últimos 5 movimentos",
 	"Select a user": "Selecione um usuário",
-    "Login provided by Okta": "Login gerenciado pela Okta"
+    "Login provided by Okta": "Login gerenciado pela Okta",
+	"Import": "Importar",
+	"Expenses imported": "Despesas importadas",
+	"Imported expenses": "Despesas importadas"
 }

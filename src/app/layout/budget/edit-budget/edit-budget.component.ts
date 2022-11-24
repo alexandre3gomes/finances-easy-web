@@ -2,7 +2,7 @@ import {
  Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
 import {
- FormArray, FormBuilder, FormControl, FormGroup, Validators
+ FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, Validators
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { Budget } from '../../../shared/model/budget/budget.model';
 import { Category } from '../../../shared/model/category.model';
 import { User } from '../../../shared/model/user.model';
 import { AppState } from '../../../store/app.reducers';
-import { CreateBudget, UpdateBudget } from '../store/budget.actions';
+import { CreateBudget, SetEditedBudget, UpdateBudget } from '../store/budget.actions';
 import { budgets } from '../store/budget.selectors';
 
 @Component({
@@ -52,7 +52,7 @@ export class EditBudgetComponent implements OnInit {
         let startDate = new Date();
         let endDate = new Date();
         const breakpoint = 1;
-        const frmArray = this.fb.array([]);
+        const frmArray: UntypedFormArray = this.fb.array([]);
         if (this.currentId > 0) {
             this.store.select(budgets).subscribe((buds: Budget[]) => {
                 const budget = buds.find((bud: Budget) => bud.id === this.currentId);
@@ -104,8 +104,10 @@ export class EditBudgetComponent implements OnInit {
         const startDate = this.budgetForm.get('startDate').value;
         const endDate = this.budgetForm.get('endDate').value;
         const breakperiod = this.budgetForm.get('breakperiod').value;
+        const periods = [];
         let editedBudget;
         if (this.currentId > 0) {
+            this.store.dispatch(new SetEditedBudget(this.currentId));
             this.store.select(budgets).subscribe((budgetsState: Budget[]) => {
                 editedBudget = budgetsState.find((exp: Budget) => exp.id === this.currentId);
             });
@@ -113,6 +115,7 @@ export class EditBudgetComponent implements OnInit {
                 editedBudget.startDate = startDate;
                 editedBudget.endDate = endDate;
                 editedBudget.breakperiod = breakperiod;
+                editedBudget.periods = periods;
                 const budgetCategories = [];
                 for (let idx = 0; idx < this.categoryBudgetControls.controls.length; idx++) {
                     const frmGrp = this.categoryBudgetControls.controls[idx];
@@ -135,7 +138,8 @@ export class EditBudgetComponent implements OnInit {
                     startDate,
                     endDate,
                     breakperiod,
-                    budgetCategories))
+                    budgetCategories,
+                    periods))
 );
         }
         this.closed.emit();

@@ -4,7 +4,7 @@ import { Page } from '../../../shared/model/pagination/page.model';
 import { Pagination } from '../../../shared/model/pagination/pagination.model';
 
 export enum ExpenseActionsEnum {
-    CREATE_EXPENSE = '[Expense] SaveExpense',
+    CREATE_EXPENSES = '[Expense] SaveExpense',
     UPDATE_EXPENSE = '[Expense] EditExpense',
     DELETE_EXPENSE = '[Expense] DeleteExpense',
     LIST_EXPENSES = '[Expense] ListExpenses',
@@ -12,11 +12,15 @@ export enum ExpenseActionsEnum {
     ADD_EXPENSES = '[Expense] AddExpenses',
     ADD_EXPENSE = '[Expense] AddExpense',
     ALTER_EXPENSE = '[Expense] AlterExpense',
-    REMOVE_EXPENSE = '[Expense] RemoveExpense'
+    REMOVE_EXPENSE = '[Expense] RemoveExpense',
+    IMPORT_EXPENSE = '[Expense] ImportExpense',
+    ADD_TEMP_EXPENSES = '[Expense] AddTempExpenses',
+    BATCH_EXPENSES = '[Expense] BatchExpenses',
+    CLEAR_TEMP_EXPENSES = '[Expense] ClearTempExpenses'
 }
 
 export class CreateExpense implements Action {
-    public readonly type = ExpenseActionsEnum.CREATE_EXPENSE;
+    public readonly type = ExpenseActionsEnum.CREATE_EXPENSES;
 
     constructor(public payload: Expense) { }
 }
@@ -67,6 +71,28 @@ export class RemoveExpense implements Action {
     constructor(public payload: number) { }
 }
 
+export class ImportExpense implements Action {
+    public readonly type = ExpenseActionsEnum.IMPORT_EXPENSE;
+
+    constructor(public payload: File) {}
+}
+
+export class AddTempExpenses implements Action {
+    public readonly type = ExpenseActionsEnum.ADD_TEMP_EXPENSES;
+
+    constructor(public payload: Expense[]) {}
+}
+
+export class BatchExpenses implements Action {
+    public readonly type = ExpenseActionsEnum.BATCH_EXPENSES;
+
+    constructor(public payload: Expense[]) {}
+}
+
+export class ClearTempExpenses implements Action {
+    public readonly type = ExpenseActionsEnum.CLEAR_TEMP_EXPENSES;
+}
+
 export type ExpenseActions = CreateExpense |
     UpdateExpense |
     DeleteExpense |
@@ -75,4 +101,8 @@ export type ExpenseActions = CreateExpense |
     AddExpenses |
     AddExpense |
     AlterExpense |
-    RemoveExpense;
+    RemoveExpense |
+    ImportExpense |
+    AddTempExpenses |
+    BatchExpenses |
+    ClearTempExpenses;

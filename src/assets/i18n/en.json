@@ -90,5 +90,8 @@
 	"Automatically created by savings": "Automatically created by savings",
 	"Last 5 movements": "Last 5 movements",
 	"Select a user": "Select a user",
-    "Login provided by Okta": "Login provided by Okta"
+    "Login provided by Okta": "Login provided by Okta",
+	"Import": "Import",
+	"Expenses imported": "Expenses imported",
+	"Imported expenses": "Imported expenses"
 }

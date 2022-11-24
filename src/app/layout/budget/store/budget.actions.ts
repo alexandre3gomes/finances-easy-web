@@ -13,7 +13,8 @@ export enum BudgetActionsEnum {
     ADD_BUDGETS = '[Budget] AddBudgets',
     ADD_BUDGET = '[Budget] AddBudget',
     ALTER_BUDGET = '[Budget] AlterBudget',
-    REMOVE_BUDGET = '[Budget] RemoveBudget'
+    REMOVE_BUDGET = '[Budget] RemoveBudget',
+    SET_EDITED_BUDGET = '[Budget] SetEditedBudget'
 }
 
 export class CreateBudget implements Action {
@@ -68,6 +69,12 @@ export class RemoveBudget implements Action {
     constructor(public payload: number) { }
 }
 
+export class SetEditedBudget implements Action {
+    public readonly type = BudgetActionsEnum.SET_EDITED_BUDGET;
+
+    constructor(public payload: number) { }
+}
+
 export type BudgetActions = CreateBudget |
     UpdateBudget |
     DeleteBudget |
@@ -76,4 +83,5 @@ export type BudgetActions = CreateBudget |
     AddBudgets |
     AddBudget |
     AlterBudget |
-    RemoveBudget;
+    RemoveBudget |
+    SetEditedBudget;

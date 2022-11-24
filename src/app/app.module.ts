@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
-import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { MinimalRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderInterceptor } from './shared/interceptors/header.interceptor';
 import { appReducers, clearState } from './store/app.reducers';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 registerLocaleData(localeEn, 'en');
 registerLocaleData(localePt, 'pt');
@@ -41,7 +42,7 @@ export const customCurrencyMaskConfig = {
     nullable: true
 };
 
-export const oktaConfig = environment.okta;
+export const oktaAuth = new OktaAuth(environment.okta);
 
 @NgModule({
     imports: [
@@ -64,7 +65,7 @@ export const oktaConfig = environment.okta;
             runtimeChecks: { strictActionImmutability: false, strictStateImmutability: false }
         }),
         EffectsModule.forRoot(effects),
-        StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: '[Router]' }),
+        StoreRouterConnectingModule.forRoot({ serializer: MinimalRouterStateSerializer, stateKey: '[Router]' }),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         AppRoutingModule,
         OktaAuthModule
@@ -83,7 +84,7 @@ export const oktaConfig = environment.okta;
         },
         {
             provide: OKTA_CONFIG,
-            useValue: oktaConfig
+            useValue: { oktaAuth }
         }
     ],
     bootstrap: [AppComponent]
